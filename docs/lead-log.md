@@ -167,6 +167,17 @@
 
 ## 社区触达
 
+### Reddit：吉隆坡企业寻找 Unitree G1 开发者
+
+- 对方信号：`u/badcookie911` 代表吉隆坡企业明确表示计划采购 Unitree G1，并主动寻找有 G1 实际经验、愿意参与项目的开发者；原帖发布后一直没有公开回复。
+- 后续活跃度：该账号此后仍发布 G1 定制头部/硅胶面部相关问题，说明 G1 方向至少持续到约 10 个月前；这不能证明机器人已经采购或项目仍有预算，因此回复先询问当前状态，不假设成交阶段。
+- 匹配依据：G1 实机二次开发、安防自主导航、传感器/载荷与机械臂侧集成均直接相关；中国侧远程工程与硬件验证可执行，吉隆坡现场工作则需先明确本地合作方和责任边界。
+- 已执行：2026-08-27 通过用户已登录的 Reddit 账号发布首条公开回复，提出以“准确 G1/EDU 版本 + 固件 + 计算/传感器 + 一个物理任务 + 停止/接管/验收证据”为最小合作单元，留下 `li.huawei@topsunpower.cc`；没有销售网站链接，没有假设隶属宇树。
+- 当前状态：评论已公开显示，等待原作者回复、私信或邮件；不重复追发。
+- 评论：https://www.reddit.com/r/unitree/comments/1nzb5t9/comment/p632al9/
+- 目标：https://www.reddit.com/r/unitree/comments/1nzb5t9/any_unitree_g1_developer_in_malaysia/
+- 回复底稿：docs/outreach/reddit-malaysia-g1-developer-comment.md
+
 ### Reddit：AI 公司获得约 2 万美元机器人预算
 
 - 发布时间：2026-04-30；作者 `u/Living_Concert_241`。
