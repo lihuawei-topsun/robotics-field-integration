@@ -23,3 +23,5 @@ The reference `xr_teleoperate` controller also clips arm targets by a velocity l
 Issue #173 was closed without a maintainer answer, and a later user still reported the same problem, so closure is not evidence of resolution.
 
 I work on real-hardware Unitree G1/Go2-W integration and can help compare the evidence contract or scope one arm-state/locomotion interlock, but I would not run a payload-carrying walk until Unitree confirms the supported mode and waist/arm ownership for the exact firmware. Independent integrator; not affiliated with Unitree. Contact details are on my GitHub profile.
+
+I consolidated the public source links, joint-ownership matrix and five hardware gates here: https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html. The page is an engineering checklist, not a hardware pass claim.
