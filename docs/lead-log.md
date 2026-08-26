@@ -169,12 +169,15 @@
 ### unitree-mojo：G1 模型绑定与物理硬件验证
 
 - 对方信号：2026-08-27 刚创建并持续推送的 BSD-3-Clause 项目，为 Unitree SDK2 构建版本化 C ABI + Mojo 1.0 绑定；现有 Go2 Sport/LowState、Docker/CI/Mock/watchdog 已有实现。路线图 Issue 明确要求 B2/G1/H1 各自独立客户端、模型特定限幅/watchdog，并在 README 标支持前做物理硬件验证。
-- 可信度：不是空路线图；已有约 11 KB C++ bridge、Mojo wrapper、固定 SDK2 commit 和 CI。项目尚无 Stars/Forks，仍属早期，需要先用代码和 HIL 证据判断采用价值。
+- 可信度：不是空路线图；已发布 `v0.2.0`，加入 PointCloud2 perception、C++ bridge、Mojo wrapper、固定 SDK2 commit、Docker CI 与 mock。仍属早期，需要继续用代码和 HIL 证据判断采用价值。
 - 共用安全缺口：现有 `ready` 在任何 fresh LowState 前即为 true，状态永不过期；`StopMove()` 失败时仍解除 watchdog，watchdog 本身先清 armed 再单次停止且失败不重试；`move_for()` 也在 stop 失败后解除备份。Mock 不覆盖 generation、stale state、clamp、stop failure 或析构顺序。
 - G1 边界：官方 G1 `LocoClient::SetVelocity` 是含 duration 的 request/reply `Call()`，不能复用 Go2 `SportClient::Move()` 语义；G1 使用 `unitree_hg::LowState_` 及固件特定 FSM/mode/control ownership，臂/腰 `rt/arm_sdk` 必须另设能力轨道。
-- 已执行：2026-08-27 在 Issue #1 提出先修 generation-scoped stop-pending/stale-state 共用层，再按固定 SDK/G1 版本完成 compile/mock→连续 fresh LowState 只读 HIL→FSM/API/控制权查询→零速度/停止→保守非零动作与物理停止证据；提供 G1 侧实现审查/配置明确验证协作。
-- 当前状态：等待作者选择冻结 SDK commit、G1 23/29-DoF 版本、固件和第一组 C ABI 操作；未连接或驱动硬件。
+- 已执行：2026-08-27 在 Issue #1 提出先修 generation-scoped stop-pending/stale-state 共用层；随后基于 `a1e7e1d` 实现 PR #10：失败的 `StopMove()` 保持 stop pending 并每 250 ms 重试，stop 结果按 generation 结算，pending 时拒绝新 Move/skill，并向 C ABI/Mojo 暴露查询。Move/STOP/skill 的 SDK 调用与 watchdog 转移统一在 `command_mutex → watchdog_mutex` 临界区，避免迟到结果解除新 watchdog。
+- 验证：纯 C++ 状态机在 `-DNDEBUG -Wall -Wextra -Werror` 下通过，C mock ABI 编译通过；fork 上与上游相同的固定 SDK2 + Release Docker/Mojo workflow 对 `d14a462` 全部通过（run `33021541484`）。自动 review 提出的两项 P1 并发竞态和一项 P2 Release assert 问题已修复、回复并 resolved。
+- 当前状态：PR 可合并，等待维护者复审/决定；`stop_pending=false` 只表示 SDK2 StopMove 成功，不表示物理停止，Go2 HIL 仍未运行。G1 扩展仍等待准确 23/29-DoF、固件和第一组 C ABI 操作。
 - 留言：https://github.com/wendylabsinc/unitree-mojo/issues/1#issuecomment-5431385572
+- PR：https://github.com/wendylabsinc/unitree-mojo/pull/10
+- CI：https://github.com/lihuawei-topsun/unitree-mojo/actions/runs/33021541484
 - 底稿：docs/outreach/unitree-mojo-g1-hardware-track-comment.md
 
 ### SmartWay：Go2 + D435i 真实部署的 waypoint 偏差
