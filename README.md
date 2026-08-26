@@ -33,6 +33,8 @@
 
 也可以填写结构化公开询盘：[创建项目询盘](https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml)。请勿在公开 Issue 中上传保密图纸、敏感厂区位置或私人账号信息。
 
+已有准确硬件配置或故障证据时，可使用[硬件验证表单](https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=hardware-validation.yml)，并下载[脱敏验证 manifest](public/assets/unitree-validation-manifest-template.yaml)。公开内容不得包含账号、密钥、序列号、IP、客户身份或精确位置。
+
 公开合作入口：[G1 / Go2-W 实机验证、现场集成与联合交付讨论](https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1)。
 
 高意向服务页：[宇树 Go2-W 二次开发——自主导航、安防巡检与机械臂集成](https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2w-secondary-development.html)。

@@ -22,6 +22,9 @@
 - Go2 版本页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2-edition-development-checklist.html
 - 舰队可靠性服务页：2026-08-27 新增英文 Unitree fleet reliability validation 页面，以一个 failure class + 一个准确配置为入口，定义连接、命令、STOP、sensor time、fault injection 和 rollout 五级证据门；明确不声称 99% 在线率或跨型号兼容，Go2 Air/Pro/EDU 必须在目标硬件上验证。
 - 舰队可靠性页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-fleet-reliability-validation.html
+- 硬件验证入口：2026-08-27 新增 `hardware-validation.yml` GitHub Issue Form 与公开 YAML manifest，强制填写准确型号/硬件、版本、第一故障类、期望/实际、安全状态、脱敏证据和下一步；公开表单明确禁止账号、密钥、序列号、IP、客户身份和精确位置。fleet reliability 页面提供直接提交和下载入口。
+- 硬件验证表单：https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=hardware-validation.yml
+- Manifest：https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-validation-manifest-template.yaml
 - 持续监测：Codex heartbeat `机器人二开获客持续推进` 保持 ACTIVE，每天 09:30 检查人工回复、PR/Issue、Reddit 私信、询盘、Release/流量与近 30 天新机会；2026-08-27 已加入 unitree-mojo PR #10、UnLeash-Lite #7、BrainCo G1 双手 OOM #3、Go2-Inspector #1、Undaunted 邮件授权边界，并明确自动审查不算联系人。
 - 收款码边界：原始目标提到附件收款码，但当前工作区未发现真实收款码文件，仅有邮箱授权二维码；因此网站没有发布、替代或伪造任何收款码。
 

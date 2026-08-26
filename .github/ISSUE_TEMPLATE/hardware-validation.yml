@@ -1,0 +1,131 @@
+name: 硬件验证 / Hardware validation
+description: 提交一个准确配置、一个故障类和一份脱敏证据
+title: "[硬件验证] "
+labels: ["hardware-validation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        只填写可公开、已脱敏的信息。不要提交账号、密码、AES key、token、序列号、IP、客户名称、精确位置、私有仓库内容或保密图纸。
+
+        本表单用于定义最小复现与验证范围，不代表已经接受项目、通过硬件测试或承诺跨型号兼容。保密材料请先通过 li.huawei@topsunpower.cc 约定边界。
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 平台 / Platform
+      options:
+        - Unitree G1 23-DoF
+        - Unitree G1 29-DoF
+        - Unitree Go2-W
+        - Unitree Go2 EDU
+        - Unitree Go2 Air / Pro / X
+        - 其他 Unitree 平台
+        - 其他机器人
+    validations:
+      required: true
+
+  - type: input
+    id: exact-edition
+    attributes:
+      label: 准确型号与硬件版本 / Exact edition and hardware revision
+      description: 不确定时写 unknown；不要填写序列号。
+      placeholder: 例如：Go2-W，硬件版本 unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: version-manifest
+    attributes:
+      label: 版本清单 / Version manifest
+      description: 固件、SDK/ROS、代码 commit、OS/架构、机载或外置计算、通信路径和载荷。
+      placeholder: |
+        firmware:
+        sdk_or_ros:
+        repository_commit:
+        compute_os_arch:
+        transport:
+        sensors_or_arm:
+    validations:
+      required: true
+
+  - type: dropdown
+    id: failure-class
+    attributes:
+      label: 第一故障类 / First failure class
+      options:
+        - 连接、认证或重连 / Connection, authentication or reconnect
+        - StandUp/readiness/模式切换 / Readiness or mode transition
+        - 命令新鲜度、取消或 STOP / Command freshness, cancel or STOP
+        - 相机、雷达、IMU、odom 或 TF 时间 / Sensor, odom or TF timing
+        - 建图、重定位、导航或回充 / Mapping, localization, navigation or docking
+        - 机械臂、灵巧手或载荷 / Arm, hand or payload
+        - 内存、功耗、温度或进程稳定性 / Memory, power, thermal or process stability
+        - 其他 / Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-observed
+    attributes:
+      label: 期望与实际 / Expected and observed
+      description: 写明一个可判断的期望、实际结果、首次发生时间和重复次数。
+      placeholder: |
+        expected:
+        observed:
+        first_failure_after:
+        reproduced_runs:
+    validations:
+      required: true
+
+  - type: textarea
+    id: safe-state
+    attributes:
+      label: 安全状态与操作权 / Safe state and authority
+      description: 当前谁能控制机器人，如何停止/接管，是否有物理遥控或急停；未知时写 unknown。
+      placeholder: |
+        command_owner:
+        stop_or_hold_path:
+        physical_remote_or_estop:
+        allowed_test_scope: read-only / zero-command / bounded-motion / unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 可提供的脱敏证据 / Sanitized evidence available
+      description: 只列类型和时间范围，不要在公开 Issue 贴敏感内容。
+      placeholder: 例如：console log、rosbag topic summary、smaps_rollup、短视频、截图、source/receive timestamps
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 公开信息确认 / Public-data confirmation
+      options:
+        - label: 我已删除账号、密码、密钥、token、序列号、IP 和私有端点。
+          required: true
+        - label: 我已删除客户身份、精确位置、人员信息和保密材料。
+          required: true
+        - label: 我理解其他型号、固件或现场的结果不能自动用于本配置。
+          required: true
+
+  - type: dropdown
+    id: next-step
+    attributes:
+      label: 希望下一步 / Requested next step
+      options:
+        - 判断是否具备最小复现条件
+        - 审查日志、源码或时间/STOP 合同
+        - 设计 no-motion/read-only 验证
+        - 讨论有界硬件验证
+        - 讨论联合交付或长期合作
+    validations:
+      required: true
+
+  - type: textarea
+    id: contact
+    attributes:
+      label: 联系方式 / Contact route
+      description: 可选。公开 Issue 中只填写你愿意公开的联系方式，也可以只使用 GitHub 回复。
+

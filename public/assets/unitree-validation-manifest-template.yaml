@@ -1,0 +1,107 @@
+schema_version: 1
+request_status: draft
+evidence_status: pending
+
+scope:
+  result_applies_only_to_this_configuration: true
+  no_motion_first: true
+  public_redaction_complete: false
+
+robot:
+  manufacturer: Unitree
+  model: null
+  edition: null
+  hardware_revision: null
+  firmware: null
+  region: null
+  # Do not publish the serial number.
+
+compute:
+  placement: null
+  hardware: null
+  os: null
+  architecture: null
+  clock_source: null
+
+software:
+  ros_distribution: null
+  sdk_name: null
+  sdk_revision: null
+  repository: null
+  git_sha: null
+  deployment_artifact_hash: null
+
+transport:
+  path: null
+  interface: null
+  protocol: null
+  authentication_type: null
+  reconnect_generation_available: null
+  cloud_or_server_dependency: null
+  # Never publish credentials, tokens, AES keys, IPs or private endpoints.
+
+payloads:
+  camera: null
+  lidar: null
+  imu: null
+  arm: null
+  end_effector_or_hand: null
+  field_sensors: []
+  power_and_network_notes: null
+
+state_and_time:
+  state_topics_or_apis: []
+  source_clock: null
+  source_stamp_preserved: null
+  host_receive_stamp_available: null
+  stale_timeout_ms: null
+  tf_or_frame_owner: null
+
+command_contract:
+  command_owner: null
+  command_topic_or_api: null
+  command_rate_hz: null
+  freshness_or_ttl_ms: null
+  watchdog_owner: null
+  cancel_path: null
+  stop_api: null
+  stop_pending_exposed: null
+  physical_remote_or_estop: null
+  takeover_path: null
+
+failure:
+  class: null
+  expected: null
+  observed: null
+  first_failure_after: null
+  reproduced_runs: null
+  last_known_safe_state: null
+  recovery_or_rollback: null
+
+evidence:
+  console_log: pending
+  state_or_topic_summary: pending
+  source_receive_timestamp_trace: pending
+  command_stop_trace: not_run
+  rosbag_or_replay: not_run
+  memory_or_process_trace: not_run
+  photo_or_video: not_run
+  raw_bundle_hash: null
+  sanitized_bundle_hash: null
+
+authorization:
+  allowed_scope: read_only
+  nonzero_motion_authorized: false
+  firmware_or_account_change_authorized: false
+  safety_authority: null
+  data_owner: null
+
+privacy:
+  removed_credentials_and_network_details: false
+  removed_serial_and_account_identity: false
+  removed_customer_and_location_identity: false
+  redactions: []
+
+requested_next_step: null
+notes: null
+
