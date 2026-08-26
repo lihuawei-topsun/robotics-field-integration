@@ -17,6 +17,8 @@ That evidence would let the maintainer decide whether Go2-W needs a separate tra
 
 I work on real-hardware Unitree G1/Go2-W field integration and have access to a Go2-W for configuration-specific validation. I can help prepare a separate **no-motion, no-payload** Go2-W manifest or compare a sanitized handshake/topic trace, provided the allowed read-only operations and data-removal rules are agreed first. I will not run a jailbreak, change firmware/account/network state, or expose device credentials as part of a generic compatibility claim.
 
+Blank redacted manifest: https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-validation-manifest-template.yaml. For this Stage 0, keep `allowed_scope: read_only`, leave write/motion authorization false, and use `null`/`pending` for unknown fields.
+
 Related configuration-boundary checklist: https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2-edition-development-checklist.html
 
 Independent integrator; not affiliated with Unitree or this repository. Contact: li.huawei@topsunpower.cc.
