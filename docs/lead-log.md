@@ -196,6 +196,17 @@
 - 留言：https://github.com/sbgisen/go2_driver/issues/10#issuecomment-5431595330
 - 底稿：docs/outreach/sbgisen-go2-leg-odometry-comment-ja.md
 
+### WorldForge / DimOS：Go2 Air 现场证据与独立 Go2-W 对照轨道
+
+- 对方证据：真实 Go2 Air + DimOS + Memory2 现场验证保留准确环境、12,993 相机帧、1,404 onboard-SLAM clouds、16,825 odom、51,126 TF、地图 PCD/PGM 行数/像素完整性和 SQLite quick_check。公开区分 Air onboard-SLAM point cloud、静态地图导出与 raw L1，不伪称 EDU 表面。
+- 安全价值：现场发现 viewer STOP 仅发一次零命令，planner 在 cooldown 后恢复约 -0.55 rad/s 旋转；作者已拆成 manual_only/STOP latch、watchdog、replay lifecycle、planner race 等小 PR，并报告具体测试数与未通过审查门。
+- 可信度：作者长期 GitHub 账号、150 followers、Starknet/Hugging Face 背景，公开项目有 MIT 许可、真实代码/PR/硬件数据；不是只写概念宣言。仓库本身 0 stars/forks 且上游 PR 尚未提交，仍需按实际接受度判断投入。
+- 已执行：2026-08-27 提出独立 Go2-W evidence profile：immutable config→read-only/no-motion→命令/STOP→跨平台对照；共享证据 schema，不共享 Air/Go2-W 结论。明确 wheel mode posture/readiness/velocity/slip/stop 独立，保留 not_available/not_validated 字段。
+- 合作边界：只在准确配置、safety authority 和隐私边界确认后做 Go2-W manifest、STOP/watchdog review 或 bounded recording；不授权非零动作、固件/账号/网络变更或现场敏感数据公开。
+- 当前状态：等待作者确认是否接受 Go2-W 独立轨道、冻结 schema/commit 和第一阶段 no-motion 证据。
+- 留言：https://github.com/omarespejel/worldforge/issues/59#issuecomment-5431628876
+- 底稿：docs/outreach/worldforge-go2w-evidence-track-comment.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
