@@ -111,6 +111,17 @@
 - 留言：https://github.com/ShineMinxing/Ros2SLAM/issues/4#issuecomment-5430901771
 - 回复底稿：docs/outreach/ros2slam-go2w-pointlio-diagnostic.md
 
+### autonomy_stack_go2：Go2 EDU IMU 坐标、点云倾斜与地图复用
+
+- 对方信号：该 Go2 EDU 自主导航栈有 500+ stars、70+ forks，多名真实用户持续报告 RViz 点云倾斜、静止漂移、导航旋转/丢目标、保存 PCD 后无法冷启动重定位；Issue #27 仍开放，2026-05 仍有人建议为单机手调 Euler 角。
+- 源码审计：`transform_everything.py` 硬编码 LiDAR pitch、IMU yaw、Y/Z 翻转与 15.1° 旋转；不同固件的静止原始 IMU Z 已出现 `-9.8`/`+9.8` 差异。回调先发布完整 `/transformed_raw_imu`，随后把姿态改为单位四元数、线加速度清零后发布 `/transformed_imu`，而 Point-LIO 配置恰好订阅后者，并同时声明 `use_imu_as_input`/`imu_en` 为 true、gravity 为零。
+- 时间风险：节点只在第一帧点云上计算一次 wall-clock 偏移，随后同样加到所有 cloud/IMU stamp，默认假设长期稳定且两源同钟；需用静止、慢速 yaw、短往返 bag 验证偏移、坐标与漂移，不能靠 RViz 看起来水平认定正确。
+- 地图边界：保存 `scans.pcd` 只证明点云文件写出；仓库没有完成的“冷启动→固定地图重定位→重复航点”合同，不应把 PCD 保存等同于可复用巡逻地图。
+- 已执行：2026-08-27 在 Issue #27 发布源码级审计，要求维护者确认 raw frame 与 gyro-only `/transformed_imu` 是否为有意设计；确认后可帮助形成参数化/自检 PR，并留下 GitHub 主页联系方式。
+- 当前状态：等待维护者或受影响用户提供准确固件/SDK、bag 和设计意图；未在其 Go2 上运行该仓库。
+- 留言：https://github.com/jizhang-cmu/autonomy_stack_go2/issues/27#issuecomment-5431150652
+- 底稿：docs/outreach/autonomy-stack-go2-imu-transform-audit.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
@@ -198,6 +209,14 @@
 - 评论：https://www.reddit.com/r/unitree/comments/1uheg45/comment/p6358ok/
 - 目标：https://www.reddit.com/r/unitree/comments/1uheg45/unitree_go2_pro_commercial_3d_mapping_waypoints/
 - 回复底稿：docs/outreach/reddit-go2-pro-commercial-mapping-comment.md
+
+### Reddit：Go2 EDU 室内自主导航与辐射地图
+
+- 对方需求：真实 Go2 EDU 项目面向 GNSS 缺失、杂乱实验室的室内导航/避障，后续挂载轻量辐射传感器并生成空间剂量地图；原帖和后续用户持续遇到点云倾斜、漂移、预建图后无法重复定位。
+- 匹配依据：现有自主导航 Demo、路线/检查点闭环与传感器载荷集成能力可直接覆盖；正确最小顺序应为原始坐标/时间合同→固定地图重定位→1–3 检查点→停止恢复→带 map-generation ID 的辐射数据融合。
+- 发布状态：已形成基于 `autonomy_stack_go2` 源码的定向回复，但 Reddit 明确提示 `Rate limit exceeded. Please wait 286 seconds and try again`，评论没有创建；没有绕过限流或连续重试，当前不计作触达。审计内容已转而发布到该栈 GitHub Issue #27。
+- 待发草稿：docs/outreach/reddit-go2-radiation-navigation-comment.md
+- 目标：https://www.reddit.com/r/unitree/comments/1novsbx/unitree_go2_edu_for_indoor_autonomous_navigation/
 
 ### Reddit：G1 ACT / Dex3 真机动作映射与 81 ms 抖动
 
