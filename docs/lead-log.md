@@ -9,6 +9,7 @@
 - 内容：中英文网站、工业质检选型指南、结构化询盘、四步试点与能力一页纸附件。
 - 永久链接：https://github.com/lihuawei-topsun/robotics-field-integration/releases/tag/v1.0.0
 - 事实边界：Release 明确独立集成商身份、配置/现场验证边界和 AI 图片非客户案例。
+- 转化入口优化：2026-08-27 将 GitHub 个人资料主链接改为能力网站，个人主页首屏增加网站、工业质检选型指南和结构化询盘入口；主仓库补充 industrial-inspection、field-robotics、quadruped-robot、humanoid-robotics 等精准检索标签。
 
 ## 主动目标账户
 
@@ -91,6 +92,15 @@
 - 已执行：2026-08-26 公开提出一个窄范围、可记录的硬件在环矩阵单元，请维护者明确愿意接受的最小 policy × client 配对。
 - 状态：等待维护者回复最小验收范围。
 - 留言：https://github.com/vllm-project/vllm-omni/issues/3554#issuecomment-5427458691
+
+### PSI0 / SONIC：G1 动作流中断与失联安全边界
+
+- 对方需求：真实 G1 EDU + BrainCo 手在 PSI0/SONIC 部署时随机停止接收新动作；观测仍持续发送，机器人端重复最后一帧并偶发提示 `robot data late`。
+- 代码判断：当前 RTC 客户端收到动作后只覆盖全局 action buffer，没有同时记录动作版本/接收时间；控制循环持续读取且不消费/清空该 buffer。WebSocket 只有在显式 close 时才清理运行状态，因此半开连接或静默响应中断可能持续重放过期动作。
+- 已执行：2026-08-27 发布 fail-closed 建议：动作新鲜度预算、单调时钟、观测/动作序列号、latest-only 背压、失联进入零速度/全身保持，以及延迟、静默丢响应、硬断网的硬件在环验收矩阵。
+- 事实边界：明确说明尚未在本地硬件上运行 PSI0，当前是基于公开代码和日志的诊断；只有维护者确认安全保持 API 和超时预算后才建议做实机故障注入。
+- 当前状态：等待维护者确认最小 HIL 验证单元或对方补充运行证据。
+- 留言：https://github.com/physical-superintelligence-lab/Psi0/issues/95#issuecomment-5429517293
 
 ## 社区触达
 
