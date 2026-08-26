@@ -1,76 +1,184 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const EMAIL = 'li.huawei@topsunpower.cc'
 const INQUIRY_URL = 'https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml'
 
-const scenarios = [
-  {
-    id: '01',
-    title: '园区与厂区巡检',
-    detail: '固定路线、远程回传、异常复核',
+const content = {
+  zh: {
+    pageTitle: '李华为｜宇树 G1 / Go2-W 现场机器人二次开发',
+    pageDescription: '基于宇树 G1 与 Go2-W 的自主导航、安防巡检、机械臂与现场机器人二次开发。已有安防自主导航 Demo，可从一个现场试点开始。',
+    top: '回到页面顶部',
+    menu: '打开导航',
+    navLabel: '主导航',
+    nav: ['能力', '场景', '试点', '联系'],
+    languageAction: 'EN',
+    languageLabel: 'Switch to English',
+    hero: {
+      title: <>让机器人先进入<br />危险与重复的现场</>,
+      body: '基于宇树 G1 / Go2-W 的自主导航、安防巡检与机械臂集成。已有可演示系统，从现场目标开始做二次开发。',
+      primary: '描述你的现场',
+      secondary: '查看现有能力',
+      alt: '人形机器人与轮足四足机器人在明亮实验室中的开发示意图',
+      caption: '开发平台视觉示意，并非现场实拍或具体交付配置。',
+    },
+    capabilities: {
+      heading: '现在能演示什么',
+      note: '具体能力以现场测试与配置为准。',
+      items: ['自主导航', '安防场景 Demo', '机械臂可集成'],
+    },
+    scenarios: {
+      heading: '先卖一个可验证的现场结果',
+      intro: '不从“买一台机器人”开始，而从一条路线、一个检查点、一次告警闭环开始。',
+      items: [
+        ['园区与厂区巡检', '固定路线、远程回传、异常复核'],
+        ['设备间与高风险区域', '代替人员进入、采集现场信息'],
+        ['二次开发与联合交付', '导航、传感器、机械臂和业务系统接口'],
+      ],
+      alt: '四足机器人在工业场地路线中执行巡检的视觉示意',
+      caption: '工业巡检场景视觉示意，不代表已落地客户案例。',
+    },
+    pilot: {
+      heading: '一次试点怎么推进',
+      steps: ['现场目标', '路线与检查点', 'Demo / 联调', '现场验收'],
+      cta: '讨论一个试点',
+    },
+    evidence: {
+      heading: '你带来现场，我们带来可运行的机器人',
+      items: [
+        ['已有', '安防自主导航 Demo'],
+        ['可扩展', '机械臂与现场传感器'],
+        ['需要确认', '地面、坡度、网络、巡检点、告警方式'],
+      ],
+    },
+    contact: {
+      aria: '联系与询盘',
+      heading: '把现场问题发过来',
+      fields: {
+        name: '怎么称呼',
+        company: '公司 / 团队',
+        location: '现场在哪里',
+        contact: '邮箱或电话',
+        task: '希望机器人完成什么',
+      },
+      empty: '未填写',
+      subject: '现场机器人试点',
+      newInquiry: '新询盘',
+      emailLabels: ['称呼', '公司 / 团队', '现场位置', '希望机器人完成', '回访联系方式'],
+      formNote: '提交后会打开你的邮件客户端，并生成完整询盘内容。',
+      submit: '生成询盘邮件',
+      direct: '直接联系',
+      copied: '已复制',
+      copy: '复制邮箱',
+      github: '在 GitHub 填写项目询盘',
+      disclaimer: ['我们不代表宇树官方。', '方案与能力以双方确认的现场测试为准。'],
+    },
   },
-  {
-    id: '02',
-    title: '设备间与高风险区域',
-    detail: '代替人员进入、采集现场信息',
+  en: {
+    pageTitle: 'Li Huawei | Unitree G1 / Go2-W Robotics Integration',
+    pageDescription: 'Real-hardware secondary development for Unitree G1 and Go2-W: autonomous navigation, security patrol, arm and sensor integration, starting from a verifiable field pilot.',
+    top: 'Back to top',
+    menu: 'Open navigation',
+    navLabel: 'Main navigation',
+    nav: ['Capabilities', 'Scenarios', 'Pilot', 'Contact'],
+    languageAction: '中文',
+    languageLabel: '切换到中文',
+    hero: {
+      title: <>Robots enter first.<br />Dangerous, repetitive sites.</>,
+      body: 'Real-hardware secondary development for Unitree G1 and Go2-W: autonomous navigation, security patrol, arm and sensor integration. Start with a field objective and a working demo.',
+      primary: 'Describe your site',
+      secondary: 'See current capabilities',
+      alt: 'Illustrative humanoid and wheeled quadruped development robots in a bright lab',
+      caption: 'Development-platform illustration, not a customer site or a delivery configuration.',
+    },
+    capabilities: {
+      heading: 'What can be demonstrated now',
+      note: 'Final capability depends on configuration and field testing.',
+      items: ['Autonomous navigation', 'Security patrol demo', 'Arm integration available'],
+    },
+    scenarios: {
+      heading: 'Sell one verifiable field result first',
+      intro: 'Do not begin with “buy a robot.” Begin with one route, one checkpoint and one alert or data-return loop.',
+      items: [
+        ['Site and factory patrol', 'Fixed routes, remote data return, human review'],
+        ['Equipment rooms and high-risk areas', 'Reduce human entry and collect field information'],
+        ['Integration and joint delivery', 'Navigation, sensors, robotic arms and business-system interfaces'],
+      ],
+      alt: 'Illustrative quadruped robot following an inspection route in an industrial site',
+      caption: 'Industrial inspection illustration, not a deployed customer case.',
+    },
+    pilot: {
+      heading: 'How a pilot moves forward',
+      steps: ['Field objective', 'Route & checkpoints', 'Demo / integration', 'On-site acceptance'],
+      cta: 'Discuss a pilot',
+    },
+    evidence: {
+      heading: 'Bring the site. We bring a robot that runs.',
+      items: [
+        ['Available', 'Security autonomous-navigation demo'],
+        ['Extendable', 'Robotic arm and field sensors'],
+        ['Confirm first', 'Ground, slope, network, checkpoints and alert method'],
+      ],
+    },
+    contact: {
+      aria: 'Contact and project inquiry',
+      heading: 'Send the field problem',
+      fields: {
+        name: 'Your name',
+        company: 'Company / team',
+        location: 'Site location',
+        contact: 'Email or phone',
+        task: 'What should the robot accomplish?',
+      },
+      empty: 'Not provided',
+      subject: 'Field robotics pilot',
+      newInquiry: 'New inquiry',
+      emailLabels: ['Name', 'Company / team', 'Site location', 'Robot objective', 'Contact'],
+      formNote: 'Submitting opens your email client with a complete inquiry draft. No form data is uploaded.',
+      submit: 'Create inquiry email',
+      direct: 'Direct contact',
+      copied: 'Copied',
+      copy: 'Copy email',
+      github: 'Open a GitHub project inquiry',
+      disclaimer: ['We do not represent Unitree Robotics.', 'Scope and capability depend on mutually confirmed field testing.'],
+    },
   },
-  {
-    id: '03',
-    title: '二次开发与联合交付',
-    detail: '导航、传感器、机械臂和业务系统接口',
-  },
-]
+}
 
-const pilotSteps = [
-  ['01', '现场目标'],
-  ['02', '路线与检查点'],
-  ['03', 'Demo / 联调'],
-  ['04', '现场验收'],
-]
-
-const evidence = [
-  ['已有', '安防自主导航 Demo'],
-  ['可扩展', '机械臂与现场传感器'],
-  ['需要确认', '地面、坡度、网络、巡检点、告警方式'],
-]
-
-function ArrowIcon({ direction = 'right' }) {
+function ArrowIcon() {
   return (
-    <svg
-      aria-hidden="true"
-      className={direction === 'down' ? 'arrow arrow--down' : 'arrow'}
-      viewBox="0 0 24 24"
-      fill="none"
-    >
+    <svg aria-hidden="true" className="arrow" viewBox="0 0 24 24" fill="none">
       <path d="M4 12h15M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="square" />
     </svg>
   )
 }
 
-function Header() {
+function Header({ language, setLanguage, text }) {
   const [open, setOpen] = useState(false)
+  const sectionIds = ['capabilities', 'scenarios', 'pilot', 'contact']
+
+  function toggleLanguage() {
+    const next = language === 'zh' ? 'en' : 'zh'
+    localStorage.setItem('site-language', next)
+    setLanguage(next)
+    setOpen(false)
+  }
+
   return (
     <header className="site-header">
-      <a className="brand" href="#top" aria-label="回到页面顶部">
+      <a className="brand" href="#top" aria-label={text.top}>
         <span>LI HUAWEI</span>
         <span className="brand__muted">ROBOTICS INTEGRATION</span>
       </a>
-      <button
-        className="menu-button"
-        type="button"
-        aria-expanded={open}
-        aria-controls="site-nav"
-        onClick={() => setOpen((value) => !value)}
-      >
+      <button className="menu-button" type="button" aria-expanded={open} aria-controls="site-nav" onClick={() => setOpen((value) => !value)}>
         <span className="menu-button__line" />
         <span className="menu-button__line" />
-        <span className="sr-only">打开导航</span>
+        <span className="sr-only">{text.menu}</span>
       </button>
-      <nav id="site-nav" className={open ? 'site-nav site-nav--open' : 'site-nav'} aria-label="主导航">
-        <a href="#capabilities" onClick={() => setOpen(false)}>能力</a>
-        <a href="#scenarios" onClick={() => setOpen(false)}>场景</a>
-        <a href="#pilot" onClick={() => setOpen(false)}>试点</a>
-        <a href="#contact" onClick={() => setOpen(false)}>联系</a>
+      <nav id="site-nav" className={open ? 'site-nav site-nav--open' : 'site-nav'} aria-label={text.navLabel}>
+        {text.nav.map((label, index) => (
+          <a key={sectionIds[index]} href={`#${sectionIds[index]}`} onClick={() => setOpen(false)}>{label}</a>
+        ))}
+        <button className="lang-toggle" type="button" onClick={toggleLanguage} aria-label={text.languageLabel}>{text.languageAction}</button>
       </nav>
     </header>
   )
@@ -86,17 +194,17 @@ function RouteLine({ number }) {
   )
 }
 
-function InquiryForm() {
+function InquiryForm({ text }) {
   const [form, setForm] = useState({ name: '', company: '', location: '', task: '', contact: '' })
   const [copied, setCopied] = useState(false)
 
   const emailBody = useMemo(() => [
-    `称呼：${form.name || '未填写'}`,
-    `公司 / 团队：${form.company || '未填写'}`,
-    `现场位置：${form.location || '未填写'}`,
-    `希望机器人完成：${form.task || '未填写'}`,
-    `回访联系方式：${form.contact || '未填写'}`,
-  ].join('\n'), [form])
+    `${text.emailLabels[0]}: ${form.name || text.empty}`,
+    `${text.emailLabels[1]}: ${form.company || text.empty}`,
+    `${text.emailLabels[2]}: ${form.location || text.empty}`,
+    `${text.emailLabels[3]}: ${form.task || text.empty}`,
+    `${text.emailLabels[4]}: ${form.contact || text.empty}`,
+  ].join('\n'), [form, text])
 
   function update(event) {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }))
@@ -104,7 +212,7 @@ function InquiryForm() {
 
   function submit(event) {
     event.preventDefault()
-    const subject = encodeURIComponent(`[现场机器人试点] ${form.company || form.name || '新询盘'}`)
+    const subject = encodeURIComponent(`[${text.subject}] ${form.company || form.name || text.newInquiry}`)
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${encodeURIComponent(emailBody)}`
   }
 
@@ -117,36 +225,21 @@ function InquiryForm() {
   return (
     <div className="contact-layout">
       <form className="inquiry-form" onSubmit={submit}>
-        <h2>把现场问题发过来</h2>
+        <h2>{text.heading}</h2>
         <div className="field-grid">
-          <label>
-            <span>怎么称呼</span>
-            <input name="name" value={form.name} onChange={update} autoComplete="name" required />
-          </label>
-          <label>
-            <span>公司 / 团队</span>
-            <input name="company" value={form.company} onChange={update} autoComplete="organization" />
-          </label>
-          <label>
-            <span>现场在哪里</span>
-            <input name="location" value={form.location} onChange={update} autoComplete="address-level1" />
-          </label>
-          <label>
-            <span>邮箱或电话</span>
-            <input name="contact" value={form.contact} onChange={update} autoComplete="email" required />
-          </label>
-          <label className="field--wide">
-            <span>希望机器人完成什么</span>
-            <textarea name="task" value={form.task} onChange={update} rows="4" required />
-          </label>
+          <label><span>{text.fields.name}</span><input name="name" value={form.name} onChange={update} autoComplete="name" required /></label>
+          <label><span>{text.fields.company}</span><input name="company" value={form.company} onChange={update} autoComplete="organization" /></label>
+          <label><span>{text.fields.location}</span><input name="location" value={form.location} onChange={update} autoComplete="address-level1" /></label>
+          <label><span>{text.fields.contact}</span><input name="contact" value={form.contact} onChange={update} autoComplete="email" required /></label>
+          <label className="field--wide"><span>{text.fields.task}</span><textarea name="task" value={form.task} onChange={update} rows="4" required /></label>
         </div>
-        <p className="form-note">提交后会打开你的邮件客户端，并生成完整询盘内容。</p>
+        <p className="form-note">{text.formNote}</p>
         <button className="submit-button" type="submit">
           <span className="submit-button__icon"><ArrowIcon /></span>
-          <span>生成询盘邮件</span>
+          <span>{text.submit}</span>
         </button>
       </form>
-      <aside className="contact-aside" aria-label="直接联系">
+      <aside className="contact-aside" aria-label={text.direct}>
         <div className="contact-aside__email">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
             <rect x="2.5" y="4.5" width="19" height="15" stroke="currentColor" strokeWidth="1.5" />
@@ -154,112 +247,102 @@ function InquiryForm() {
           </svg>
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </div>
-        <button className="copy-button" type="button" onClick={copyEmail}>{copied ? '已复制' : '复制邮箱'}</button>
-        <a className="github-inquiry" href={INQUIRY_URL} target="_blank" rel="noreferrer">
-          在 GitHub 填写项目询盘 <ArrowIcon />
-        </a>
+        <button className="copy-button" type="button" onClick={copyEmail}>{copied ? text.copied : text.copy}</button>
+        <a className="github-inquiry" href={INQUIRY_URL} target="_blank" rel="noreferrer">{text.github} <ArrowIcon /></a>
         <div className="contact-aside__note">
-          <p>我们不代表宇树官方。</p>
-          <p>方案与能力以双方确认的现场测试为准。</p>
+          {text.disclaimer.map((line) => <p key={line}>{line}</p>)}
         </div>
       </aside>
     </div>
   )
 }
 
+function initialLanguage() {
+  const saved = localStorage.getItem('site-language')
+  if (saved === 'zh' || saved === 'en') return saved
+  return navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en'
+}
+
 export default function App() {
+  const [language, setLanguage] = useState(initialLanguage)
+  const text = content[language]
+
+  useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en'
+    document.title = text.pageTitle
+    document.querySelector('meta[name="description"]')?.setAttribute('content', text.pageDescription)
+  }, [language, text])
+
   return (
     <div id="top">
-      <Header />
+      <Header language={language} setLanguage={setLanguage} text={text} />
       <main>
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero__copy">
-            <h1 id="hero-title">让机器人先进入<br />危险与重复的现场</h1>
-            <p>基于宇树 G1 / Go2-W 的自主导航、安防巡检与机械臂集成。已有可演示系统，从现场目标开始做二次开发。</p>
+            <h1 id="hero-title">{text.hero.title}</h1>
+            <p>{text.hero.body}</p>
             <div className="hero__actions">
-              <a className="button button--primary" href="#contact">描述你的现场 <ArrowIcon /></a>
-              <a className="button button--link" href="#capabilities">查看现有能力 <ArrowIcon /></a>
+              <a className="button button--primary" href="#contact">{text.hero.primary} <ArrowIcon /></a>
+              <a className="button button--link" href="#capabilities">{text.hero.secondary} <ArrowIcon /></a>
             </div>
           </div>
           <figure className="hero__media">
-            <img src="assets/robot-lab.png" alt="人形机器人与轮足四足机器人在明亮实验室中的开发示意图" fetchPriority="high" />
-            <figcaption>开发平台视觉示意，并非现场实拍或具体交付配置。</figcaption>
+            <img src="assets/robot-lab.png" alt={text.hero.alt} fetchPriority="high" />
+            <figcaption>{text.hero.caption}</figcaption>
           </figure>
         </section>
 
         <section className="capabilities section" id="capabilities" aria-labelledby="capability-title">
           <RouteLine number="01" />
           <div className="section-heading section-heading--inline">
-            <h2 id="capability-title">现在能演示什么</h2>
-            <p>具体能力以现场测试与配置为准。</p>
+            <h2 id="capability-title">{text.capabilities.heading}</h2>
+            <p>{text.capabilities.note}</p>
           </div>
           <div className="capability-list">
-            <div><span>01</span><strong>自主导航</strong><ArrowIcon /></div>
-            <div><span>02</span><strong>安防场景 Demo</strong><ArrowIcon /></div>
-            <div><span>03</span><strong>机械臂可集成</strong><ArrowIcon /></div>
+            {text.capabilities.items.map((item, index) => <div key={item}><span>0{index + 1}</span><strong>{item}</strong><ArrowIcon /></div>)}
           </div>
         </section>
 
         <section className="scenarios section" id="scenarios" aria-labelledby="scenario-title">
           <RouteLine number="02" />
           <div className="section-heading section-heading--wide">
-            <h2 id="scenario-title">先卖一个可验证的现场结果</h2>
-            <p>不从“买一台机器人”开始，而从一条路线、一个检查点、一次告警闭环开始。</p>
+            <h2 id="scenario-title">{text.scenarios.heading}</h2>
+            <p>{text.scenarios.intro}</p>
           </div>
           <div className="scenario-list">
-            {scenarios.map((scenario) => (
-              <article key={scenario.id}>
-                <span>{scenario.id}</span>
-                <h3>{scenario.title}</h3>
-                <p>{scenario.detail}</p>
-              </article>
+            {text.scenarios.items.map(([title, detail], index) => (
+              <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{detail}</p></article>
             ))}
           </div>
           <figure className="field-media">
-            <img src="assets/industrial-patrol.png" alt="四足机器人在工业场地路线中执行巡检的视觉示意" loading="lazy" />
-            <figcaption>工业巡检场景视觉示意，不代表已落地客户案例。</figcaption>
+            <img src="assets/industrial-patrol.png" alt={text.scenarios.alt} loading="lazy" />
+            <figcaption>{text.scenarios.caption}</figcaption>
           </figure>
         </section>
 
         <section className="pilot section" id="pilot" aria-labelledby="pilot-title">
           <div className="section-heading section-heading--wide">
             <span className="section-index">02 / PILOT</span>
-            <h2 id="pilot-title">一次试点怎么推进</h2>
+            <h2 id="pilot-title">{text.pilot.heading}</h2>
           </div>
           <ol className="pilot-steps">
-            {pilotSteps.map(([number, label]) => (
-              <li key={number}>
-                <span>{number}</span>
-                <strong>{label}</strong>
-              </li>
-            ))}
+            {text.pilot.steps.map((label, index) => <li key={label}><span>0{index + 1}</span><strong>{label}</strong></li>)}
           </ol>
-          <a className="text-link" href="#contact">讨论一个试点 <ArrowIcon /></a>
+          <a className="text-link" href="#contact">{text.pilot.cta} <ArrowIcon /></a>
         </section>
 
         <section className="evidence section" aria-labelledby="evidence-title">
           <RouteLine number="03" />
-          <div className="section-heading section-heading--wide">
-            <h2 id="evidence-title">你带来现场，我们带来可运行的机器人</h2>
-          </div>
+          <div className="section-heading section-heading--wide"><h2 id="evidence-title">{text.evidence.heading}</h2></div>
           <dl className="evidence-list">
-            {evidence.map(([term, detail]) => (
-              <div key={term}>
-                <dt>{term}</dt>
-                <dd>{detail}</dd>
-                <ArrowIcon />
-              </div>
-            ))}
+            {text.evidence.items.map(([term, detail]) => <div key={term}><dt>{term}</dt><dd>{detail}</dd><ArrowIcon /></div>)}
           </dl>
         </section>
 
-        <section className="contact" id="contact" aria-label="联系与询盘">
-          <InquiryForm />
+        <section className="contact" id="contact" aria-label={text.contact.aria}>
+          <InquiryForm text={text.contact} />
           <div className="contact-route" aria-hidden="true"><span /></div>
-          <footer>
-            <span>Independent robotics integration / China</span>
-            <span>© {new Date().getFullYear()} Li Huawei</span>
-          </footer>
+          <footer><span>Independent robotics integration / China</span><span>© {new Date().getFullYear()} Li Huawei</span></footer>
         </section>
       </main>
     </div>

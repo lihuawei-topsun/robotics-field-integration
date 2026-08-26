@@ -37,6 +37,8 @@ img { display: block; max-width: 100%; }
 .site-nav a { position: relative; text-decoration: none; font-size: 15px; font-weight: 650; }
 .site-nav a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -8px; height: 2px; background: var(--blue); transition: right 180ms ease; }
 .site-nav a:hover::after, .site-nav a:focus-visible::after { right: 0; }
+.lang-toggle { min-width: 52px; padding: 8px 0 8px 18px; color: var(--blue); background: transparent; border: 0; border-left: 1px solid var(--line); cursor: pointer; font-size: 13px; font-weight: 750; }
+.lang-toggle:hover, .lang-toggle:focus-visible { color: var(--black); }
 .menu-button { display: none; }
 
 .hero { display: grid; grid-template-columns: minmax(500px, 54%) 1fr; min-height: calc(100vh - 74px); border-bottom: 1px solid var(--line); }
@@ -153,6 +155,7 @@ figcaption { position: absolute; right: 18px; bottom: 16px; max-width: 70%; padd
   .site-nav { position: absolute; top: 64px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; background: var(--white); border-bottom: 1px solid var(--line); }
   .site-nav--open { display: flex; }
   .site-nav a { padding: 18px 20px; border-top: 1px solid var(--line); }
+  .lang-toggle { width: 100%; padding: 18px 20px; text-align: left; border-left: 0; border-top: 1px solid var(--line); }
   .hero__copy { min-height: calc(100svh - 64px); padding-block: 62px; }
   .hero h1 { font-size: clamp(40px, 11.3vw, 48px); }
   .hero__copy > p { margin-top: 30px; font-size: 17px; }
