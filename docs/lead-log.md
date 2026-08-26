@@ -14,6 +14,24 @@
 - 草稿：docs/outreach/yy-group-intro.html
 - 官方来源：https://www.globenewswire.com/news-release/2026/06/09/3309337/0/en/YY-Group-NASDAQ-YYGH-Launches-Commercial-Humanoid-Robotics-Initiative-to-Drive-AI-Driven-Margin-Expansion-and-Address-Global-Facility-Management-Labor-Shortages.html
 
+### RoboticsLive：G1/R1/Go2 美国部署与软件合作
+
+- 已确认事实：公司自有 G1、R1、Go2，开发 RoboticsLiveOS，承接商业试点、软件定制、操作员、培训和长期支持；明确声明为独立 Unitree 服务商。
+- 匹配依据：中国侧实机二开、Go2-W 导航巡检、传感器/机械臂集成，可作为远程工程分包或兼容性验证能力。
+- 公开业务邮箱：contact@roboticslive.com。
+- 当前状态：已准备独立合作草稿，等待邮箱授权、发件身份核对和发送确认。
+- 草稿：docs/outreach/roboticslive-partnership.html
+- 官方来源：https://roboticslive.com/about/
+
+### Work E Robotics：马来西亚 Unitree 联合交付
+
+- 已确认事实：公司提供 Unitree 人形与四足平台集成；公开岗位曾要求 G1/H1/B2 部署、ROS/ROS2、传感器/控制器、定制行为、培训和中文能力。
+- 匹配依据：可为东南亚项目补充 G1/Go2-W 二开、导航巡检、现场联调和中文技术协作。
+- 公开合作邮箱：sam@workerobotics.com（Events & Partnerships）。
+- 当前状态：已准备联合交付草稿，等待邮箱授权、发件身份核对和发送确认。
+- 草稿：docs/outreach/work-e-robotics-partnership.html
+- 官方来源：https://www.workerobotics.com/contact
+
 ## 已执行公开触达
 
 ### autonomous-os：Go2-W 实机适配协作
