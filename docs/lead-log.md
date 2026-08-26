@@ -159,6 +159,17 @@
 - Issue：https://github.com/orisharabi/unitree-go2-follow-system/issues/1
 - 底稿：docs/outreach/unitree-go2-follow-system-safety-audit.md
 
+### unitree-mojo：G1 模型绑定与物理硬件验证
+
+- 对方信号：2026-08-27 刚创建并持续推送的 BSD-3-Clause 项目，为 Unitree SDK2 构建版本化 C ABI + Mojo 1.0 绑定；现有 Go2 Sport/LowState、Docker/CI/Mock/watchdog 已有实现。路线图 Issue 明确要求 B2/G1/H1 各自独立客户端、模型特定限幅/watchdog，并在 README 标支持前做物理硬件验证。
+- 可信度：不是空路线图；已有约 11 KB C++ bridge、Mojo wrapper、固定 SDK2 commit 和 CI。项目尚无 Stars/Forks，仍属早期，需要先用代码和 HIL 证据判断采用价值。
+- 共用安全缺口：现有 `ready` 在任何 fresh LowState 前即为 true，状态永不过期；`StopMove()` 失败时仍解除 watchdog，watchdog 本身先清 armed 再单次停止且失败不重试；`move_for()` 也在 stop 失败后解除备份。Mock 不覆盖 generation、stale state、clamp、stop failure 或析构顺序。
+- G1 边界：官方 G1 `LocoClient::SetVelocity` 是含 duration 的 request/reply `Call()`，不能复用 Go2 `SportClient::Move()` 语义；G1 使用 `unitree_hg::LowState_` 及固件特定 FSM/mode/control ownership，臂/腰 `rt/arm_sdk` 必须另设能力轨道。
+- 已执行：2026-08-27 在 Issue #1 提出先修 generation-scoped stop-pending/stale-state 共用层，再按固定 SDK/G1 版本完成 compile/mock→连续 fresh LowState 只读 HIL→FSM/API/控制权查询→零速度/停止→保守非零动作与物理停止证据；提供 G1 侧实现审查/配置明确验证协作。
+- 当前状态：等待作者选择冻结 SDK commit、G1 23/29-DoF 版本、固件和第一组 C ABI 操作；未连接或驱动硬件。
+- 留言：https://github.com/wendylabsinc/unitree-mojo/issues/1#issuecomment-5431385572
+- 底稿：docs/outreach/unitree-mojo-g1-hardware-track-comment.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
