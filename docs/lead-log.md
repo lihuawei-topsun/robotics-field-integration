@@ -25,7 +25,7 @@
 - 硬件验证入口：2026-08-27 新增 `hardware-validation.yml` GitHub Issue Form 与公开 YAML manifest，强制填写准确型号/硬件、版本、第一故障类、期望/实际、安全状态、脱敏证据和下一步；公开表单明确禁止账号、密钥、序列号、IP、客户身份和精确位置。fleet reliability 页面提供直接提交和下载入口。
 - 硬件验证表单：https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=hardware-validation.yml
 - Manifest：https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-validation-manifest-template.yaml
-- UniStore 方向：2026-08-27 核验宇树官方 G1 应用平台与开发者手册，确认开发者认证、不可修改 action ID、动作/版本、素材、包/镜像/权限/启动脚本、本地测试与 1–5 个工作日审核流程；未发现明确收费、分成、结算或奖励条款，因此只列为官方分发/可信度试验，不计作收入，也未擅自注册或创建占位动作。
+- UniStore 方向：2026-08-27 核验宇树官方 G1 应用平台、开发者手册与 2026-01-23 版开发者协议，确认开发者主体须为合法独立法人，代表公司接受协议者必须有充分授权；未经书面许可不得暗示宇树合作/认可或使用品牌。平台流程包含不可修改 action ID、动作/版本、素材、包/镜像/权限/启动脚本、本地测试与 1–5 个工作日审核；协议未给出售价、分成、结算或奖励条款，并包含开发者知识产权授权、隐私/赔偿责任和平台无持续支持义务。因此只列为需公司/法务批准的官方分发试验，不计作收入，也未登录、注册或创建动作。
 - 持续监测：Codex heartbeat `机器人二开获客持续推进` 保持 ACTIVE，每天 09:30 检查人工回复、PR/Issue、Reddit 私信、询盘、Release/流量与近 30 天新机会；2026-08-27 已加入 unitree-mojo PR #10、UnLeash-Lite #7、BrainCo G1 双手 OOM #3、Go2-Inspector #1、Undaunted 邮件授权边界，并明确自动审查不算联系人。
 - 收款码边界：原始目标提到附件收款码，但当前工作区未发现真实收款码文件，仅有邮箱授权二维码；因此网站没有发布、替代或伪造任何收款码。
 
