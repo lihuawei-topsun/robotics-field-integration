@@ -213,6 +213,17 @@
 - 目标：https://www.reddit.com/r/unitree/comments/1uheg45/unitree_go2_pro_commercial_3d_mapping_waypoints/
 - 回复底稿：docs/outreach/reddit-go2-pro-commercial-mapping-comment.md
 
+### Reddit / r/robotica：Go2 EDU + MID360 的 RTAB-Map/TF 时间错位
+
+- 对方需求：Go2 EDU、Livox MID360、RealSense D435i、ROS 2 Jazzy 与 RTAB-Map；3D 点云/轨迹可见，但 `/map` 几乎全为 unknown，地图破裂/位移，`odom→base_link/base_laser` 出现 future extrapolation，`point_cloud_assembler` 因无法变换全部云而清空缓存。已尝试增大等待、关闭 expected rate、assembled cloud 和多组固定时间 offset，仍未解决。
+- 源码依据：RTAB-Map ROS 2 的 assembler 对每个原始 cloud stamp 查询 `fixed_frame_id→cloud_frame`；TF 返回空即清空缓存。`wait_for_transform` 只等待有效变换，不会修复未来时间戳或漂移的双时钟；assembled cloud 会增加新的时间边界，不能替代原始 cloud/TF 合同。
+- 诊断顺序：统一 `use_sim_time`/时钟；静止 30–60 秒记录 cloud/odom/TF 并确认单一 TF 所有权；只运行原始云+ICP odometry；再运行 RTAB-Map 并核对 `Grid/*`、local grid、Z 范围和有效 pose；最后才接 Nav2 与 D435i。
+- 已执行：2026-08-27 发布西语首条回复，要求提供 MID360 driver/RTAB-Map/ROS 2 精确版本、view_frames、TF 发布者、20–30 个 cloud/odom stamps 和 launch/YAML；留下邮箱并明确未在其配置上运行。
+- 当前状态：评论已公开显示，等待原作者回复、私信或邮件；不重复追发。
+- 评论：https://www.reddit.com/r/robotica/comments/1rq6dxn/comment/p638jfm/
+- 目标：https://www.reddit.com/r/robotica/comments/1rq6dxn/navegacion_autonoma_robot_go2_edu/
+- 回复底稿：docs/outreach/reddit-go2-rtabmap-jazzy-spanish-comment.md
+
 ### Reddit：Go2 EDU 室内自主导航与辐射地图
 
 - 对方需求：真实 Go2 EDU 项目面向 GNSS 缺失、杂乱实验室的室内导航/避障，后续挂载轻量辐射传感器并生成空间剂量地图；原帖和后续用户持续遇到点云倾斜、漂移、预建图后无法重复定位。
