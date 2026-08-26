@@ -78,10 +78,13 @@
 - 待确认：bounty 是否仍开放且 Go2-W 可领取、要求的相机/计算配置、最小路线/视频、是否需要合并代码，以及实机速度/停止证据是否作为单独平台验证任务。
 - 静态预检：已确认 `ROBOT_TYPE=go2w` 可导入配置，但 Dev Container 未默认注入该变量，导航脚本和 Unitree 控制桥分属不同启动路径；默认 RealSense 路径还有固件、GPU、host network、privileged 与设备挂载要求。
 - 安全门槛：上游 `cmd_vel_control` 有路径过期减速/停止，但 `unitree_control.py` 桥层没有最后速度命令 watchdog。非零 `Move()` 后若上游或 DDS 静默，当前桥代码不能单独证明会调用 `StopMove()`；在维护者确认固件命令有效期或接受桥层 watchdog 之前不启动实机动作。
+- 代码贡献：2026-08-27 已提交桥层 watchdog PR：非零 `Move()` 成功发送后启动 monotonic freshness timer，零命令成功 `StopMove()` 后清除，超时只触发一次停止；停止失败按超时预算重试，并用运动调用锁避免新速度命令与 watchdog 停止交错。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
+- 验证：纯逻辑 watchdog 的 5 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
 - 当前状态：无动作预检和实机验收计划已形成；等待 Uniflex AI/TinyNav 维护者回复验收与付款流程，未开始安装或实机运行。
 - 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
 - 提案：https://github.com/UniflexAI/tinynav/issues/234
+- PR：https://github.com/UniflexAI/tinynav/pull/235
 
 ### Unitree Python SDK：Go2-W StandDown 状态与模式排障
 

@@ -131,9 +131,12 @@ ROBOT_TYPE=go2w PYTHONPATH=/path/to/tinynav \
 - [x] TinyNav 主分支 Go2-W 静态路径审计。
 - [x] `ROBOT_TYPE=go2w` 配置导入检查。
 - [x] 关键 Python 文件语法编译检查。
+- [x] 桥层速度命令 watchdog 纯逻辑补丁与 Python 3.10 单测；已提交上游 PR，尚未实机验证或合并。
 - [ ] 维护者确认领取、验收和付款流程。
 - [ ] 在实际 NVIDIA/ROS2/相机主机完成无动作预检。
 - [ ] 关闭桥层速度命令失联边界。
 - [ ] 获批后进行受控实机测试。
 
 公开提案：https://github.com/UniflexAI/tinynav/issues/234
+
+桥层 watchdog PR：https://github.com/UniflexAI/tinynav/pull/235
