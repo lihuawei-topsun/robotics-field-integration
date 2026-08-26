@@ -173,7 +173,7 @@
 - 共用安全缺口：现有 `ready` 在任何 fresh LowState 前即为 true，状态永不过期；`StopMove()` 失败时仍解除 watchdog，watchdog 本身先清 armed 再单次停止且失败不重试；`move_for()` 也在 stop 失败后解除备份。Mock 不覆盖 generation、stale state、clamp、stop failure 或析构顺序。
 - G1 边界：官方 G1 `LocoClient::SetVelocity` 是含 duration 的 request/reply `Call()`，不能复用 Go2 `SportClient::Move()` 语义；G1 使用 `unitree_hg::LowState_` 及固件特定 FSM/mode/control ownership，臂/腰 `rt/arm_sdk` 必须另设能力轨道。
 - 已执行：2026-08-27 在 Issue #1 提出先修 generation-scoped stop-pending/stale-state 共用层；随后基于 `a1e7e1d` 实现 PR #10：失败的 `StopMove()` 保持 stop pending 并每 250 ms 重试，stop 结果按 generation 结算，pending 时拒绝新 Move/skill，并向 C ABI/Mojo 暴露查询。Move/STOP/skill 的 SDK 调用与 watchdog 转移统一在 `command_mutex → watchdog_mutex` 临界区，避免迟到结果解除新 watchdog。
-- 验证：纯 C++ 状态机在 `-DNDEBUG -Wall -Wextra -Werror` 下通过，C mock ABI 编译通过；fork 上与上游相同的固定 SDK2 + Release Docker/Mojo workflow 对 `d14a462` 全部通过（run `33021541484`）。自动 review 提出的两项 P1 并发竞态和一项 P2 Release assert 问题已修复、回复并 resolved。
+- 验证：纯 C++ 状态机在 `-DNDEBUG -Wall -Wextra -Werror` 下通过，C mock ABI 编译通过；fork 上与上游相同的固定 SDK2 + Release Docker/Mojo workflow 对 `d14a462` 全部通过（run `33021541484`）。自动 review 提出的两项 P1 并发竞态和一项 P2 Release assert 问题已修复、回复并 resolved；对 `d14a462` 的最终复审未发现 major issue。
 - 当前状态：PR 可合并，等待维护者复审/决定；`stop_pending=false` 只表示 SDK2 StopMove 成功，不表示物理停止，Go2 HIL 仍未运行。G1 扩展仍等待准确 23/29-DoF、固件和第一组 C ABI 操作。
 - 留言：https://github.com/wendylabsinc/unitree-mojo/issues/1#issuecomment-5431385572
 - PR：https://github.com/wendylabsinc/unitree-mojo/pull/10
