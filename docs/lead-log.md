@@ -76,7 +76,10 @@
 - 代码匹配：当前主分支已声明 `GO2W_CONFIG`，但速度上下限注释明确仍是跨机器人共用的占位值，等待真实平台测量；控制层复用 Go2 `SportClient`，将 `cmd_vel` 映射到 `Move()` / `StopMove()`。
 - 已执行：2026-08-27 在 TinyNav 创建 Go2-W bounty 范围提案，承诺记录准确固件/计算/相机/SDK/代码版本，完成一次建图、定位、路线与检查点视频，并同步命令频率、`cmd_vel` 和停止状态；任何故障单独保留，不把未运行的 TinyNav 描述为已兼容。
 - 待确认：bounty 是否仍开放且 Go2-W 可领取、要求的相机/计算配置、最小路线/视频、是否需要合并代码，以及实机速度/停止证据是否作为单独平台验证任务。
-- 当前状态：等待 Uniflex AI/TinyNav 维护者回复验收与付款流程；未开始安装或实机运行。
+- 静态预检：已确认 `ROBOT_TYPE=go2w` 可导入配置，但 Dev Container 未默认注入该变量，导航脚本和 Unitree 控制桥分属不同启动路径；默认 RealSense 路径还有固件、GPU、host network、privileged 与设备挂载要求。
+- 安全门槛：上游 `cmd_vel_control` 有路径过期减速/停止，但 `unitree_control.py` 桥层没有最后速度命令 watchdog。非零 `Move()` 后若上游或 DDS 静默，当前桥代码不能单独证明会调用 `StopMove()`；在维护者确认固件命令有效期或接受桥层 watchdog 之前不启动实机动作。
+- 当前状态：无动作预检和实机验收计划已形成；等待 Uniflex AI/TinyNav 维护者回复验收与付款流程，未开始安装或实机运行。
+- 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
 - 提案：https://github.com/UniflexAI/tinynav/issues/234
 
