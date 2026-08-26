@@ -82,7 +82,7 @@
 - 安全门槛：上游 `cmd_vel_control` 有路径过期减速/停止，但 `unitree_control.py` 桥层没有最后速度命令 watchdog。非零 `Move()` 后若上游或 DDS 静默，当前桥代码不能单独证明会调用 `StopMove()`；在维护者确认固件命令有效期或接受桥层 watchdog 之前不启动实机动作。
 - 代码贡献：2026-08-27 已提交桥层 watchdog PR：每次非零 `Move()` 调用前启动 steady-clock freshness timer；独立短超时 safety client 不受主 RPC 阻塞；递增 generation 与补偿性停止处理跨客户端迟到命令；显式零命令保持 stop-pending，只有成功且没有更新代数时才解除。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
 - 验证：watchdog、跨平台停止分发、迟到 generation、未确认停止和 generation-scoped 重试的 16 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
-- 审查迭代：前五轮发现的 Move 前启动/steady clock、非有限超时、主 RPC 阻塞、跨客户端乱序和 stop-pending 问题已分别修复。第六次复审指出失败的旧 safety stop 会覆盖更新 generation 的 deadline，或在另一条停止已确认后重新启动 idle watchdog。已在 `a7701bd` 让到期检查返回目标 generation，并记录 `confirmed_through`；失败重试只有在仍是当前且未确认的 generation 时才能重新启动。所有 thread 已回复并解决，已触发第七次复审。
+- 审查迭代：前六轮发现的 Move 前启动/steady clock、非有限超时、主 RPC 阻塞、跨客户端乱序、stop-pending 和旧失败覆盖新 deadline 问题均已逐项修复并补回归测试。第七次自动复审对 `a7701bd` 返回 `Didn't find any major issues`。停止重复触发自动审查；当前只等待 `junlinp`/维护者人工审查、上游 CI、默认预算确认和实机验收，自动复审通过不等于已合并或已验证硬件。
 - 当前状态：无动作预检和实机验收计划已形成；GitHub 不允许外部 PR 作者直接添加 reviewer，已仅一次定向 @ TinyNav 最高贡献者兼其固定 Unitree SDK fork 维护者 `junlinp` 请求人工审查。等待维护者回复验收与付款流程，未开始安装或实机运行。
 - 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
