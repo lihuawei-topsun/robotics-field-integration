@@ -145,6 +145,15 @@
 - 当前状态：等待维护者确认最小 HIL 验证单元或对方补充运行证据。
 - 留言：https://github.com/physical-superintelligence-lab/Psi0/issues/95#issuecomment-5429517293
 
+### Oya-Tomo / NaVILA：Go2 Zenoh 导航物理验证
+
+- 对方需求：NaVILA 已在 Jetson AGX Orin 完成环境、依赖、配置和 4-bit 模型加载的 Stage 1–4；明确把机器人外 Zenoh E2E、安全故障矩阵和物理 Go2 验证列为 Stage 5–7 PENDING，并给出逐项 PASS/FAIL/BLOCKED/SKIPPED 报告标准。
+- 独立接收器：`unitree-go2-zenoh-node` 通过 Zenoh 接收速度/姿态命令，用高层 `SportClient` 控制一个标准 Go2；当前 README 和代码搜索没有 Go2-W 专用合同或证据。
+- 硬件边界：现有设备是 Go2-W，不能替代标准 Go2 的 Stage 7 PASS。共享部分 API 不足以证明轮式模式的 posture、state、command acceptance、TTL 和 stop/down 语义等价。
+- 已执行：2026-08-27 提出两个可选合作单元：协助 Stage 5–6 的 robot-free Zenoh/安全矩阵，或由维护者明确批准后建立独立 Go2-W compatibility track。Go2-W 结果只报告为 Go2-W，不写入标准 Go2 通过表；非零动作前要求命令 watchdog、停止/下蹲所有权、单一发布者和物理遥控/急停闭环。
+- 当前状态：等待维护者选择合作单元和冻结的 NaVILA/接收器修订；未改代码、未连接硬件、未执行运动。
+- 留言：https://github.com/Oya-Tomo/NaVILA/issues/2#issuecomment-5430783727
+
 ## 社区触达
 
 ### Reddit：AI 公司获得约 2 万美元机器人预算
@@ -241,3 +250,14 @@
 2. 大型采购通常要求原厂授权、资质和历史案例；当前更现实的商业模式是给总包/原厂/集成商做二次开发与现场联调分包。
 3. Go2-W 的轮足形态适合办公楼、园区道路和有台阶/坡度的半结构化环境，但所有现场参数必须测试后再承诺。
 4. G1 二次开发要明确版本；宇树公开资料指出 G1 EDU 支持二次开发，普通 G1 不支持。
+
+## 排除 / 不触达
+
+### HNL-ULTIMATE-2026：所谓 90 天 G1 硬件验证合作
+
+- 公开声明：账号声称拥有 Jetson AGX Thor、43-DoF G1、35.5 ms 控制、无线供能与政府 MSME 注册，并寻找硬件实验室伙伴。
+- 核验结果：Issue 正文中的所谓核心控制代码只对 NumPy 向量执行 `tanh`、阈值判断和 `clip`，与传感器到执行器控制、CAN/DDS、G1 关节或实时调度无直接实现关系。
+- 证据质量：全部评论由同一账号连续发布，主要为宣言、图片和未经独立验证的技术/搜索排名声明；没有可复现仓库、硬件状态日志、示波器原始数据、G1 视频、第三方审查或真实协作者。公开主页网址还包含空格，无法作为有效组织入口。
+- 资质边界：即使 UDYAM/MSME 注册真实，也只能说明主体注册，不能证明机器人、延迟、供能或控制栈指标。
+- 决策：不回复、不发送邮件、不提供 G1/Go2-W 硬件或实验室访问，不把它计入潜在线索；除非未来出现独立可验证的硬件与工程证据。
+- 来源：https://github.com/HussainNilporiLegacy/MSME-Govt.-of-India-UDYAM-WB-13-0148319-/issues/1
