@@ -28,6 +28,16 @@
 - 状态：等待回复。
 - 留言：https://github.com/dimensionalOS/dimos/issues/3579#issuecomment-5427390692
 
+## 待执行社区触达
+
+### Reddit：G1 的 Nav2 社交导航仿真/实机一致性
+
+- 发布时间：2026-08-02。
+- 对方需求：已有 G1 硬件访问权和自定义 Nav2 社交代价地图，希望同一套导航代码覆盖仿真与实机，并确认速度接口、雷达、里程计和 TF 边界。
+- 匹配依据：G1 二次开发与自主导航经验，可从实机集成和验收边界切入；对方是研究合作线索，不应按商业采购口吻回复。
+- 当前状态：已准备合作型回复；Reddit 发帖/评论需要登录会话和发布时确认，尚未代发。
+- 目标：https://www.reddit.com/r/robotics/comments/1vdali3/structuring_a_nav2_socialnavigation_stack_for/
+
 ## A 级：值得主动寻找项目承包方或集成商
 
 ### 中国移动宁夏：行业级四足巡检机器人采购计划
