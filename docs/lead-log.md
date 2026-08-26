@@ -83,7 +83,7 @@
 - 代码贡献：2026-08-27 已提交桥层 watchdog PR：非零 `Move()` 成功发送后启动 monotonic freshness timer，零命令成功 `StopMove()` 后清除，超时只触发一次停止；停止失败按超时预算重试，并用运动调用锁避免新速度命令与 watchdog 停止交错。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
 - 验证：watchdog、跨平台停止分发和迟到命令 generation 的 12 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
 - 审查迭代：自动代码审查先指出两个 P1：必须在调用 `Move()` 前启动 watchdog，以及 timer 必须使用 steady clock，已在 `e7493fe` 修复；随后指出非有限超时，已在 `e414eee` 修复；第三次复审发现共享调用锁会让 G1 同步 `SetVelocity()` 阻塞 watchdog，已在 `e5e6e39` 改为独立短超时 safety client；第四次复审指出两个客户端可能乱序，旧 `Move()` 会在停止之后才到达。已在 `3a4d1cb` 为每次非零命令分配递增 generation，停止决策记录覆盖代数，迟到完成触发补偿性安全停止，停止失败重试同一代。所有 thread 已回复并解决，已触发第五次复审。
-- 当前状态：无动作预检和实机验收计划已形成；等待 Uniflex AI/TinyNav 维护者回复验收与付款流程，未开始安装或实机运行。
+- 当前状态：无动作预检和实机验收计划已形成；GitHub 不允许外部 PR 作者直接添加 reviewer，已仅一次定向 @ TinyNav 最高贡献者兼其固定 Unitree SDK fork 维护者 `junlinp` 请求人工审查。等待维护者回复验收与付款流程，未开始安装或实机运行。
 - 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
 - 提案：https://github.com/UniflexAI/tinynav/issues/234
