@@ -70,6 +70,24 @@
 - 状态：等待需求方确认项目是否仍在继续。
 - 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/94#issuecomment-5427383379
 
+### Uniflex AI / TinyNav：Go2-W 导航验证付费 Bounty
+
+- 对方信号：TinyNav 面向 Unitree Go2 等平台提供轻量视觉导航，并在公开表格中将“支持你的机器人运行 TinyNav，分享建图与导航视频”标为 Open，价值 20 美元；另有控制器、模型量化和 Isaac Sim 集成任务。该表格可能滞后，必须由维护者确认后才投入实机时间。
+- 代码匹配：当前主分支已声明 `GO2W_CONFIG`，但速度上下限注释明确仍是跨机器人共用的占位值，等待真实平台测量；控制层复用 Go2 `SportClient`，将 `cmd_vel` 映射到 `Move()` / `StopMove()`。
+- 已执行：2026-08-27 在 TinyNav 创建 Go2-W bounty 范围提案，承诺记录准确固件/计算/相机/SDK/代码版本，完成一次建图、定位、路线与检查点视频，并同步命令频率、`cmd_vel` 和停止状态；任何故障单独保留，不把未运行的 TinyNav 描述为已兼容。
+- 待确认：bounty 是否仍开放且 Go2-W 可领取、要求的相机/计算配置、最小路线/视频、是否需要合并代码，以及实机速度/停止证据是否作为单独平台验证任务。
+- 当前状态：等待 Uniflex AI/TinyNav 维护者回复验收与付款流程；未开始安装或实机运行。
+- Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
+- 提案：https://github.com/UniflexAI/tinynav/issues/234
+
+### Unitree Python SDK：Go2-W StandDown 状态与模式排障
+
+- 对方需求：活跃的 TinyNav/Uniflex AI 贡献者在宇树官方 Python SDK 报告 Go2-W 无法执行 `StandDown()`，原 Issue 没有返回码、固件或状态信息。
+- 代码判断：官方 Go2-W 高层示例确实包含 `StandDown()`；该方法走 API 1005 的 request/reply 路径，其返回值是服务端状态码。官方低层示例还会在释放当前高层运动模式前依次调用 `StandUp()`、`StandDown()` 和 `MotionSwitcherClient.ReleaseMode()`，因此活动 motion mode 是必要证据，但尚不能认定为根因。
+- 已执行：2026-08-27 请求准确固件/SDK 修订、一次 `StandDown()` 返回值、`CheckMode()`、调用前后 `SportModeState` 和遥控器/App 状态，并给出单次命令、持续记录、不重复轰炸的安全复现顺序；提出可在真实 Go2-W 上做同一最小状态对比。
+- 当前状态：等待对方补充日志或确认需要跨机对比。
+- 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/174#issuecomment-5429726094
+
 ### unitree_ui：Go2 自动回充板检测失败排障
 
 - 对方需求：Go2 能导航到充电站附近，但进入自动回充后反复出现 `TIMEOUT_DETECT`，无法重新定位并连接充电板。
