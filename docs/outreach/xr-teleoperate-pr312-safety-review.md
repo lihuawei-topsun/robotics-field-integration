@@ -1,0 +1,11 @@
+The on-robot FSM 1→4→501 evidence is valuable, but I see several fail-open paths that should be closed before this becomes the default `--motion` startup sequence. This is a source review only; I have not run this PR on a G1 with software 1.5.3.
+
+1. `LocoClientWrapper.__init__()` now performs physical damp→stand→501 motion immediately when `--motion --input-mode controller` constructs the wrapper, before the tracking loop begins. This should require an explicit operator opt-in/confirmation and an exact supported firmware/configuration, rather than being an unconditional constructor side effect. An arbitrary `G1_CTRL_FSM` environment value is also too weak a safety gate for a physical transition.
+
+2. `_enter_control_mode()` ignores every `SetFsmId()` return code and ignores the `GetFsmId()` status. More importantly, after 12 failed confirmations it only prints a warning and returns; the caller then lowers the RPC timeout and exposes `Move()` anyway. Please fail closed: if any required RPC fails or the final state is not the expected target, issue a confirmed safe transition/zero command, raise an error, and do not construct a usable motion wrapper.
+
+3. The new hardware probes need `try/finally`. In `fsm_explore.py`, EOF leaves the loop without damping, and `KeyboardInterrupt` during the 20-command `v` loop can skip the final zero command. `wrapper_test.py` has the same interruption window during its nonzero Move loop. A single nonzero high-level velocity command must not be assumed to expire safely without configuration-specific proof; the test should always send zero and then confirm the intended safe state in `finally`.
+
+4. Please add a bounded acceptance trace for the actual 1.5.3 device: exact firmware/SDK commit, each requested FSM and RPC code, observed FSM transition timestamps, first accepted velocity timestamp, zero/stop confirmation, controller-loss behavior and process-interruption behavior. The current successful walk observation proves the happy path, not the failure paths above.
+
+I work on real-hardware Unitree G1/Go2-W secondary development and can help compare the startup/stop evidence contract, but I would keep any result specific to the exact firmware and robot edition. Independent integrator; not affiliated with Unitree. Contact details are on my GitHub profile.

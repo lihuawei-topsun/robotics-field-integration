@@ -156,6 +156,16 @@
 - 当前状态：等待维护者确认最小 HIL 验证单元或对方补充运行证据。
 - 留言：https://github.com/physical-superintelligence-lab/Psi0/issues/95#issuecomment-5429517293
 
+### xr_teleoperate：G1 1.5.3 高层行走 FSM 修订安全审查
+
+- 对方证据：G1 EDU+ 29-DoF、软件 1.5.3 在 FSM 802 时对 `SetFsmId(500)`/`SetVelocity()` 返回 0 但不动作；提交者在真机观察到可行路径为 damp(1)→stand(4)→501，并创建 PR #312 将其放入 `LocoClientWrapper` 启动流程。
+- 源码风险：`--motion --input-mode controller` 构造 wrapper 时会无条件触发物理 damp/站起/501；所有 `SetFsmId` 返回码和 `GetFsmId` 状态被忽略；12 次确认失败后仅告警，仍返回可调用 `Move()` 的对象。`fsm_explore.py`/`wrapper_test.py` 的非零速度循环也没有 `try/finally`，EOF/中断可能跳过零速度和 damping。
+- 已执行：2026-08-27 提交公开 review，要求精确固件/配置的显式操作员确认、状态确认式转换、失败时 zero/damp + raise、禁止构造可移动对象、测试脚本中断兜底，以及 happy path 之外的控制器丢失/进程中断验收记录。
+- 事实边界：明确这是源码审查，未在 G1 1.5.3 上运行该 PR；不把提交者的单次真机可行路径推广到其他 G1 版本。
+- 当前状态：等待提交者或宇树维护者回应；若其提供准确修订和失败路径日志，可继续给出 scoped patch 或硬件对照合同。
+- Review：https://github.com/unitreerobotics/xr_teleoperate/pull/312#pullrequestreview-5035022625
+- 底稿：docs/outreach/xr-teleoperate-pr312-safety-review.md
+
 ### Oya-Tomo / NaVILA：Go2 Zenoh 导航物理验证
 
 - 对方需求：NaVILA 已在 Jetson AGX Orin 完成环境、依赖、配置和 4-bit 模型加载的 Stage 1–4；明确把机器人外 Zenoh E2E、安全故障矩阵和物理 Go2 验证列为 Stage 5–7 PENDING，并给出逐项 PASS/FAIL/BLOCKED/SKIPPED 报告标准。
@@ -177,6 +187,14 @@
 - 评论：https://www.reddit.com/r/unitree/comments/1nzb5t9/comment/p632al9/
 - 目标：https://www.reddit.com/r/unitree/comments/1nzb5t9/any_unitree_g1_developer_in_malaysia/
 - 回复底稿：docs/outreach/reddit-malaysia-g1-developer-comment.md
+
+### Reddit：G1 ACT / Dex3 真机动作映射与 81 ms 抖动
+
+- 对方信号：活跃 G1 EDU 用户将宇树 G1 Dex3 PickBottle 数据集训练为 ACT checkpoint，真机遇到 28D 状态维度、左右手索引和 30 Hz→约 12 Hz/81 ms 推理抖动，公开征求反馈。
+- 拟议帮助：核对数据集/模型特征名与关节顺序；单关节映射测试；推理与固定频率执行解耦；latest-only action chunk、单调时钟新鲜度、过期进入 arm hold、安全的静止/单关节/低幅预录三步验收。
+- 发布状态：2026-08-27 在已登录 Reddit 页面提交时连续返回“服务器错误，请稍后重试”，评论没有创建；已停止重试并清除未提交编辑器内容，不计为公开触达。随后把精力转到同类 G1 官方 `xr_teleoperate` PR #312 的可复核安全审查。
+- 目标：https://www.reddit.com/r/UnitreeG1/comments/1t6c5q8/need_feedback_on_implementing_the_unitree_act/
+- 草稿：docs/outreach/reddit-g1-act-control-jitter-comment.md
 
 ### Reddit：AI 公司获得约 2 万美元机器人预算
 
