@@ -22,7 +22,8 @@
         "author":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
         "hasPart":[
           {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html","name":"Fail-Closed Robot Control for Unitree G1 / Go2-W"},
-          {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html","name":"Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary"}
+          {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html","name":"Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary"},
+          {"@type":"SoftwareSourceCode","url":"https://github.com/UniflexAI/tinynav/pull/235","name":"TinyNav Unitree cmd_vel freshness watchdog pull request","codeRepository":"https://github.com/lihuawei-topsun/tinynav/tree/codex/unitree-cmd-vel-watchdog"}
         ]
       }
     </script>
@@ -61,6 +62,12 @@
               <h3>Go2 autocharge: separate plate detection from power contact</h3>
               <p>A diagnostic order for TIMEOUT_DETECT, point-cloud instability, final-pose error and plate-distance tuning without confusing visual markers with LiDAR geometry.</p>
               <span class="open">OPEN NOTE →</span>
+            </a>
+            <a class="note-card note-card--wide" href="https://github.com/UniflexAI/tinynav/pull/235">
+              <div class="note-meta"><span class="tag tag--signal">OPEN PULL REQUEST</span><span class="tag">PYTHON 3.10 TESTS PASS</span><span class="tag">HARDWARE VALIDATION PENDING</span></div>
+              <h3>TinyNav Unitree bridge: stop when the cmd_vel stream becomes stale</h3>
+              <p>Upstream PR #235 adds a configurable monotonic watchdog, serialized Move/StopMove calls and focused pure-logic tests. The patch is mergeable and awaiting maintainer review; its 0.5 second default and robot behavior have not been validated on hardware.</p>
+              <span class="open">VIEW PULL REQUEST</span>
             </a>
           </div>
         </section>
