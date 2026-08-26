@@ -97,6 +97,15 @@
 - 当前状态：等待对方补充日志或确认需要跨机对比。
 - 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/174#issuecomment-5429726094
 
+### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
+
+- 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
+- 代码审计：Issue 中的旧路径 `src/reflex/...` 已不存在；当前 preset 需要同时更新 `configs/embodiments/`、`src/tether/embodiments/presets/`、schema enum、emitter、`ALL_PRESETS` 和验证测试。现有 schema 是扁平 continuous action vector，包含范围、归一化、夹爪、相机、控制频率/horizon 和约束。
+- 核心歧义：标题写 Go2/Z1，但任务只要求 Z1 JSON；必须先确认是 6 关节 Z1 arm-only，还是包含底盘 `vx/vy/vyaw` + 机械臂/夹爪的移动操作机器人。还缺准确 Z1/夹爪型号、关节顺序、命令模式、单位、硬限制、状态向量、停止/保持和真实数据归一化。
+- 已执行：2026-08-27 发布源码级澄清，指出不能为了通过 schema 而虚构动作空间；说明可验证 Unitree 移动底盘与系统集成侧，但未声称拥有确切 Z1 型号。维护者确认配置与交付边界后再准备 scoped PR。
+- 当前状态：等待 FastCrest 维护者确认 Issue 是否仍有效、arm-only/combined 方案、硬件型号和是否要求 runtime adapter/实机证据。
+- 留言：https://github.com/FastCrest/tether/issues/69#issuecomment-5430165899
+
 ### unitree_ui：Go2 自动回充板检测失败排障
 
 - 对方需求：Go2 能导航到充电站附近，但进入自动回充后反复出现 `TIMEOUT_DETECT`，无法重新定位并连接充电板。
