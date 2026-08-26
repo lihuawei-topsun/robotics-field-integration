@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Configuration-specific Unitree G1, Go2 and Go2-W fleet reliability validation for connection failures, command freshness, confirmed STOP, sensor timing, recovery and release regression." />
+    <meta name="keywords" content="Unitree fleet reliability,Go2 fleet uptime,Go2 Pro connection failure,Unitree watchdog,robot stop validation,Go2-W field integration" />
+    <link rel="canonical" href="https://lihuawei-topsun.github.io/robotics-field-integration/unitree-fleet-reliability-validation.html" />
+    <link rel="stylesheet" href="assets/engineering-notes.css" />
+    <meta property="og:title" content="Unitree Fleet Reliability Validation｜G1 / Go2 / Go2-W" />
+    <meta property="og:description" content="One exact configuration, one failure class, one evidence-backed release gate." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://lihuawei-topsun.github.io/robotics-field-integration/unitree-fleet-reliability-validation.html" />
+    <title>Unitree Fleet Reliability Validation｜G1 / Go2 / Go2-W</title>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"Service",
+        "name":"Unitree Fleet Reliability Validation",
+        "description":"Configuration-specific review and validation for Unitree robot connection, command freshness, confirmed stop, sensor timing, recovery and release regression.",
+        "provider":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
+        "areaServed":"Worldwide remote; hardware work by agreed location and authority",
+        "url":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-fleet-reliability-validation.html",
+        "serviceType":"Robot field integration and reliability validation"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href="engineering-notes.html"><span class="reticle" aria-hidden="true"></span>FIELD RELIABILITY</a>
+        <a class="top-link" href="./?lang=en">MAIN SITE / EN</a>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">UNITREE G1 / GO2 / GO2-W</div>
+            <h1>Fleet uptime is an evidence problem</h1>
+            <p class="lede">A robot that reconnects once, returns success once or finishes one patrol is not a reliable fleet unit. Release decisions need an exact hardware/firmware profile, immutable timing evidence, confirmed command ownership, fault injection and a reproducible recovery path.</p>
+          </div>
+          <aside class="hero-status" aria-label="Service boundary">
+            <div class="status-cell"><span>FIRST INPUT</span><strong>ONE FAILURE CLASS + ONE EXACT CONFIGURATION</strong></div>
+            <div class="status-cell"><span>FIRST SAFE STATE</span><strong>NO MOTION / SANITIZED EVIDENCE</strong></div>
+            <div class="status-cell"><span>RELEASE RULE</span><strong>UNCONFIRMED STOP = STOP PENDING</strong></div>
+          </aside>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">01 / INPUT</span><h2>Freeze the unit before debugging</h2></div>
+          <p class="section-copy">The model name is not a sufficient reproduction key. Every result remains scoped to the recorded unit and release.</p>
+          <table class="evidence-table" style="margin-top:36px">
+            <thead><tr><th>Layer</th><th>Required fields</th><th>Unsafe shortcut</th></tr></thead>
+            <tbody>
+              <tr><td>Robot</td><td>Exact SKU/edition, hardware revision, serial-safe identifier, firmware, battery/dock and motion mode.</td><td>“Go2 compatible” or “same SDK” without a per-model profile.</td></tr>
+              <tr><td>Compute</td><td>Onboard/external computer, OS, architecture, power, network interface, container and clock source.</td><td>Using a developer laptop result as a fleet unit result.</td></tr>
+              <tr><td>Software</td><td>SDK/ROS/client commit, dependency lock, parameters, API version and deployment artifact hash.</td><td>Testing a moving branch or undocumented binary.</td></tr>
+              <tr><td>Transport</td><td>DDS/WebRTC/API route, identity, renewal/reconnect path, latency, loss and server/cloud dependency.</td><td>Equating local request success with robot acceptance.</td></tr>
+              <tr><td>Payload</td><td>Sensor/arm wiring, publisher, frame, source stamp, rate, power and failure behavior.</td><td>Restamping stale data until synchronization errors disappear.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">02 / TRACE</span><h2>One bounded first engagement</h2></div>
+          <ol class="checklist">
+            <li><span>01</span>Provide one redacted failure trace and the exact robot, firmware, network and software configuration.</li>
+            <li><span>02</span>Separate observed facts, missing evidence and hypotheses; define the smallest deterministic reproduction.</li>
+            <li><span>03</span>Return an evidence matrix covering connection, state freshness, command ownership, STOP, sensor time and recovery.</li>
+            <li><span>04</span>Prioritize one narrow change or additional trace instead of replacing the whole stack.</li>
+            <li><span>05</span>Only after no-motion evidence passes, agree a bounded hardware cell with explicit operator and safety authority.</li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">03 / GATES</span><h2>Five release gates</h2></div>
+          <div class="state-rail">
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Config</h3><p>Freeze unit, firmware, compute, network, payload and code. Hash raw and sanitized evidence.</p><code>PROFILE</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>No motion</h3><p>Prove connection, consecutive fresh state, clock provenance, topic silence/decoder failure and clean lifecycle.</p><code>READ ONLY</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Command / stop</h3><p>Use one owner, generation-scoped freshness and an independent watchdog. Keep failed or unknown STOP pending.</p><code>STOP PENDING</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Fault injection</h3><p>Test process death, network loss, server loss, stale callbacks, delayed packets, mode change and power recovery.</p><code>FAULTS</code></article>
+            <article class="state state--hold"><span class="state-marker" aria-hidden="true"></span><h3>Rollout</h3><p>Promote only the exact passing artifact and configuration. Canary, observe, rollback and retain the evidence bundle.</p><code>RELEASE</code></article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">04 / CONTRACT</span><h2>What gets measured</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>Contract</th><th>Evidence</th><th>Failure state</th></tr></thead>
+            <tbody>
+              <tr><td>Connection</td><td>Handshake branch, identity, renewal, reconnect generation, source/receive time and dependency status.</td><td>Connected UI with stale or unauthenticated robot state.</td></tr>
+              <tr><td>Command</td><td>Producer ID, generation, issue/receive/accept time, bounds, mode and state-correlated response.</td><td>Late command accepted after cancel, reconnect or process restart.</td></tr>
+              <tr><td>STOP</td><td>Cancel result, zero/stop result, fresh state, physical response and confirmed-through generation.</td><td>Request sent but physical stop or command exclusion unconfirmed.</td></tr>
+              <tr><td>Sensor time</td><td>Immutable source stamp, receive stamp, clock offset/uncertainty, frame and stale/pair rejection.</td><td>Host `now()` used to manufacture alignment.</td></tr>
+              <tr><td>Recovery</td><td>Safe initial state, operator authority, replayed fault, bounded retry, rollback and post-recovery health.</td><td>Automatic restart that restores motion without a new authorization.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">05 / DATA</span><h2>Work from redacted traces</h2></div>
+          <ol class="checklist">
+            <li><span>01</span>No customer faces, site maps, credentials, robot account secrets or private endpoints are required for the first review.</li>
+            <li><span>02</span>Retain raw evidence internally; share a sanitized derivative with hashes and a removal record.</li>
+            <li><span>03</span>Replace identifiers consistently so reconnect, command and sensor generations remain traceable.</li>
+            <li><span>04</span>Do not use a different model, firmware or payload result to claim fleet-wide support.</li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">06 / BOUNDARY</span><h2>Capability boundary</h2></div>
+          <p class="section-copy">Real-hardware experience is on Unitree G1 and Go2-W navigation/field integration. Go2 Air, Pro or EDU fleet claims require the exact target hardware and agreed authority. Source review, replay design and sanitized trace analysis can start without robot motion; no firmware, account, network or site change is implied.</p>
+          <table class="evidence-table" style="margin-top:36px">
+            <thead><tr><th>Can start remotely</th><th>Requires target hardware</th><th>Not claimed</th></tr></thead>
+            <tbody>
+              <tr><td>Source/architecture review, evidence schema, log contract, replay test, release gates and failure-hypothesis ranking.</td><td>Command acceptance, physical stop time, wheel/leg behavior, payload power/thermal behavior, reconnect and site recovery.</td><td>Blanket Unitree compatibility, official affiliation, 99% uptime, autonomous fleet deployment or access to private Unitree interfaces.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="callout">
+          <div><h2>Send one failure class</h2><p>Include the exact model/edition, firmware, compute, network path, SDK/ROS commit, expected safe state and a redacted trace. The first response will define what is proven, missing and smallest to reproduce.</p></div>
+          <div class="callout-links">
+            <a class="button" href="mailto:li.huawei@topsunpower.cc?subject=Unitree%20fleet%20reliability%20validation">li.huawei@topsunpower.cc <span>CONTACT</span></a>
+            <a class="button button--secondary" href="unitree-robot-fail-closed-control.html">FAIL-CLOSED CONTROL NOTE <span>OPEN</span></a>
+            <a class="button button--secondary" href="unitree-go2-edition-development-checklist.html">GO2 EDITION CHECKLIST <span>OPEN</span></a>
+          </div>
+        </section>
+      </main>
+
+      <footer><span>Independent field-integration service. Not affiliated with Unitree.</span><span>CONFIG-SPECIFIC / EVIDENCE-BACKED / FAIL-CLOSED</span></footer>
+    </div>
+  </body>
+</html>

@@ -20,6 +20,8 @@
 - G1 技术页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html
 - Go2 版本确认技术页：2026-08-27 新增 Air/Pro/X/EDU/Go2-W 二次开发前确认清单，原样引用官方 Secondary development 的 ○/◕/● 相对标记但不擅自解释为具体权限；覆盖准确 SKU/固件、SDK/DDS/WebRTC/SSH、传感器来源、地图复用、控制权、TTL/STOP、售后与五级实机验收。
 - Go2 版本页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2-edition-development-checklist.html
+- 舰队可靠性服务页：2026-08-27 新增英文 Unitree fleet reliability validation 页面，以一个 failure class + 一个准确配置为入口，定义连接、命令、STOP、sensor time、fault injection 和 rollout 五级证据门；明确不声称 99% 在线率或跨型号兼容，Go2 Air/Pro/EDU 必须在目标硬件上验证。
+- 舰队可靠性页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-fleet-reliability-validation.html
 - 收款码边界：原始目标提到附件收款码，但当前工作区未发现真实收款码文件，仅有邮箱授权二维码；因此网站没有发布、替代或伪造任何收款码。
 
 ## 主动目标账户
@@ -298,7 +300,7 @@
 
 - 对方信号：美国机器人安防公司公开运营 Unitree Go2 Pro 安防队列，工程岗位明确列出提高舰队在线率、Unitree 连接问题、服务器依赖、极端天气、安防载荷和长期自主巡逻；官网仍在持续发布实际巡逻与扩张内容。
 - 匹配切入：不冒充美国现场求职者，提出中国侧 SKU/固件/SDK/网络配置冻结、连接与 command/STOP 故障复现、传感器/计算载荷接口、脱敏 recording contract 和版本回归验证。
-- 当前状态：已形成发给公开工程联系人 `chris@getundaunted.com` 的 HTML 草稿内容，但飞书邮箱缺少 mail scope；已按 `lark-mail` 要求向用户展示授权链接和二维码，尚未创建飞书草稿、尚未发送，也没有绕过授权。
+- 当前状态：已形成发给公开工程联系人 `chris@getundaunted.com` 的 HTML 草稿内容，并新增与其公开问题直接匹配的英文 fleet reliability 页面；但飞书邮箱缺少 mail scope，已按 `lark-mail` 要求向用户展示授权链接和二维码，尚未创建飞书草稿、尚未发送，也没有绕过授权。LinkedIn 在 Chrome 与应用内浏览器均要求登录，也未绕过认证。
 - 草稿：docs/outreach/undaunted-go2-fleet-reliability-email.html
 
 ## 社区触达
