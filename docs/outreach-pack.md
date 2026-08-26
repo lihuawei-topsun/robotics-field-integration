@@ -62,7 +62,9 @@ Before spending the budget, ask each supplier to demonstrate one acceptance loop
 
 If the project is still active, I would be happy to compare your first workflow against the real hardware boundaries I have seen before you choose a platform.
 
-## Reddit 工业质检机器人选型回复（待发布确认）
+## Reddit 工业质检机器人选型回复（已发布 2026-08-27）
+
+评论：https://www.reddit.com/r/AskRobotics/comments/1vrme9a/comment/p624363/
 
 I work on real-hardware secondary development for Unitree G1 and Go2-W, including an autonomous-navigation demo for security patrol scenarios.
 
