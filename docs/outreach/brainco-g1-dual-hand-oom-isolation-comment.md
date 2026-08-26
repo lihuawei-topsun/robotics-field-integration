@@ -31,3 +31,5 @@ Interpretation can then be deterministic:
 One field-safety addition: a cgroup kill/restart is useful containment, but the service should not restart into an active command state. On memory ceiling, stale state or process loss, enter a documented hand hold/open/disable state, invalidate the previous command generation and require a new operator authorization before resuming.
 
 I work on real-hardware Unitree G1 integration and can help review a sanitized `smaps_rollup`/heaptrack bundle or the minimal dual-hand harness, but I do not have this exact Revo2 firmware/SDK combination and would not claim the upgrade is validated. Independent integrator; not affiliated with BrainCo or Unitree. Contact: li.huawei@topsunpower.cc.
+
+Structured hardware-validation request: https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=hardware-validation.yml. Blank redacted manifest: https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-validation-manifest-template.yaml. Do not put hand serials, device paths, customer identifiers or private endpoints in a public issue.
