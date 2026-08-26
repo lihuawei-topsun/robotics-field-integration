@@ -67,6 +67,15 @@
 - 状态：等待需求方确认项目是否仍在继续。
 - 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/94#issuecomment-5427383379
 
+### unitree_ui：Go2 自动回充板检测失败排障
+
+- 对方需求：Go2 能导航到充电站附近，但进入自动回充后反复出现 `TIMEOUT_DETECT`，无法重新定位并连接充电板。
+- 代码与日志判断：该项目当前文档和实现把 `TIMEOUT_DETECT` 定义为雷达未识别/未对准充电板，发生在 `TIMEOUT_CONNECT_POWER` 触点连接失败之前；对方日志还出现过 `TIMEOUT_POINTCLOUD`，需要先排除点云链路不稳定。
+- 已执行：2026-08-27 发布分层排障流程，要求先验证点云连续性、充电板点云几何和最终横向/航向误差，再小步调整默认 0.47 m 的 plate distance；同时请求确切机型、固件、雷达模式和最后一米点云记录。
+- 身份边界：明确说明是独立 Go2-W/G1 集成者，不是该仓库维护者，也不隶属于宇树。
+- 当前状态：等待对方上传点云/配置或回复；若收到证据，可继续做一次针对性的实机对比。
+- 留言：https://github.com/legion1581/unitree_ui/issues/10#issuecomment-5429431732
+
 ### dimensionalOS：G1 实机导航与语言命令
 
 - 对方需求：在真实 G1 上运行首个 agent，目标包含导航和简单语言命令。
