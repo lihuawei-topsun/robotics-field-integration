@@ -75,14 +75,16 @@
 - 状态：等待维护者回复最小验收范围。
 - 留言：https://github.com/vllm-project/vllm-omni/issues/3554#issuecomment-5427458691
 
-## 待执行社区触达
+## 社区触达
 
 ### Reddit：G1 的 Nav2 社交导航仿真/实机一致性
 
 - 发布时间：2026-08-02。
 - 对方需求：已有 G1 硬件访问权和自定义 Nav2 社交代价地图，希望同一套导航代码覆盖仿真与实机，并确认速度接口、雷达、里程计和 TF 边界。
 - 匹配依据：G1 二次开发与自主导航经验，可从实机集成和验收边界切入；对方是研究合作线索，不应按商业采购口吻回复。
-- 当前状态：已准备合作型回复；Reddit 发帖/评论需要登录会话和发布时确认，尚未代发。
+- 已执行：2026-08-27 通过用户已登录并明确确认的 Reddit 账号 `u/Delicious-Major-750` 发布实机适配器、安全契约和 G1 硬件验证合作回复，包含网站与邮箱。
+- 当前状态：等待原作者或社区回复。
+- 评论：https://www.reddit.com/r/robotics/comments/1vdali3/comment/p61f9zp/
 - 目标：https://www.reddit.com/r/robotics/comments/1vdali3/structuring_a_nav2_socialnavigation_stack_for/
 
 ## A 级：值得主动寻找项目承包方或集成商

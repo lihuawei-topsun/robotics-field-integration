@@ -36,7 +36,9 @@ https://lihuawei-topsun.github.io/robotics-field-integration/
 4. 18–24 秒：展示远程回传、异常复核或人工接管界面。
 5. 24–30 秒：回到结束点；字幕“从一条路线、一个检查点、一次告警闭环开始”，展示网站和邮箱。
 
-## Reddit G1 Nav2 研究协作回复（待发布确认）
+## Reddit G1 Nav2 研究协作回复（已发布）
+
+永久链接：https://www.reddit.com/r/robotics/comments/1vdali3/comment/p61f9zp/
 
 I am working on real-hardware secondary development for Unitree G1 and Go2-W, and I already have an autonomous-navigation demo for security patrol scenarios. Your separation above and below `/cmd_vel` is also the boundary I would preserve, but I would make the hardware adapter an explicit, testable package rather than assuming the built-in interface is transparent.
 
