@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="description" content="工业质量控制机器人选型：用同一现场路线、检查点、自动充电、热成像、声学、安全停止与业务系统输出验收轮式、四足和 Unitree G1 人形平台。" />
+    <link rel="canonical" href="https://lihuawei-topsun.github.io/robotics-field-integration/industrial-inspection-robot-selection.html" />
+    <meta property="og:title" content="工业质检机器人选型：轮式、四足还是 G1 人形" />
+    <meta property="og:description" content="先定义一个可验证的质检闭环，再用相同验收矩阵选择机器人平台。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://lihuawei-topsun.github.io/robotics-field-integration/industrial-inspection-robot-selection.html" />
+    <meta property="og:image" content="https://lihuawei-topsun.github.io/robotics-field-integration/assets/industrial-patrol-tactical.png" />
+    <title>工业质检机器人选型｜轮式、四足还是 Unitree G1</title>
+    <style>
+      :root { --bg:#0a0a0a; --panel:#101010; --ink:#eaeaea; --muted:#999; --line:#3a3a3a; --red:#ff2a2a; font-family:"SFMono-Regular",Consolas,"Liberation Mono","PingFang SC","Microsoft YaHei",monospace; color:var(--ink); background:var(--bg); }
+      * { box-sizing:border-box; border-radius:0; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; background:var(--bg); }
+      body::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:20; opacity:.35; background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(0,0,0,.18) 3px,rgba(0,0,0,.18) 4px); }
+      a { color:inherit; }
+      .shell { max-width:1440px; margin:0 auto; border-left:1px solid var(--line); border-right:1px solid var(--line); }
+      header { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:0 clamp(18px,4vw,62px); border-bottom:1px solid var(--line); }
+      .brand { display:flex; align-items:center; gap:14px; text-decoration:none; font-size:13px; font-weight:800; letter-spacing:.08em; }
+      .reticle { width:24px; height:24px; position:relative; border:1px solid var(--red); }
+      .reticle::before,.reticle::after { content:""; position:absolute; background:var(--red); }
+      .reticle::before { left:-6px; right:-6px; top:50%; height:1px; }
+      .reticle::after { top:-6px; bottom:-6px; left:50%; width:1px; }
+      .top-link { color:var(--red); font-size:11px; text-decoration:none; letter-spacing:.08em; }
+      main { border-bottom:1px solid var(--line); }
+      .hero { display:grid; grid-template-columns:1.05fr .95fr; min-height:600px; border-bottom:1px solid var(--line); }
+      .hero-copy { display:flex; flex-direction:column; justify-content:center; padding:80px clamp(24px,5vw,76px); border-right:1px solid var(--line); }
+      .index { color:var(--red); font-size:11px; letter-spacing:.12em; margin-bottom:26px; }
+      h1 { margin:0; max-width:760px; font-size:clamp(42px,6vw,86px); line-height:.94; letter-spacing:-.06em; text-transform:uppercase; }
+      .hero-copy p { max-width:670px; margin:34px 0 0; color:#c9c9c9; font-size:14px; line-height:1.8; }
+      .hero-media { position:relative; min-height:520px; overflow:hidden; }
+      .hero-media img { width:100%; height:100%; object-fit:cover; }
+      .hero-media span { position:absolute; left:20px; bottom:20px; padding:8px 10px; color:var(--red); background:var(--bg); border:1px solid var(--red); font-size:9px; letter-spacing:.1em; }
+      section { padding:80px clamp(18px,4vw,62px); border-bottom:1px solid var(--line); }
+      h2 { margin:0 0 36px; font-size:clamp(30px,4vw,58px); line-height:1; letter-spacing:-.04em; }
+      h2::after { content:"."; color:var(--red); }
+      .result { display:grid; grid-template-columns:220px 1fr; gap:36px; }
+      .result-label { color:var(--red); font-size:11px; letter-spacing:.1em; }
+      .result p { margin:0; max-width:930px; font-size:18px; line-height:1.7; }
+      .platforms { border-top:1px solid var(--line); }
+      .platform { display:grid; grid-template-columns:80px minmax(180px,.45fr) 1fr 1fr; gap:24px; align-items:start; padding:28px 0; border-bottom:1px solid var(--line); }
+      .platform .num { color:var(--red); font-size:12px; }
+      .platform h3 { margin:0; font-size:22px; }
+      .platform div { color:var(--muted); font-size:12px; line-height:1.65; }
+      .platform strong { display:block; margin-bottom:8px; color:var(--ink); font-size:10px; letter-spacing:.08em; }
+      .matrix { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+      .matrix article { min-height:170px; padding:24px; background:var(--panel); }
+      .matrix b { color:var(--red); font-size:11px; letter-spacing:.08em; }
+      .matrix p { margin:18px 0 0; color:#c9c9c9; font-size:12px; line-height:1.65; }
+      .acceptance { display:grid; grid-template-columns:.38fr .62fr; gap:48px; }
+      .acceptance ol { margin:0; padding:0; list-style:none; border-top:1px solid var(--line); }
+      .acceptance li { display:grid; grid-template-columns:56px 1fr; gap:18px; padding:18px 0; border-bottom:1px solid var(--line); font-size:13px; line-height:1.55; }
+      .acceptance li span { color:var(--red); }
+      .cta { display:grid; grid-template-columns:1fr auto; align-items:end; gap:32px; background:var(--panel); }
+      .cta p { max-width:760px; margin:18px 0 0; color:var(--muted); line-height:1.65; }
+      .cta-links { display:grid; gap:10px; min-width:320px; }
+      .button { min-height:58px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; border:1px solid var(--red); color:var(--red); text-decoration:none; font-size:11px; font-weight:800; }
+      .button.secondary { border-color:var(--line); color:var(--ink); }
+      footer { display:flex; justify-content:space-between; gap:24px; padding:24px clamp(18px,4vw,62px); color:var(--muted); font-size:9px; line-height:1.5; }
+      @media(max-width:820px){ .hero,.result,.acceptance,.cta{grid-template-columns:1fr}.hero-copy{border-right:0;border-bottom:1px solid var(--line)}.platform{grid-template-columns:42px 1fr}.platform div{grid-column:2}.matrix{grid-template-columns:1fr}.cta-links{min-width:0}.hero-media{min-height:360px}footer{flex-direction:column} }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"TechArticle",
+        "headline":"工业质检机器人选型：轮式、四足还是 Unitree G1 人形",
+        "description":"用相同现场路线、检查点、充电、传感器和安全验收矩阵选择工业质检机器人。",
+        "author":{"@type":"Person","name":"Li Huawei"},
+        "publisher":{"@type":"Organization","name":"Li Huawei Robotics Integration"},
+        "datePublished":"2026-08-27",
+        "dateModified":"2026-08-27",
+        "mainEntityOfPage":"https://lihuawei-topsun.github.io/robotics-field-integration/industrial-inspection-robot-selection.html"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <a class="brand" href="./"><span class="reticle" aria-hidden="true"></span>LI HUAWEI / ROBOTICS INTEGRATION</a>
+        <a class="top-link" href="./">← 返回主站 / MAIN SITE</a>
+      </header>
+      <main>
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="index">INDUSTRIAL INSPECTION / PLATFORM DECISION</div>
+            <h1>工业质检该选轮式、四足还是人形</h1>
+            <p>先定义一个可验证的现场结果，再比较机器人形态。同一条路线、检查点、传感器、充电和安全退出标准，比宣传视频和本体参数更能说明平台是否适合生产。</p>
+          </div>
+          <figure class="hero-media">
+            <img src="assets/industrial-patrol-tactical.png" alt="四足机器人在工业设施执行巡检的视觉示意" />
+            <span>VISUAL CONCEPT / NOT A CUSTOMER CASE</span>
+          </figure>
+        </div>
+
+        <section class="result">
+          <div class="result-label">FIRST BUSINESS RESULT</div>
+          <p>一条真实路线、1–3 个检查点、一种可见光/热成像/声学采集结果，以及一次完整的数据回传或工单闭环。生产质检和人形研发应分成两条轨道，不让首个生产结果依赖尚未验证的人形能力。</p>
+        </section>
+
+        <section>
+          <h2>平台决策</h2>
+          <div class="platforms">
+            <article class="platform"><span class="num">[ 01 ]</span><h3>轮式平台</h3><div><strong>优先条件</strong>平坦室内路线、成熟自动充电、稳定长时间移动。</div><div><strong>主要限制</strong>门槛、楼梯和非结构化地面会直接限制覆盖范围。</div></article>
+            <article class="platform"><span class="num">[ 02 ]</span><h3>四足 / Go2-W</h3><div><strong>优先条件</strong>门槛、台阶、坡度或半结构化路线；需要灵活上装传感器。</div><div><strong>主要限制</strong>自动充电、末端对准和长期运行恢复通常需要额外集成验证。</div></article>
+            <article class="platform"><span class="num">[ 03 ]</span><h3>G1 / H2 人形</h3><div><strong>优先条件</strong>人类高度操作、双足通行、工具/机械臂任务或人机交互是首个验收要求。</div><div><strong>主要限制</strong>运动、安全、恢复和操作集成复杂度更高；不应仅因“未来潜力”绑定生产路径。</div></article>
+          </div>
+        </section>
+
+        <section>
+          <h2>生产与研发双轨</h2>
+          <div class="matrix">
+            <article><b>PRODUCTION</b><p>选择最稳妥完成巡检闭环的平台。允许轮式、四足或现有 AMR，不预设必须人形。</p></article>
+            <article><b>HUMANOID R&D</b><p>G1 EDU/H2 单独用于感知、操作、VLA/RL 和人机交互研发，不阻塞生产质检。</p></article>
+            <article><b>SHARED CONTRACT</b><p>两条轨道共享任务、检查点、传感器时间戳、结果格式和业务系统接口。</p></article>
+          </div>
+        </section>
+
+        <section class="acceptance">
+          <div><h2>采购前统一验收</h2><p style="color:var(--muted);line-height:1.7">要求每个供应商在将要交付的准确配置上运行同一套测试。</p></div>
+          <ol>
+            <li><span>01</span>真实路线包含所有门槛、楼梯、窄通道和反光/低照区域。</li>
+            <li><span>02</span>续航、返回充电、末端对准、充电确认和任务恢复形成完整闭环。</li>
+            <li><span>03</span>热成像、声学、相机、IMU、LiDAR、里程计与 TF 提供可用且同步的时间戳。</li>
+            <li><span>04</span>网络或定位失效时有 watchdog、确定性停止和可观察恢复状态。</li>
+            <li><span>05</span>从干净环境按文档部署自有软件栈，不依赖供应商预配置 Demo 机。</li>
+            <li><span>06</span>检查结果能进入现有 CMMS、MES、工单、告警或报告流程。</li>
+          </ol>
+        </section>
+
+        <section class="cta">
+          <div><h2>用一条真实路线做决定</h2><p>提供路线、检查点、地面/楼梯、网络、传感器和输出要求，可以先形成平台验收矩阵，再决定是否采购 G1、Go2-W、轮式或其他平台。</p></div>
+          <div class="cta-links">
+            <a class="button" href="mailto:li.huawei@topsunpower.cc">li.huawei@topsunpower.cc <span>→</span></a>
+            <a class="button secondary" href="assets/unitree-g1-go2w-integration-one-pager.pdf">下载能力一页纸 <span>→</span></a>
+          </div>
+        </section>
+      </main>
+      <footer><span>独立机器人集成服务，不代表宇树官方。能力以准确硬件版本、配置和现场测试为准。</span><span>INDEPENDENT ROBOTICS INTEGRATION / CHINA</span></footer>
+    </div>
+  </body>
+</html>

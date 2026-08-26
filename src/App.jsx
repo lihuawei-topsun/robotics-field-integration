@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 const EMAIL = 'li.huawei@topsunpower.cc'
 const INQUIRY_URL = 'https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml'
 const PDF_URL = 'assets/unitree-g1-go2w-integration-one-pager.pdf'
+const INSPECTION_GUIDE_URL = 'industrial-inspection-robot-selection.html'
 
 const content = {
   zh: {
@@ -75,6 +76,7 @@ const content = {
       copy: '复制邮箱',
       github: '在 GitHub 填写项目询盘',
       pdf: '下载能力一页纸',
+      inspectionGuide: '工业质检选型指南',
       disclaimer: ['我们不代表宇树官方。', '方案与能力以双方确认的现场测试为准。'],
     },
   },
@@ -148,6 +150,7 @@ const content = {
       copy: 'Copy email',
       github: 'Open a GitHub project inquiry',
       pdf: 'Download one-page capability brief',
+      inspectionGuide: 'Industrial inspection selection guide',
       disclaimer: ['We do not represent Unitree Robotics.', 'Scope and capability depend on mutually confirmed field testing.'],
     },
   },
@@ -263,6 +266,7 @@ function InquiryForm({ text }) {
         <button className="copy-button" type="button" onClick={copyEmail}>{copied ? text.copied : text.copy}</button>
         <a className="github-inquiry" href={INQUIRY_URL} target="_blank" rel="noreferrer">{text.github} <ArrowIcon /></a>
         <a className="pdf-download" href={PDF_URL} download>{text.pdf} <ArrowIcon /></a>
+        <a className="inspection-guide" href={INSPECTION_GUIDE_URL}>{text.inspectionGuide} <ArrowIcon /></a>
         <div className="contact-aside__note">
           {text.disclaimer.map((line) => <p key={line}>{line}</p>)}
         </div>
