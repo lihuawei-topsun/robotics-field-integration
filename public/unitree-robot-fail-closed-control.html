@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="A fail-closed action-freshness contract for networked Unitree G1 and Go2-W control: timestamps, sequence numbers, stale-action hold, bounded queues, re-arm gates and HIL fault injection." />
+    <link rel="canonical" href="https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html" />
+    <link rel="stylesheet" href="assets/engineering-notes.css" />
+    <meta property="og:title" content="Fail-Closed Robot Control for Unitree G1 / Go2-W" />
+    <meta property="og:description" content="Prevent stale action replay when a robot control stream silently stops receiving responses." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html" />
+    <title>Fail-Closed Robot Control for Unitree G1 / Go2-W</title>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"TechArticle",
+        "headline":"Fail-Closed Robot Control for Unitree G1 / Go2-W",
+        "description":"An action-freshness and safe-hold contract for networked robot control.",
+        "author":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
+        "datePublished":"2026-08-27",
+        "dateModified":"2026-08-27",
+        "mainEntityOfPage":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href="engineering-notes.html"><span class="reticle" aria-hidden="true"></span>ENGINEERING NOTES</a>
+        <a class="top-link" href="./">MAIN SITE / 主站</a>
+      </header>
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">CONTROL SAFETY / ACTION FRESHNESS</div>
+            <h1>A disconnected robot must not continue the last command</h1>
+            <p class="lede">A socket can remain open while action responses stop. If the control loop keeps reading a persistent buffer, the robot may replay a stale base, arm or whole-body target. Reconnection is secondary; the first contract is deterministic hold on stale data.</p>
+          </div>
+          <aside class="hero-status" aria-label="Article evidence status">
+            <div class="status-cell"><span>CODE BASIS</span><strong>PSI0 RTC CLIENT / F4FF131</strong></div>
+            <div class="status-cell"><span>DIAGNOSIS</span><strong>PUBLIC CODE + G1 LOG</strong></div>
+            <div class="status-cell"><span>LOCAL RESULT</span><strong>HARDWARE TEST NOT YET RUN</strong></div>
+          </aside>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">01 / FAILURE</span><h2>The fail-open path</h2></div>
+          <p class="section-copy">In the reviewed PSI0 revision, the WebSocket message handler replaces a global action buffer but does not store a monotonic receive time with the action. The control loop reads the same buffer at control frequency; it does not consume or clear it. A normal close clears the run state, but a half-open connection can stop receiving without producing that close event.</p>
+          <table class="evidence-table" style="margin-top:36px">
+            <thead><tr><th>OBSERVED IN SOURCE</th><th>ENGINEERING IMPLICATION</th><th>PUBLIC EVIDENCE</th></tr></thead>
+            <tbody>
+              <tr><td>Message handler writes the latest action only.</td><td>No action age can be enforced without a receive timestamp.</td><td><a href="https://github.com/physical-superintelligence-lab/Psi0/blob/f4ff131333e69b2e53f60bd29e3946aa8591ddce/real/deploy/psi-inference_rtc.py#L149-L164">psi-inference_rtc.py L149–164</a></td></tr>
+              <tr><td>Control loop repeatedly reads the persistent buffer.</td><td>The last action remains eligible after response flow stops.</td><td><a href="https://github.com/physical-superintelligence-lab/Psi0/blob/f4ff131333e69b2e53f60bd29e3946aa8591ddce/real/deploy/psi-inference_rtc.py#L272-L342">psi-inference_rtc.py L272–342</a></td></tr>
+              <tr><td>Close callback clears running state.</td><td>Explicit disconnect is handled differently from a silent receive stall.</td><td><a href="https://github.com/physical-superintelligence-lab/Psi0/blob/f4ff131333e69b2e53f60bd29e3946aa8591ddce/real/deploy/psi-inference_rtc.py#L169-L177">psi-inference_rtc.py L169–177</a></td></tr>
+              <tr><td>Public G1 issue reports sends continuing while receives stop.</td><td>The symptom is consistent with a stale-action path, but does not alone prove the network root cause.</td><td><a href="https://github.com/physical-superintelligence-lab/Psi0/issues/95">PSI0 issue #95</a></td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">Boundary: this is a review of one public revision and issue trace. It is not a claim that every Unitree controller or PSI0 version has the same behavior.</p>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">02 / CONTRACT</span><h2>Fresh → stale → hold → re-arm</h2></div>
+          <div class="state-rail">
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Fresh</h3><p>Accept the action only when its receive age, server version and echoed observation sequence are within the agreed contract.</p><code>age ≤ budget</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Stale</h3><p>Once the monotonic age exceeds the budget, invalidate the action atomically. Do not extend freshness merely because the socket remains connected.</p><code>age &gt; budget</code></article>
+            <article class="state state--hold"><span class="state-marker" aria-hidden="true"></span><h3>Hold</h3><p>Command zero base velocity and the controller-defined whole-body hold or standing path. Preserve a visible reason code and the last accepted sequence.</p><code>motion = safe_hold</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Re-arm</h3><p>Reconnect with bounded backoff, discard pre-disconnect actions and resume only after a fresh sequence passes validation plus the agreed arming rule.</p><code>fresh_seq + arm</code></article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">03 / MINIMUM</span><h2>Implementation requirements</h2></div>
+          <ol class="checklist">
+            <li><span>01</span>Store action payload, server version, echoed observation sequence and `received_at_monotonic` in one atomic record.</li>
+            <li><span>02</span>Set the freshness budget from measured normal action intervals and the platform's safe stopping requirement; do not copy an arbitrary long timeout.</li>
+            <li><span>03</span>Use a latest-only observation slot or one request in flight so network recovery cannot replay a long queue of obsolete observations.</li>
+            <li><span>04</span>Define hold through the actual locomotion and arm controller APIs. “No new command” is not automatically the same as a safe stop.</li>
+            <li><span>05</span>Log action age, observation/action sequence, commanded velocity, controller state and the exact reason for every hold transition.</li>
+            <li><span>06</span>Require a fresh post-reconnect action and an explicit arming condition before non-zero motion resumes.</li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">04 / HIL</span><h2>Hardware-in-the-loop acceptance</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>FAULT</th><th>MEASUREMENT</th><th>PASS CONDITION</th></tr></thead>
+            <tbody>
+              <tr><td>Normal run for 60 seconds</td><td>Action interval, age, queue depth, base/arm command</td><td>No false stale transition; bounded action age.</td></tr>
+              <tr><td>100 / 250 / 500 ms response delay</td><td>First stale detection and hold timestamps</td><td>Behavior matches the configured budget and produces one reasoned transition.</td></tr>
+              <tr><td>Silent response drop with socket left open</td><td>Last fresh action versus first hold</td><td>Hold occurs before the stale-action deadline; last action is not replayed indefinitely.</td></tr>
+              <tr><td>Hard disconnect during non-zero motion</td><td>Commanded velocity and controller mode</td><td>Deterministic zero/hold independent of reconnect success.</td></tr>
+              <tr><td>Reconnect after an old response is delayed</td><td>Observation and action sequence</td><td>No pre-disconnect action is accepted; motion stays held until re-armed.</td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">Run fault injection only with a cleared area, physical emergency stop or remote stop available, conservative motion limits and an agreed hold API. The matrix is a proposed acceptance method, not a completed test result.</p>
+        </section>
+
+        <section class="callout">
+          <div><h2>Need this boundary tested on a G1 or Go2-W?</h2><p>Start with the exact controller API, expected action period, allowed stop latency and one bounded non-zero motion. The deliverable is the recorded state trace, not a generic “works on hardware” claim.</p></div>
+          <div class="callout-links">
+            <a class="button" href="mailto:li.huawei@topsunpower.cc?subject=Robot%20action%20freshness%20HIL">li.huawei@topsunpower.cc <span>→</span></a>
+            <a class="button button--secondary" href="engineering-notes.html">ALL ENGINEERING NOTES <span>→</span></a>
+          </div>
+        </section>
+      </main>
+      <footer><span>Independent robotics integration. Not affiliated with Unitree Robotics.</span><span>CODE-BASED DIAGNOSIS / HIL PENDING</span></footer>
+    </div>
+  </body>
+</html>

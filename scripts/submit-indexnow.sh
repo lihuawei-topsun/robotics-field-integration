@@ -14,6 +14,9 @@ curl --fail-with-body --silent --show-error \
       "https://lihuawei-topsun.github.io/robotics-field-integration/?lang=zh",
       "https://lihuawei-topsun.github.io/robotics-field-integration/?lang=en",
       "https://lihuawei-topsun.github.io/robotics-field-integration/industrial-inspection-robot-selection.html",
+      "https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html",
+      "https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html",
+      "https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html",
       "https://lihuawei-topsun.github.io/robotics-field-integration/sitemap.xml"
     ]
   }'

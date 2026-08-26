@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Evidence-bounded engineering notes for Unitree G1 and Go2-W integration: fail-closed robot control, action freshness, autonomous docking diagnostics and hardware-in-the-loop acceptance." />
+    <link rel="canonical" href="https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html" />
+    <link rel="stylesheet" href="assets/engineering-notes.css" />
+    <meta property="og:title" content="Unitree G1 / Go2-W Engineering Notes" />
+    <meta property="og:description" content="Code traces, failure boundaries and field acceptance methods for real-hardware robot integration." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html" />
+    <title>Unitree G1 / Go2-W Engineering Notes | Li Huawei</title>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"CollectionPage",
+        "name":"Unitree G1 / Go2-W Engineering Notes",
+        "description":"Evidence-bounded engineering notes for robot control, docking and hardware-in-the-loop validation.",
+        "url":"https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html",
+        "author":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
+        "hasPart":[
+          {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html","name":"Fail-Closed Robot Control for Unitree G1 / Go2-W"},
+          {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html","name":"Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary"}
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href="./"><span class="reticle" aria-hidden="true"></span>LI HUAWEI / ROBOTICS INTEGRATION</a>
+        <a class="top-link" href="./">MAIN SITE / 主站</a>
+      </header>
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">ENGINEERING NOTES / PUBLIC EVIDENCE</div>
+            <h1>Robot integration notes that preserve the failure boundary</h1>
+            <p class="lede">These notes turn public logs and source code into reproducible checks for real-hardware integration. Every page separates what the source proves, what is an engineering inference and what still requires hardware validation.</p>
+          </div>
+          <aside class="hero-status" aria-label="Evidence policy">
+            <div class="status-cell"><span>SOURCE</span><strong>PUBLIC CODE + ISSUE LOGS</strong></div>
+            <div class="status-cell"><span>BOUNDARY</span><strong>NO CUSTOMER CASE CLAIM</strong></div>
+            <div class="status-cell"><span>NEXT PROOF</span><strong>RECORDED HIL ACCEPTANCE</strong></div>
+          </aside>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">01 / NOTES</span><h2>Current technical notes</h2></div>
+          <div class="note-grid">
+            <a class="note-card" href="unitree-robot-fail-closed-control.html">
+              <div class="note-meta"><span class="tag tag--signal">CODE TRACE</span><span class="tag">G1 / GO2-W</span><span class="tag">HIL PENDING</span></div>
+              <h3>Fail-closed action freshness for networked robot control</h3>
+              <p>Why a half-open action stream can replay the last command, and the minimum timestamp, sequence, hold and re-arm contract needed before reconnection.</p>
+              <span class="open">OPEN NOTE →</span>
+            </a>
+            <a class="note-card" href="go2-autocharge-timeout-detect.html">
+              <div class="note-meta"><span class="tag tag--signal">STATE TRACE</span><span class="tag">GO2</span><span class="tag">FIRMWARE-BOUND</span></div>
+              <h3>Go2 autocharge: separate plate detection from power contact</h3>
+              <p>A diagnostic order for TIMEOUT_DETECT, point-cloud instability, final-pose error and plate-distance tuning without confusing visual markers with LiDAR geometry.</p>
+              <span class="open">OPEN NOTE →</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">02 / METHOD</span><h2>Evidence labels used here</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>LABEL</th><th>WHAT IT MEANS</th><th>WHAT IT DOES NOT MEAN</th></tr></thead>
+            <tbody>
+              <tr><td>CODE TRACE</td><td>A behavior is directly visible in a linked public revision.</td><td>It has not necessarily been reproduced on this integrator's hardware.</td></tr>
+              <tr><td>ENGINEERING INFERENCE</td><td>The explanation follows from code plus an observed state trace.</td><td>It is not a confirmed root cause until the requested measurement is captured.</td></tr>
+              <tr><td>HIL PENDING</td><td>A bounded hardware-in-the-loop test is specified and still needs agreement or execution.</td><td>No pass result, performance figure or deployment claim is implied.</td></tr>
+              <tr><td>FIELD VERIFIED</td><td>A result may use this label only after the exact hardware, configuration, route and acceptance record are preserved.</td><td>A vendor video, simulation or adjacent robot model is not enough.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="callout">
+          <div><h2>Have a G1 or Go2-W failure trace?</h2><p>Send the exact hardware edition, firmware, compute, network, last known-good state and the shortest reproducible workflow. A useful first engagement is one failure boundary and one recorded acceptance result.</p></div>
+          <div class="callout-links">
+            <a class="button" href="mailto:li.huawei@topsunpower.cc?subject=Unitree%20integration%20failure%20trace">li.huawei@topsunpower.cc <span>→</span></a>
+            <a class="button button--secondary" href="https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml">PUBLIC PROJECT INQUIRY <span>→</span></a>
+          </div>
+        </section>
+      </main>
+      <footer><span>Independent robotics integration. Not affiliated with Unitree Robotics.</span><span>PUBLIC ENGINEERING NOTES / 2026</span></footer>
+    </div>
+  </body>
+</html>

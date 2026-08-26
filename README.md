@@ -37,6 +37,8 @@
 
 可下载转发：[G1 / Go2-W 机器人集成能力一页纸](https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-g1-go2w-integration-one-pager.pdf)
 
+代码与公开日志驱动的技术内容：[G1 / Go2-W 工程笔记](https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html)。笔记明确区分源码事实、工程推断和待实机验证，不把第三方公开问题描述成客户案例。
+
 ## 项目资料
 
 - [市场方向与成交切口](docs/market-direction.md)

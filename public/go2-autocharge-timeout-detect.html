@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Diagnose Unitree Go2 autocharge TIMEOUT_DETECT by separating point-cloud stability, LiDAR dock-plate geometry, final pose and plate-distance tuning from later power-contact failure." />
+    <link rel="canonical" href="https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html" />
+    <link rel="stylesheet" href="assets/engineering-notes.css" />
+    <meta property="og:title" content="Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary" />
+    <meta property="og:description" content="Separate dock-plate detection from power-contact alignment before changing the charger or retrying navigation." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html" />
+    <title>Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary</title>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"TechArticle",
+        "headline":"Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary",
+        "description":"A source-bounded diagnostic order for Go2 dock-plate detection and charging contact.",
+        "author":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
+        "datePublished":"2026-08-27",
+        "dateModified":"2026-08-27",
+        "mainEntityOfPage":"https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href="engineering-notes.html"><span class="reticle" aria-hidden="true"></span>ENGINEERING NOTES</a>
+        <a class="top-link" href="./">MAIN SITE / 主站</a>
+      </header>
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">GO2 AUTOCHARGE / STATE-BOUND DIAGNOSIS</div>
+            <h1>TIMEOUT_DETECT is not yet a charger-contact failure</h1>
+            <p class="lede">When navigation reaches the dock pose and autocharge reports `TIMEOUT_DETECT`, diagnose perception and final alignment before electrical contact. A later `TIMEOUT_CONNECT_POWER` is the state that points toward contact mating.</p>
+          </div>
+          <aside class="hero-status" aria-label="Article evidence status">
+            <div class="status-cell"><span>CODE BASIS</span><strong>UNITREE_UI / 3EB378B</strong></div>
+            <div class="status-cell"><span>DETECTOR IN THAT SOURCE</span><strong>LIDAR PLATE GEOMETRY</strong></div>
+            <div class="status-cell"><span>VERSION BOUNDARY</span><strong>VERIFY MODEL + FIRMWARE</strong></div>
+          </aside>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">01 / STATES</span><h2>Do not collapse two failures into one</h2></div>
+          <div class="state-rail">
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Reached</h3><p>Navigation reports that the configured dock goal pose has been reached. This proves route completion under navigation tolerances, not correct charger alignment.</p><code>NAVIGATION</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Go to board</h3><p>The autocharge module begins its local dock approach and attempts to acquire the expected dock-plate geometry.</p><code>DETECTION ACTIVE</code></article>
+            <article class="state state--hold"><span class="state-marker" aria-hidden="true"></span><h3>Timeout detect</h3><p>The reviewed source interprets this as the plate not being seen or aligned. Point cloud, plate return, final yaw/lateral error and detection distance remain in scope.</p><code>NO CONNECTING</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Connecting</h3><p>Reaching this state is the evidence that local plate detection succeeded and the module moved to the contact attempt.</p><code>PLATE FOUND</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>Timeout power</h3><p>Only this later failure directs the investigation toward mechanical mating, charger contact and electrical confirmation.</p><code>CONTACT STAGE</code></article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">02 / SOURCE</span><h2>What the reviewed project proves</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>SOURCE FACT</th><th>DIAGNOSTIC USE</th><th>PUBLIC EVIDENCE</th></tr></thead>
+            <tbody>
+              <tr><td>The project documents a LiDAR-only detector for a flat 300 × 200 mm cluster.</td><td>Do not assume the visible AprilTag is the input that this module is waiting for.</td><td><a href="https://github.com/legion1581/unitree_ui/blob/3eb378b7adcf06a7773724efcbb4f58a8df98e11/docs/slam.md#L213-L228">slam.md L213–228</a></td></tr>
+              <tr><td>Default `plate_distance` is documented as 0.47 m.</td><td>Tune only after point-cloud stability and final pose are measured.</td><td><a href="https://github.com/legion1581/unitree_ui/blob/3eb378b7adcf06a7773724efcbb4f58a8df98e11/src/ui/components/mapping-page.ts#L738-L767">mapping-page.ts L738–767</a></td></tr>
+              <tr><td>The UI maps `TIMEOUT_DETECT` to dock plate not detected.</td><td>Keep power-contact troubleshooting out of the first diagnostic branch.</td><td><a href="https://github.com/legion1581/unitree_ui/blob/3eb378b7adcf06a7773724efcbb4f58a8df98e11/src/ui/components/mapping-page.ts#L1810-L1822">mapping-page.ts L1810–1822</a></td></tr>
+              <tr><td>A public issue trace includes earlier `TIMEOUT_POINTCLOUD` and later repeated `TIMEOUT_DETECT`.</td><td>Intermittent point-cloud health is a prerequisite check, not background noise.</td><td><a href="https://github.com/legion1581/unitree_ui/issues/10">unitree_ui issue #10</a></td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">Boundary: these semantics are tied to the cited open-source revision and its reverse-engineered interface description. Confirm the exact Go2 model, firmware and app/module behavior before treating them as a universal Unitree contract.</p>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">03 / ORDER</span><h2>Diagnostic sequence</h2></div>
+          <ol class="checklist">
+            <li><span>01</span>Verify the live point cloud remains continuous through the last metre of approach. Resolve recurring `TIMEOUT_POINTCLOUD` before changing autocharge thresholds.</li>
+            <li><span>02</span>Record the final point cloud and identify whether the expected flat dock-plate cluster is visible at the required height and orientation.</li>
+            <li><span>03</span>Measure lateral offset and yaw when navigation reports `REACHED`. A pose inside navigation tolerance can still be outside the local detector's useful geometry.</li>
+            <li><span>04</span>Check occlusion and return quality from the robot body, nearby objects, wall geometry and the dock surface. Change one physical variable at a time.</li>
+            <li><span>05</span>Only after steps 1–4 pass, increase plate distance modestly above the documented 0.47 m default and repeat a single controlled approach.</li>
+            <li><span>06</span>Use the transition to `CONNECTING` as the branch gate. If it appears, move to contact alignment; if it does not, stay on the perception/pose branch.</li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">04 / CAPTURE</span><h2>Minimum evidence for a useful comparison</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>ITEM</th><th>WHY IT MATTERS</th></tr></thead>
+            <tbody>
+              <tr><td>Exact Go2 model and firmware/app version</td><td>Autocharge interfaces and state semantics may differ by hardware and firmware.</td></tr>
+              <tr><td>LiDAR mode plus timestamped point-cloud health</td><td>Separates a detector-geometry problem from an upstream perception dropout.</td></tr>
+              <tr><td>Last-metre point cloud and state trace</td><td>Shows the expected plate return and the exact state where progress stops.</td></tr>
+              <tr><td>Final pose, lateral error and yaw</td><td>Tests whether navigation tolerance is too loose for local dock acquisition.</td></tr>
+              <tr><td>One parameter change per run</td><td>Preserves causality; repeated automatic retries to the same pose are weak evidence.</td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">Keep people and movable obstacles clear, maintain access to the remote or emergency stop and use conservative motion limits during every docking test.</p>
+        </section>
+
+        <section class="callout">
+          <div><h2>Need a Go2-W docking or navigation trace reviewed?</h2><p>Send the model, firmware, point cloud, final pose and state transitions. The first deliverable is a bounded diagnosis that keeps perception, navigation and contact failure separate.</p></div>
+          <div class="callout-links">
+            <a class="button" href="mailto:li.huawei@topsunpower.cc?subject=Go2-W%20docking%20diagnostic">li.huawei@topsunpower.cc <span>→</span></a>
+            <a class="button button--secondary" href="engineering-notes.html">ALL ENGINEERING NOTES <span>→</span></a>
+          </div>
+        </section>
+      </main>
+      <footer><span>Independent robotics integration. Not affiliated with Unitree Robotics.</span><span>SOURCE-BOUNDED DIAGNOSIS / VERSION CHECK REQUIRED</span></footer>
+    </div>
+  </body>
+</html>
