@@ -28,6 +28,14 @@
 - 状态：等待回复。
 - 留言：https://github.com/dimensionalOS/dimos/issues/3579#issuecomment-5427390692
 
+### vLLM-Omni：Unitree 实机硬件在环验证
+
+- 对方需求：机器人策略托管 RFC 已有仿真评估入口，但明确缺少真实机器人 rollout，并把 LeRobot/Unitree G1 列为下一步真实机器人覆盖方向。
+- 匹配依据：具备 G1、Go2-W 实机二次开发与自主导航 Demo，可验证 observation/action contract、停止/超时边界和真实硬件失败状态。
+- 已执行：2026-08-26 公开提出一个窄范围、可记录的硬件在环矩阵单元，请维护者明确愿意接受的最小 policy × client 配对。
+- 状态：等待维护者回复最小验收范围。
+- 留言：https://github.com/vllm-project/vllm-omni/issues/3554#issuecomment-5427458691
+
 ## 待执行社区触达
 
 ### Reddit：G1 的 Nav2 社交导航仿真/实机一致性
