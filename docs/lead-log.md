@@ -2,6 +2,14 @@
 
 更新时间：2026-08-27
 
+## 自有渠道发布
+
+- 正式版本：Unitree G1 / Go2-W Field Integration v1.0.0
+- 发布日期：2026-08-27
+- 内容：中英文网站、工业质检选型指南、结构化询盘、四步试点与能力一页纸附件。
+- 永久链接：https://github.com/lihuawei-topsun/robotics-field-integration/releases/tag/v1.0.0
+- 事实边界：Release 明确独立集成商身份、配置/现场验证边界和 AI 图片非客户案例。
+
 ## 主动目标账户
 
 ### YY Group：G1 设施管理数据与自动化计划
