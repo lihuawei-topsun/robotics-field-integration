@@ -125,6 +125,18 @@
 - 底稿：docs/outreach/autonomy-stack-go2-imu-transform-audit.md
 - 地图复用底稿：docs/outreach/autonomy-stack-go2-fixed-map-localization-audit.md
 
+### unitree-go2-follow-system：UWB 跟随 + YOLO 目标接近安全合同
+
+- 对方信号：近期作者公开发布大学 Go2 真机 Demo，将 UWB 用户跟随、YOLO 目标检测、APPROACH/HOLD/FOLLOW 状态机组合，明确征求真实 Go2 用户对控制、UWB 可靠性、急停和目标接近行为的批评；12 天前仍回复 Go2 Air 兼容问题，账号活跃。
+- 源码审计：UWB 只保存最后消息、没有单调接收时间，`error_state`/`enabled_from_app` 未使用；UWB 停更后应用会继续以 25 Hz 发送旧的非零估计。相机返回 `None` 时视觉循环跳过，但 APPROACH 的旧速度仍由另一个线程持续发送；目标丢失按帧数而非墙钟时间计数。
+- 急停缺口：UWB X 键回调只打印并在 0.1 秒后 `os._exit(0)`，直接绕过 finally 中的 `Move(0,0,0)`、`UseRemoteCommandFromApi(False)` 和线程清理，不能在没有固件特定物理停止证据时称为安全急停。
+- 限幅缺口：配置中的 `MAX_VX=0.40` 与 `SMOOTH_ALPHA` 没有进入最终命令；FOLLOW 可发送 0.9 m/s、APPROACH 可发送 0.8 m/s，共享 behavior 字典也不是原子 generation。
+- 已执行：2026-08-27 创建该仓库首个 Issue，提出单一 Move 命令仲裁器、来源 generation/新鲜度、最终物理限幅/斜率、统一 STOPPING 状态、无 `os._exit` 的确认式清理，以及 UWB/相机/目标/RPC/信号/异常故障注入矩阵。
+- 事实边界：明确为源码审查，未在其大学 Go2 上运行；Go2-W 只能作为独立兼容轨道，不能替代标准 Go2 证据。
+- 当前状态：等待作者确认固件、SDK、`Move()` TTL/停止合同和是否接受 scoped safety PR。
+- Issue：https://github.com/orisharabi/unitree-go2-follow-system/issues/1
+- 底稿：docs/outreach/unitree-go2-follow-system-safety-audit.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
