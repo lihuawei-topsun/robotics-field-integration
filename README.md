@@ -35,6 +35,8 @@
 
 网站部署地址：<https://lihuawei-topsun.github.io/robotics-field-integration/>
 
+可下载转发：[G1 / Go2-W 机器人集成能力一页纸](https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-g1-go2w-integration-one-pager.pdf)
+
 ## 项目资料
 
 - [市场方向与成交切口](docs/market-direction.md)
