@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="宇树 G1 行走中机械臂控制的工程边界：Regular/Running 模式、rt/arm_sdk、腰部与双臂关节所有权、质心变化、安全联锁和分级实机验收。" />
+    <meta name="keywords" content="宇树G1机械臂,G1行走机械臂,rt/arm_sdk,G1二次开发,人形机器人搬运,loco-manipulation" />
+    <link rel="canonical" href="https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html" />
+    <link rel="stylesheet" href="assets/engineering-notes.css" />
+    <meta property="og:title" content="宇树 G1 行走中机械臂控制｜关节所有权与实机验收" />
+    <meta property="og:description" content="先确认 locomotion、waist 与 arm SDK 的所有权，再测试固定臂姿、搬运和行走联动。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html" />
+    <title>宇树 G1 行走中机械臂控制｜关节所有权、质心与实机验收</title>
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"TechArticle",
+        "headline":"宇树 G1 行走中机械臂控制：关节所有权、质心与实机验收",
+        "description":"基于公开源码与真机问题记录，定义 G1 locomotion 与 rt/arm_sdk 联动的配置门槛、安全联锁和分级验收。",
+        "author":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
+        "datePublished":"2026-08-27",
+        "dateModified":"2026-08-27",
+        "mainEntityOfPage":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html",
+        "about":["Unitree G1","robotic arm integration","loco-manipulation","hardware-in-the-loop validation"]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="brand" href="engineering-notes.html"><span class="reticle" aria-hidden="true"></span>ENGINEERING NOTES</a>
+        <a class="top-link" href="./">MAIN SITE / 主站</a>
+      </header>
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">UNITREE G1 / ARM + LOCOMOTION</div>
+            <h1>行走中控制机械臂，先锁定谁拥有腰部与质心</h1>
+            <p class="lede">双臂能抬起，不等于机器人能带着同一姿态稳定行走。G1 的准确版本、固件、运动模式、腰部自由度、<code>rt/arm_sdk</code> 权重和步态控制器必须形成一份关节所有权合同，再谈固定搬运姿态或 pick-and-place。</p>
+          </div>
+          <aside class="hero-status" aria-label="证据状态">
+            <div class="status-cell"><span>公开现象</span><strong>3+ 名真机用户复现失稳</strong></div>
+            <div class="status-cell"><span>源码依据</span><strong>SDK2 PYTHON + XR TELEOPERATE</strong></div>
+            <div class="status-cell"><span>本地结论</span><strong>配置级 HIL 尚未执行</strong></div>
+          </aside>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">01 / SIGNAL</span><h2>问题不是一个腰部角度</h2></div>
+          <p class="section-copy">公开记录中，双臂进入前伸或高举姿态后出现腰部前折、重踏、侧移、躯干振荡，甚至突然前冲。降低 arm weight 或增加负向 WaistPitch 有时改善站立，但没有证明行走控制器会补偿新的质心与惯量。</p>
+          <table class="evidence-table" style="margin-top:36px">
+            <thead><tr><th>公开证据</th><th>能证明什么</th><th>不能证明什么</th></tr></thead>
+            <tbody>
+              <tr><td><a href="https://github.com/unitreerobotics/unitree_sdk2_python/issues/146">SDK Issue #146</a></td><td>多名 G1 用户在 arm SDK + 行走时观察到相似失稳。</td><td>没有准确固件/模式/关节时序，不能确认单一根因。</td></tr>
+              <tr><td><a href="https://github.com/unitreerobotics/unitree_sdk2_python/issues/173">SDK Issue #173</a></td><td>29-DoF、固定预抓取姿态与遥控行走的测试矩阵更完整。</td><td>Issue 被关闭但没有维护者答案，不代表问题已解决。</td></tr>
+              <tr><td><a href="https://github.com/unitreerobotics/unitree_sdk2_python/blob/65691c8a8bc53b98d3976dba4dbf9d5d20b2e7f5/example/g1/high_level/g1_arm7_sdk_dds_example.py">Python arm7 example</a></td><td>示例把腰 12–14 与双臂一起列入命令，同时标注锁腰版本的无效关节。</td><td>不能据此推断所有 29-DoF 固件都允许应用接管三自由度腰部。</td></tr>
+              <tr><td><a href="https://github.com/unitreerobotics/xr_teleoperate/blob/845b25a32f7febedf220e830952a7134897adb9d/teleop/robot_control/robot_arm.py#L285-L302">XR motion-mode arm indices</a></td><td>当前实现只把 15–28 定义为 G1_29 双臂关节，不包含腰 12–14。</td><td>参考实现可运行，不等于任意固定搬运姿态都在步态稳定域内。</td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">事实边界：本页基于链接中的公开修订与问题记录。没有准确机器、固件、负载和状态记录时，不给出“安全腰部补偿角”或通用 kp/kd。</p>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">02 / OWNERSHIP</span><h2>关节所有权矩阵</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>子系统</th><th>开始测试前必须确认</th><th>未确认时的处理</th></tr></thead>
+            <tbody>
+              <tr><td>腿部 0–11</td><td>当前 locomotion/FSM、遥控与应用控制权、速度命令来源。</td><td>只允许原厂步态控制器；应用不发布低层腿部目标。</td></tr>
+              <tr><td>腰部 12–14</td><td>准确腰部版本、Regular/Running 模式、固件是否保留腰部所有权。</td><td>不写 WaistYaw/Roll/Pitch，不用“腰锁帧”代替合同。</td></tr>
+              <tr><td>双臂 15–28</td><td><code>rt/arm_sdk</code> 支持模式、命令频率、q/dq/tau、速度/加速度限制。</td><td>保持 motion-controller 初始臂姿，不进入搬运测试。</td></tr>
+              <tr><td>Weight 29</td><td>当前姿态差、权重切换策略、发布中断后的释放/保持行为。</td><td>从安全姿态渐变；过期或异常进入明确释放/保持状态。</td></tr>
+              <tr><td>停止与恢复</td><td>谁停止底盘、谁回收双臂、哪一状态允许再次行走。</td><td>任何责任不明都保持停止，不自动重试至“看起来能走”。</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">03 / GATES</span><h2>五级实机验收门</h2></div>
+          <div class="state-rail">
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>配置冻结</h3><p>记录 G1 版本、固件、SDK/代码 commit、mode_machine、运动模式、受控关节与命令频率。</p><code>CONFIG LOCK</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>原厂行走</h3><p>双臂保持 motion-controller 姿态，先证明遥控/速度行走、停止和温度基线。</p><code>STOCK WALK</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>站立控臂</h3><p>只控制 15–28，小幅、对称、无负载；验证 q/dq、躯干角、足力与状态新鲜度。</p><code>ARM / STAND</code></article>
+            <article class="state"><span class="state-marker" aria-hidden="true"></span><h3>行走控臂</h3><p>同一小幅姿态下低速行走；单臂、双臂和更大位移必须逐级通过，不跨级。</p><code>ARM / WALK</code></article>
+            <article class="state state--hold"><span class="state-marker" aria-hidden="true"></span><h3>载荷与任务</h3><p>加入夹爪/载荷、抓取与路线前，验证质心、碰撞、过期命令、取消、接管和恢复。</p><code>PAYLOAD / TASK</code></article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">04 / ACCEPT</span><h2>必须保留的验收记录</h2></div>
+          <table class="evidence-table">
+            <thead><tr><th>测试</th><th>同步记录</th><th>通过条件</th></tr></thead>
+            <tbody>
+              <tr><td>原厂行走基线</td><td>模式、速度、IMU、足力、温度、停止时间</td><td>配置可重复，未控制机械臂时没有同类失稳。</td></tr>
+              <tr><td>小幅对称臂姿</td><td>command/actual q、dq、weight、躯干 roll/pitch</td><td>站立稳定；无突然高速臂动作和持续姿态偏置。</td></tr>
+              <tr><td>臂姿下低速行走</td><td>步态、躯干角速度、足接触、路径偏差</td><td>不重踏/侧移/前冲；触发阈值前能确定性停止。</td></tr>
+              <tr><td>机械臂命令过期</td><td>最后新鲜 command、interlock、回臂/停止状态</td><td>旧目标不被无限重放；底盘与机械臂进入约定安全状态。</td></tr>
+              <tr><td>模式切换与人工接管</td><td>mode_machine、命令所有权、remote/e-stop 状态</td><td>所有权只有一个；恢复需要新鲜状态与明确重新解锁。</td></tr>
+              <tr><td>加入真实负载</td><td>质量、安装位姿、质心、关节负载、温度</td><td>仅在无负载门通过后执行；所有指标以该负载配置记录。</td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">如果原厂行走通过，但任何有意义的臂位移都稳定复现失败，下一步可能是协调式 loco-manipulation / whole-body control，而不是继续手调腰角或增益。</p>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><span class="section-index">05 / INTERLOCK</span><h2>移动与操作必须互锁</h2></div>
+          <ol class="checklist">
+            <li><span>01</span>臂命令必须携带 generation 与单调接收时间；过期后不继续执行最后姿态变化。</li>
+            <li><span>02</span>mode_machine、控制权或关节列表变化时，禁止继续使用旧 generation。</li>
+            <li><span>03</span>躯干角度/角速度、足接触、关节跟踪误差或温度越界时停止底盘，并进入已定义的回臂/保持路径。</li>
+            <li><span>04</span>底盘停止不等于机械臂安全；机械臂释放不等于机器人恢复行走。分别记录确认结果。</li>
+            <li><span>05</span>人工接管后，只有新鲜状态、单一所有权和明确 re-arm 条件都满足，才恢复非零运动。</li>
+          </ol>
+        </section>
+
+        <section class="callout">
+          <div><h2>验证一套 G1 搬运或行走控臂配置</h2><p>请提供准确 G1 版本/固件、运动模式、SDK/代码 commit、机械臂与末端、负载质量与安装位姿、目标臂姿、行走方式以及当前失稳日志。第一阶段只定义一个小幅无负载验收单元。</p></div>
+          <div class="callout-links">
+            <a class="button" href="mailto:li.huawei@topsunpower.cc?subject=G1%20arm%20walking%20integration">li.huawei@topsunpower.cc <span>联系</span></a>
+            <a class="button button--secondary" href="https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml">填写项目询盘 <span>打开</span></a>
+            <a class="button button--secondary" href="engineering-notes.html">全部工程笔记 <span>打开</span></a>
+          </div>
+        </section>
+      </main>
+      <footer><span>独立机器人集成服务，不代表宇树官方。</span><span>PUBLIC SOURCE REVIEW / HIL PENDING</span></footer>
+    </div>
+  </body>
+</html>

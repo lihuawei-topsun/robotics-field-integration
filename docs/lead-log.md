@@ -16,6 +16,8 @@
 - 讨论：https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1
 - Go2-W 高意向服务页：2026-08-27 上线“宇树 Go2-W 二次开发”独立页面，覆盖配置门槛、自主导航、安防/工业巡检、机械臂/传感器、路线闭环、停止恢复和试点验收矩阵；不包含未经验证的性能数字或客户案例。
 - 服务页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2w-secondary-development.html
+- G1 行走机械臂技术页：2026-08-27 新增“G1 行走中机械臂控制”工程笔记，将 locomotion/waist/arm SDK/weight/停止恢复拆成关节所有权矩阵，并定义配置冻结、原厂行走、站立控臂、行走控臂、载荷任务五级验收门；依据固定公开源码与三组真机问题记录，明确 HIL 尚未执行，不提供通用腰角或 kp/kd。
+- G1 技术页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html
 - 收款码边界：原始目标提到附件收款码，但当前工作区未发现真实收款码文件，仅有邮箱授权二维码；因此网站没有发布、替代或伪造任何收款码。
 
 ## 主动目标账户

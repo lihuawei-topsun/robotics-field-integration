@@ -21,6 +21,7 @@
         "url":"https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html",
         "author":{"@type":"Person","name":"Li Huawei","email":"li.huawei@topsunpower.cc"},
         "hasPart":[
+          {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html","name":"Unitree G1 Arm Control While Walking: Ownership and HIL Acceptance"},
           {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/unitree-robot-fail-closed-control.html","name":"Fail-Closed Robot Control for Unitree G1 / Go2-W"},
           {"@type":"TechArticle","url":"https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html","name":"Go2 Autocharge TIMEOUT_DETECT Diagnostic Boundary"},
           {"@type":"SoftwareSourceCode","url":"https://github.com/UniflexAI/tinynav/pull/235","name":"TinyNav Unitree cmd_vel freshness watchdog pull request","codeRepository":"https://github.com/lihuawei-topsun/tinynav/tree/codex/unitree-cmd-vel-watchdog"}
@@ -51,6 +52,12 @@
         <section class="section">
           <div class="section-head"><span class="section-index">01 / NOTES</span><h2>Current technical notes</h2></div>
           <div class="note-grid">
+            <a class="note-card" href="unitree-g1-arm-walking-integration.html">
+              <div class="note-meta"><span class="tag tag--signal">JOINT OWNERSHIP</span><span class="tag">G1 29-DOF</span><span class="tag">HIL PENDING</span></div>
+              <h3>G1 arm control while walking: ownership before gains</h3>
+              <p>A source-bounded matrix for locomotion, waist and arm-SDK ownership, followed by five hardware gates for fixed arm poses, payloads, interlocks and recovery.</p>
+              <span class="open">OPEN NOTE →</span>
+            </a>
             <a class="note-card" href="unitree-robot-fail-closed-control.html">
               <div class="note-meta"><span class="tag tag--signal">CODE TRACE</span><span class="tag">G1 / GO2-W</span><span class="tag">HIL PENDING</span></div>
               <h3>Fail-closed action freshness for networked robot control</h3>
