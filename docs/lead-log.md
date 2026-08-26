@@ -179,6 +179,15 @@
 - 评论：https://www.reddit.com/r/robotics/comments/1vdali3/comment/p61f9zp/
 - 目标：https://www.reddit.com/r/robotics/comments/1vdali3/structuring_a_nav2_socialnavigation_stack_for/
 
+### Reddit：Unitree cmd_vel 失联保护实机行为征集
+
+- 目标社区：`r/unitree` 非官方 Unitree 社区；读取时显示约 576 名周访客、每周约 2 名贡献者，未显示额外社区规则，触达精准但规模有限。
+- 内容方向：以 TinyNav PR #235 为公开代码证据，说明 steady clock、独立 safety client、motion generation、stop-pending 与 generation-scoped retry；明确 16 个 Python 3.10 测试和自动复审无 major issues 仍不等于实机通过。
+- 征集信息：准确机型、固件、SDK、单次速度命令 TTL、发布者消失后的停止行为、G1 `SetVelocity(0,0,0)` 返回与物理停止时间，以及避免误停的 watchdog 预算。
+- 风险控制：不放销售链接和客户案例，只链接上游 PR；提醒保守速度、清空区域和物理遥控/急停。
+- 当前状态：正文已准备，等待用户明确确认后才能通过已登录 Reddit 账号发布。
+- 草稿：docs/outreach/reddit-unitree-watchdog-post.md
+
 ## A 级：值得主动寻找项目承包方或集成商
 
 ### 中国移动宁夏：行业级四足巡检机器人采购计划
