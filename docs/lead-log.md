@@ -319,6 +319,17 @@
 - 留言：https://github.com/a-bissell/UnLeash-Lite/issues/7#issuecomment-5432170474
 - 底稿：docs/outreach/unleash-lite-go2w-stage0-comment.md
 
+### BrainCo：G1 双 Revo2 Touch 10–30 秒 OOM 隔离
+
+- 对方需求：真实 Unitree G1 双 Revo2 Touch、双 RS-485/USB、SDK 2.0.2、ROS 2 Foxy 单进程集成在 10–30 秒内增长至 2–13 GB RSS 并 OOM，7/7 可重复；问题会拖垮同机其他服务。维护者已说明 getter 返回固定数组 Box、free 函数成对，要求确认实际 header/.so 并建立无 ROS 最小复现。
+- 活跃度：BrainCo 仓库 24 Stars，2026-08-25 合并 PR #4 将官方 ROS 2 集成升级到 SDK 2.0.3；Issue #3 仍开放，升级本身还不能证明 OOM 修复。
+- 已执行：2026-08-27 给出 A–F 隔离矩阵：单手 motor、单手 touch、单进程双手、双进程单手、仅构造 ROS message、加入 DDS publish；每格冻结 header/.so/executable hash、记录 `/proc/<pid>/smaps_rollup` 1 Hz、API 计数/错误并运行固定时长，只有最小正斜率格再用 heaptrack。
+- 判定边界：C 泄漏但 A/B/D 稳定指向共享 SDK/global runtime；A/B 指向 getter/free 或设备路径；E 指向消息构造；仅 F 指向 DDS/backpressure。2.0.3 全稳则回到自定义 node 初始化/定时器二分，不能直接关 Issue。
+- 安全补充：cgroup kill/restart 只是 containment；内存上限、stale state 或进程丢失时必须进入已定义 hand hold/open/disable、作废旧命令 generation，并要求新操作员授权。
+- 当前状态：等待报告者用 2.0.3 和准确加载库重跑，或提供脱敏 smaps/heaptrack/minimal harness；未持有该 Revo2 固件/SDK 组合，不声称升级已验证。
+- 留言：https://github.com/BrainCoTech/unitree-g1-brainco-hand/issues/3#issuecomment-5432217895
+- 底稿：docs/outreach/brainco-g1-dual-hand-oom-isolation-comment.md
+
 ## 社区触达
 
 ### Reddit：吉隆坡企业寻找 Unitree G1 开发者
