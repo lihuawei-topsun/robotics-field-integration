@@ -1,0 +1,75 @@
+schema_version: 1
+evidence_status: pending
+capture_date: null
+operator: null
+
+robot:
+  model: null
+  edition: null
+  firmware: null
+  app_or_remote_state: null
+
+compute:
+  placement: null
+  hardware: null
+  os: null
+  ros_distribution: null
+  sdk_revision: null
+  repository: null
+  git_sha: null
+
+payloads:
+  camera: null
+  lidar: null
+  imu: null
+  arm: null
+  end_effector: null
+  field_sensors: []
+
+map:
+  map_id: null
+  generation: null
+  lifecycle_mode: null
+  created_from_same_site: null
+
+publisher_ownership:
+  cmd_vel: null
+  camera: null
+  lidar_imu: null
+  odometry: null
+  tf_static: null
+
+safety:
+  command_rate_hz: null
+  watchdog_budget_ms: null
+  stop_api: null
+  cancel_path: null
+  takeover_path: null
+  physical_remote_or_estop: null
+
+mission:
+  route_id: null
+  checkpoints: []
+  collection_action: null
+  data_return_target: null
+  alert_or_review_path: null
+
+evidence:
+  start_and_mission: pending
+  navigation_and_obstacle: pending
+  checkpoint_arrival: pending
+  data_return: pending
+  stop_or_handover: pending
+  normal_stop_trace: not_run
+  cancel_trace: not_run
+  watchdog_trace: not_run
+  takeover_trace: not_run
+
+publication:
+  approved_scope: null
+  redactions: []
+  contains_customer_identity: null
+  contains_sensitive_location: null
+  contains_credentials_or_network_details: null
+
+notes: null

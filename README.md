@@ -48,6 +48,7 @@
 - [市场方向与成交切口](docs/market-direction.md)
 - [公开需求与触达记录](docs/lead-log.md)
 - [定向外联文案与 Demo 视频脚本](docs/outreach-pack.md)
+- [真实 Demo 证据拍摄清单](docs/demo-evidence-capture.md) 与 [运行清单模板](docs/demo-evidence-manifest-template.yaml)
 
 ## 本地运行网站
 
