@@ -308,6 +308,16 @@
 - 当前状态：已形成发给公开工程联系人 `chris@getundaunted.com` 的 HTML 草稿内容，并新增与其公开问题直接匹配的英文 fleet reliability 页面；但飞书邮箱缺少 mail scope，已按 `lark-mail` 要求向用户展示授权链接和二维码，尚未创建飞书草稿、尚未发送，也没有绕过授权。LinkedIn 在 Chrome 与应用内浏览器均要求登录，也未绕过认证。
 - 草稿：docs/outreach/undaunted-go2-fleet-reliability-email.html
 
+### UnLeash-Lite：Go2-W 1.0.30 独立无动作兼容轨道
+
+- 对方信号：真实 Go2-W 用户在固件 `1.0.30` 上运行标准 Go2 `init-ssh` 失败；MIT 项目有 22 Stars、6 Forks，维护者在标准 Go2 1.1.14/15 真机上快速修复过 WebRTC/SSH 问题，并在 Issue #7 明确表示若能拿到 Go2-W 才可能支持。
+- 源码边界：项目公开范围是标准 Go2 1.1.7–1.1.15，默认地址、WebRTC/programming actuator、hotkey、Python/sitecustomize 和 SSH target 都来自标准 Go2 假设。Go2-W `1.0.30` 不能缩写成“旧 1.0.3”，也没有证据证明它与标准 Go2 使用同一固件版本族、OS、服务或官方开发访问政策。
+- 已执行：2026-08-27 在 Issue #7 建议停止重复 payload/旧方法，先做 exact product/firmware、官方访问文档、脱敏 `con_notify` shape、SDP media、WebRTC channel/service/topic、完整 debug trace 和回滚授权的 Stage 0 manifest；提供 Go2-W 独立 no-motion/no-payload 配置对照。
+- 安全边界：未运行 jailbreak、未上传/绑定程序、未修改固件/账号/网络，也不收集 AES key、token、序列号或客户站点数据。标准 Go2 PASS 不写成 Go2-W PASS。
+- 当前状态：等待维护者/Go2-W 用户选择允许的只读字段和独立 compatibility profile；任何写入/提权动作仍需用户另行明确授权和恢复方案。
+- 留言：https://github.com/a-bissell/UnLeash-Lite/issues/7#issuecomment-5432170474
+- 底稿：docs/outreach/unleash-lite-go2w-stage0-comment.md
+
 ## 社区触达
 
 ### Reddit：吉隆坡企业寻找 Unitree G1 开发者
