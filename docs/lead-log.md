@@ -1,6 +1,18 @@
 # 线索与市场信号清单
 
-更新时间：2026-08-26
+更新时间：2026-08-27
+
+## 主动目标账户
+
+### YY Group：G1 设施管理数据与自动化计划
+
+- 官方公告日期：2026-06-09。
+- 已确认事实：YY Group 已部署 Unitree G1 Edu Ultimate B-U4 与 Jetson Orin，用于商场、酒店和资产密集型商业地产的设施管理数据采集、模仿学习与 Sim2Real 自动化。
+- 匹配依据：现有安防自主导航 Demo、路线/检查点闭环、传感器与机械臂集成能力，可从一个设施工作流和现场试点切入。
+- 公开联系人：Jason Zhi Yong Phua（CFO），enquiries@yygroupholding.com。该邮箱是投资者联系人，因此邮件只请求转交机器人计划负责人，不假设其本人负责技术采购。
+- 当前状态：已准备定向英文草稿，等待确认真实飞书发件邮箱与用户发送批准。
+- 草稿：docs/outreach/yy-group-intro.html
+- 官方来源：https://www.globenewswire.com/news-release/2026/06/09/3309337/0/en/YY-Group-NASDAQ-YYGH-Launches-Commercial-Humanoid-Robotics-Initiative-to-Drive-AI-Driven-Margin-Expansion-and-Address-Global-Facility-Management-Labor-Shortages.html
 
 ## 已执行公开触达
 
