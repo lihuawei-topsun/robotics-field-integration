@@ -12,6 +12,8 @@
 - 转化入口优化：2026-08-27 将 GitHub 个人资料主链接改为能力网站，个人主页首屏增加网站、工业质检选型指南和结构化询盘入口；主仓库补充 industrial-inspection、field-robotics、quadruped-robot、humanoid-robotics 等精准检索标签。
 - 技术内容入口：2026-08-27 上线 G1 / Go2-W 工程笔记集合，首批包含网络控制动作新鲜度/fail-closed 安全边界与 Go2 自动回充 `TIMEOUT_DETECT` 分层诊断。页面直接链接公开源码修订与 Issue，明确标注代码事实、工程推断和待实机验证；未把第三方问题描述为客户案例。
 - 工程笔记：https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html
+- 公开合作讨论：2026-08-27 启用自有仓库 Discussions，发布中英文长期合作入口，明确四类合作：开源项目实机验证、安防/工业巡检试点、机械臂/传感器集成、机器人厂商/集成商联合交付；包含最小上下文清单、保密提醒和能力边界。
+- 讨论：https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1
 
 ## 主动目标账户
 
@@ -79,7 +81,8 @@
 - 静态预检：已确认 `ROBOT_TYPE=go2w` 可导入配置，但 Dev Container 未默认注入该变量，导航脚本和 Unitree 控制桥分属不同启动路径；默认 RealSense 路径还有固件、GPU、host network、privileged 与设备挂载要求。
 - 安全门槛：上游 `cmd_vel_control` 有路径过期减速/停止，但 `unitree_control.py` 桥层没有最后速度命令 watchdog。非零 `Move()` 后若上游或 DDS 静默，当前桥代码不能单独证明会调用 `StopMove()`；在维护者确认固件命令有效期或接受桥层 watchdog 之前不启动实机动作。
 - 代码贡献：2026-08-27 已提交桥层 watchdog PR：非零 `Move()` 成功发送后启动 monotonic freshness timer，零命令成功 `StopMove()` 后清除，超时只触发一次停止；停止失败按超时预算重试，并用运动调用锁避免新速度命令与 watchdog 停止交错。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
-- 验证：纯逻辑 watchdog 的 5 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
+- 验证：纯逻辑 watchdog 的 6 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
+- 审查迭代：自动代码审查指出两个 P1：必须在调用 `Move()` 前启动 watchdog，以及 timer 必须使用 steady clock 以免 `use_sim_time`/ROS 时钟暂停阻断安全检查。已在 `e7493fe` 修复，增加第 6 个 Python 3.10 测试，逐条回复并解决 review thread，随后触发重新审查。
 - 当前状态：无动作预检和实机验收计划已形成；等待 Uniflex AI/TinyNav 维护者回复验收与付款流程，未开始安装或实机运行。
 - 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
