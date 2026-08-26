@@ -82,7 +82,7 @@
 - 安全门槛：上游 `cmd_vel_control` 有路径过期减速/停止，但 `unitree_control.py` 桥层没有最后速度命令 watchdog。非零 `Move()` 后若上游或 DDS 静默，当前桥代码不能单独证明会调用 `StopMove()`；在维护者确认固件命令有效期或接受桥层 watchdog 之前不启动实机动作。
 - 代码贡献：2026-08-27 已提交桥层 watchdog PR：非零 `Move()` 成功发送后启动 monotonic freshness timer，零命令成功 `StopMove()` 后清除，超时只触发一次停止；停止失败按超时预算重试，并用运动调用锁避免新速度命令与 watchdog 停止交错。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
 - 验证：纯逻辑 watchdog 的 6 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
-- 审查迭代：自动代码审查指出两个 P1：必须在调用 `Move()` 前启动 watchdog，以及 timer 必须使用 steady clock 以免 `use_sim_time`/ROS 时钟暂停阻断安全检查。已在 `e7493fe` 修复，增加第 6 个 Python 3.10 测试，逐条回复并解决 review thread，随后触发重新审查。
+- 审查迭代：自动代码审查指出两个 P1：必须在调用 `Move()` 前启动 watchdog，以及 timer 必须使用 steady clock 以免 `use_sim_time`/ROS 时钟暂停阻断安全检查。已在 `e7493fe` 修复。复审又指出 `inf` 会静默禁用超时，已在 `e414eee` 用 `math.isfinite` 同时拒绝 `inf`/`nan`。6 个 Python 3.10 测试、修改文件 Ruff 和语法检查均继续通过；所有 review thread 已逐条回复并解决，再次触发复审。
 - 当前状态：无动作预检和实机验收计划已形成；等待 Uniflex AI/TinyNav 维护者回复验收与付款流程，未开始安装或实机运行。
 - 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
