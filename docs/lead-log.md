@@ -188,6 +188,17 @@
 - 目标：https://www.reddit.com/r/unitree/comments/1nzb5t9/any_unitree_g1_developer_in_malaysia/
 - 回复底稿：docs/outreach/reddit-malaysia-g1-developer-comment.md
 
+### Reddit：Go2 Pro 商用版地图、航点与巡逻全部不可用
+
+- 对方信号：近期真实机主使用 Go2 Pro Commercial V2.0、固件 V1.1.15、2026-01-28 出厂、官方 App/固件且未安装 ROS/SDK。行走、避障、LiDAR 点云和扫描流程可用，但地图创建/保存/重开、航点和巡逻均失败；已与宇树支持往返一个月并提供多段视频，仍没有日志、固件对比、恢复步骤或 RMA 判断。
+- 商业匹配：现有设备的自主导航/巡逻业务被阻断，且用户已投入大量排查时间。可先提供状态证据矩阵；若官方 App 路径无法恢复，再单独评估外部计算/传感器/ROS 2 导航集成，但不能默认 Pro Commercial 暴露 EDU 或 Go2-W 的 SDK/DDS 合同。
+- 已执行：2026-08-27 发布首条公开回复，要求把“点云可见、地图保存、冷启动后列表/加载、定位、航点/巡逻状态”分层记录；建议保持官方保修/支持路径，不 jailbreak、不擅自降级；留下 `li.huawei@topsunpower.cc` 供对方提供最小状态结果。
+- 事实边界：明确没有测试其 Pro Commercial V2.0/V1.1.15，不用 Go2-W/G1 结果宣称配置等价；官方功能修复与外部自主导航是两个不同项目。
+- 当前状态：评论已公开显示，等待原作者回复、私信或邮件；不重复追发。
+- 评论：https://www.reddit.com/r/unitree/comments/1uheg45/comment/p6358ok/
+- 目标：https://www.reddit.com/r/unitree/comments/1uheg45/unitree_go2_pro_commercial_3d_mapping_waypoints/
+- 回复底稿：docs/outreach/reddit-go2-pro-commercial-mapping-comment.md
+
 ### Reddit：G1 ACT / Dex3 真机动作映射与 81 ms 抖动
 
 - 对方信号：活跃 G1 EDU 用户将宇树 G1 Dex3 PickBottle 数据集训练为 ACT checkpoint，真机遇到 28D 状态维度、左右手索引和 30 Hz→约 12 Hz/81 ms 推理抖动，公开征求反馈。
