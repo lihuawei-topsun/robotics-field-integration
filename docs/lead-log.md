@@ -176,9 +176,11 @@
 - 验证：纯 C++ 状态机在 `-DNDEBUG -Wall -Wextra -Werror` 下通过，C mock ABI 编译通过；fork 上与上游相同的固定 SDK2 + Release Docker/Mojo workflow 对 `d14a462` 全部通过（run `33021541484`）。自动 review 提出的两项 P1 并发竞态和一项 P2 Release assert 问题已修复、回复并 resolved；对 `d14a462` 的最终复审未发现 major issue。
 - 当前状态：PR 可合并，等待维护者复审/决定；`stop_pending=false` 只表示 SDK2 StopMove 成功，不表示物理停止，Go2 HIL 仍未运行。G1 扩展仍等待准确 23/29-DoF、固件和第一组 C ABI 操作。
 - 留言：https://github.com/wendylabsinc/unitree-mojo/issues/1#issuecomment-5431385572
+- PR 进度回链：https://github.com/wendylabsinc/unitree-mojo/issues/1#issuecomment-5432143634
 - PR：https://github.com/wendylabsinc/unitree-mojo/pull/10
 - CI：https://github.com/lihuawei-topsun/unitree-mojo/actions/runs/33021541484
 - 底稿：docs/outreach/unitree-mojo-g1-hardware-track-comment.md
+- 进度底稿：docs/outreach/unitree-mojo-pr10-issue-followup.md
 
 ### SmartWay：Go2 + D435i 真实部署的 waypoint 偏差
 
