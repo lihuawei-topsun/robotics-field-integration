@@ -194,7 +194,9 @@
 - 内容方向：以 TinyNav PR #235 为公开代码证据，说明 steady clock、独立 safety client、motion generation、stop-pending 与 generation-scoped retry；明确 16 个 Python 3.10 测试和自动复审无 major issues 仍不等于实机通过。
 - 征集信息：准确机型、固件、SDK、单次速度命令 TTL、发布者消失后的停止行为、G1 `SetVelocity(0,0,0)` 返回与物理停止时间，以及避免误停的 watchdog 预算。
 - 风险控制：不放销售链接和客户案例，只链接上游 PR；提醒保守速度、清空区域和物理遥控/急停。
-- 当前状态：正文已准备，等待用户明确确认后才能通过已登录 Reddit 账号发布。
+- 已执行：2026-08-27 经用户明确确认，通过已登录 Reddit 账号 `u/Delicious-Major-750` 创建技术帖。
+- 当前状态：帖子创建成功，但页面立即显示“此帖子已被 Reddit 筛选器移除”，当前不可计为公开触达；未擅自改文案规避过滤，也未联系版主申诉。
+- 帖子：https://www.reddit.com/r/unitree/comments/1vz93pg/sourceauditing_a_failclosed_cmd_vel_watchdog_for/
 - 草稿：docs/outreach/reddit-unitree-watchdog-post.md
 
 ## A 级：值得主动寻找项目承包方或集成商
