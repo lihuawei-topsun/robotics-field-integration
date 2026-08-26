@@ -1,0 +1,63 @@
+name: 项目询盘 / Project inquiry
+description: 描述一条路线、一个检查点或一个需要联调的机器人任务
+title: "[项目询盘] "
+labels: ["project-inquiry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请只填写可公开的信息。不要在 Issue 中公开厂区敏感位置、人员信息、账号、密钥或保密图纸；保密材料请通过 li.huawei@topsunpower.cc 沟通。
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 机器人平台
+      options:
+        - Unitree Go2-W
+        - Unitree G1
+        - 其他四足 / 轮足机器人
+        - 其他人形机器人
+        - 尚未选型
+    validations:
+      required: true
+  - type: dropdown
+    id: scenario
+    attributes:
+      label: 场景
+      options:
+        - 园区 / 厂区安防巡检
+        - 设备间 / 高风险区域检查
+        - 自主导航与检查点任务
+        - 机械臂 / 传感器集成
+        - 机器人项目联合交付
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: 希望机器人完成什么
+      description: 请尽量描述一条路线、检查点、触发动作和需要的回传结果。
+      placeholder: 例如：从充电点出发，经过 3 个检查点，到点拍照并把异常发送到现有平台。
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: 已知现场条件
+      description: 仅填写可公开信息，例如室内/室外、地面、坡度、台阶、网络和照明。
+  - type: textarea
+    id: current-state
+    attributes:
+      label: 当前已有设备或软件
+      description: 机器人版本、计算模块、传感器、ROS/SDK、已有 Demo 或需要对接的系统。
+  - type: dropdown
+    id: next-step
+    attributes:
+      label: 希望下一步
+      options:
+        - 先判断技术可行性
+        - 讨论一条路线的现场试点
+        - 寻找二次开发 / 联调支持
+        - 寻找联合交付合作
+    validations:
+      required: true

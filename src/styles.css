@@ -117,6 +117,8 @@ figcaption { position: absolute; right: 18px; bottom: 16px; max-width: 70%; padd
 .contact-aside__email svg { width: 48px; flex: 0 0 48px; }
 .contact-aside__email a { min-width: 0; font-size: clamp(18px, 1.65vw, 24px); font-weight: 650; text-decoration: none; white-space: nowrap; }
 .copy-button { margin: 22px 0 0 72px; padding: 8px 0; color: var(--white); background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.75); cursor: pointer; }
+.github-inquiry { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 28px 0 0 72px; max-width: 310px; padding: 14px 0; color: var(--white); border-top: 1px solid rgba(255,255,255,.7); border-bottom: 1px solid rgba(255,255,255,.7); text-decoration: none; font-weight: 650; }
+.github-inquiry:hover .arrow { transform: translateX(4px); }
 .contact-aside__note { margin-top: 64px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.72); font-size: 16px; line-height: 1.6; }
 .contact-aside__note p { margin: 0; }
 .contact-route { position: absolute; left: calc(var(--gutter) - 22px); top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.7); }
@@ -186,6 +188,7 @@ figcaption { position: absolute; right: 18px; bottom: 16px; max-width: 70%; padd
   .contact-aside__email a { font-size: 17px; }
   .contact-aside__email a { white-space: normal; overflow-wrap: anywhere; }
   .copy-button { margin-left: 48px; }
+  .github-inquiry { margin-left: 48px; }
   .contact footer { flex-direction: column; }
 }
 

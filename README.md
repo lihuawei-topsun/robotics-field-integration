@@ -31,6 +31,8 @@
 
 **li.huawei@topsunpower.cc**
 
+也可以填写结构化公开询盘：[创建项目询盘](https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml)。请勿在公开 Issue 中上传保密图纸、敏感厂区位置或私人账号信息。
+
 网站部署地址：<https://lihuawei-topsun.github.io/robotics-field-integration/>
 
 ## 项目资料

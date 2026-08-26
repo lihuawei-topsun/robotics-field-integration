@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 
 const EMAIL = 'li.huawei@topsunpower.cc'
+const INQUIRY_URL = 'https://github.com/lihuawei-topsun/robotics-field-integration/issues/new?template=project-inquiry.yml'
 
 const scenarios = [
   {
@@ -154,6 +155,9 @@ function InquiryForm() {
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
         </div>
         <button className="copy-button" type="button" onClick={copyEmail}>{copied ? '已复制' : '复制邮箱'}</button>
+        <a className="github-inquiry" href={INQUIRY_URL} target="_blank" rel="noreferrer">
+          在 GitHub 填写项目询盘 <ArrowIcon />
+        </a>
         <div className="contact-aside__note">
           <p>我们不代表宇树官方。</p>
           <p>方案与能力以双方确认的现场测试为准。</p>
