@@ -46,7 +46,7 @@ For the first real-hardware slice I would validate: command rate and watchdog be
 
 I am interested in collaborating on the G1 hardware validation side if the project is still active. I can share the exact interface evidence from a real navigation route rather than only a simulation recommendation. Independent integrator, not affiliated with Unitree: https://github.com/lihuawei-topsun/robotics-field-integration — li.huawei@topsunpower.cc
 
-## Reddit AI 公司机器人选型回复（待发布确认）
+## Reddit AI 公司机器人选型回复（暂缓，作者长期不活跃）
 
 I work on real-hardware secondary development for Unitree G1 and Go2-W, and I have an autonomous-navigation demo for security patrol scenarios.
 
@@ -61,6 +61,27 @@ Before spending the budget, ask each supplier to demonstrate one acceptance loop
 - one 30-minute workflow that matches your first vision/LLM/voice experiment.
 
 If the project is still active, I would be happy to compare your first workflow against the real hardware boundaries I have seen before you choose a platform.
+
+## Reddit 工业质检机器人选型回复（待发布确认）
+
+I work on real-hardware secondary development for Unitree G1 and Go2-W, including an autonomous-navigation demo for security patrol scenarios.
+
+I would separate your decision into two tracks instead of forcing one robot to satisfy both production quality control and humanoid research.
+
+For the first production inspection workflow, a wheeled platform with a supported dock is the lower-risk default if the site is mostly flat. Use a quadruped only when stairs, thresholds or uneven terrain are part of the required route. I would choose G1/H2 for the first production path only if human-height manipulation, biped access or social interaction is an actual acceptance requirement; otherwise their additional integration and recovery risk does not improve the inspection result.
+
+You can still buy a G1 EDU as a separate R&D platform without making production inspection depend on it.
+
+Before choosing a vendor, ask each one to demonstrate the same acceptance matrix on the exact configuration:
+
+- one representative route, including every threshold, stair and narrow passage;
+- runtime plus autonomous docking and restart after charging;
+- payload, power and time-synchronized data for thermal, acoustic, camera, IMU, LiDAR and odometry/TF;
+- deterministic stop, watchdog and recovery from localization or network loss;
+- a clean install of your own software stack from documented instructions;
+- export of inspection results into the system your operators already use.
+
+If this selection is still active, I would be happy to compare one real inspection route against the G1/Go2-W hardware boundaries I have seen. That usually makes the platform choice much clearer than comparing specification sheets.
 
 ## 发布前检查
 

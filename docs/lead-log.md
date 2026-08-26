@@ -84,8 +84,18 @@
 - 现有回答：仅一条 OpenArm 泛化推荐，没有覆盖 Unitree 版本边界、实机接口或采购验收。
 - 风险：作者账号只有两条帖子、4 个月未互动，回复概率较低。
 - 策略：准备纯技术选型/验收清单，不放网站或邮箱，先通过 Reddit 产生对话，降低广告过滤风险。
-- 当前状态：等待用户确认发布。
+- 当前状态：暂缓。作者仅两条帖子且 4 个月未互动；已被更新、更匹配的工业质检目标替代。
 - 目标：https://www.reddit.com/r/AskRobotics/comments/1t0508x/were_an_ai_company_and_we_just_got_budget/
+
+### Reddit：工业质量控制与 AI 集成平台选型
+
+- 发布时间：2026-08-25；作者 `u/PsychologicalEnd3927`，创业公司项目，预算不是约束。
+- 对方需求：机器人在工业环境移动并执行质量检查；后续增加声学诊断、热成像；自研软件栈；比较 Unitree G1 EDU/H2 EDU 与 TIAGo Pro，也接受轮式/四足建议；关注自动充电。
+- 活跃度：作者发布后持续回复，明确愿意听取其他方案。
+- 现有回答缺口：没有把生产质检与人形研发拆开，也没有完整覆盖路线、自动充电、传感器时间同步、停止/恢复和业务系统输出验收。
+- 策略：提供平台无关的生产/R&D 双轨建议和统一验收矩阵，不放网址或邮箱，先通过 Reddit 产生对话。
+- 当前状态：等待用户确认发布。
+- 目标：https://www.reddit.com/r/AskRobotics/comments/1vrme9a/choosing_a_robot_platform_for_industrial_quality/
 
 ### Reddit：G1 的 Nav2 社交导航仿真/实机一致性
 
