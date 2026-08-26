@@ -118,9 +118,12 @@
 - 时间风险：节点只在第一帧点云上计算一次 wall-clock 偏移，随后同样加到所有 cloud/IMU stamp，默认假设长期稳定且两源同钟；需用静止、慢速 yaw、短往返 bag 验证偏移、坐标与漂移，不能靠 RViz 看起来水平认定正确。
 - 地图边界：保存 `scans.pcd` 只证明点云文件写出；仓库没有完成的“冷启动→固定地图重定位→重复航点”合同，不应把 PCD 保存等同于可复用巡逻地图。
 - 已执行：2026-08-27 在 Issue #27 发布源码级审计，要求维护者确认 raw frame 与 gyro-only `/transformed_imu` 是否为有意设计；确认后可帮助形成参数化/自检 PR，并留下 GitHub 主页联系方式。
+- 地图复用审计：真实机器人 launch 每次启动在线 Point-LIO；没有加载 `scans.pcd` 的定位节点，也没有完成的 `/initialpose`/`map→odom` 合同。唯一 `mapFile` 读取器只读取仿真/可视化 `map.ply`，并在真实 launch 中被注释。已在专门讨论 3D 地图导航的 Issue #19 明确“保存 PCD≠加载地图≠冷启动重定位”，提出 map-generation、定位质量、freshness 和 restart→localize→checkpoints 验收单元。
 - 当前状态：等待维护者或受影响用户提供准确固件/SDK、bag 和设计意图；未在其 Go2 上运行该仓库。
 - 留言：https://github.com/jizhang-cmu/autonomy_stack_go2/issues/27#issuecomment-5431150652
+- 地图复用留言：https://github.com/jizhang-cmu/autonomy_stack_go2/issues/19#issuecomment-5431197610
 - 底稿：docs/outreach/autonomy-stack-go2-imu-transform-audit.md
+- 地图复用底稿：docs/outreach/autonomy-stack-go2-fixed-map-localization-audit.md
 
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
@@ -214,7 +217,7 @@
 
 - 对方需求：真实 Go2 EDU 项目面向 GNSS 缺失、杂乱实验室的室内导航/避障，后续挂载轻量辐射传感器并生成空间剂量地图；原帖和后续用户持续遇到点云倾斜、漂移、预建图后无法重复定位。
 - 匹配依据：现有自主导航 Demo、路线/检查点闭环与传感器载荷集成能力可直接覆盖；正确最小顺序应为原始坐标/时间合同→固定地图重定位→1–3 检查点→停止恢复→带 map-generation ID 的辐射数据融合。
-- 发布状态：已形成基于 `autonomy_stack_go2` 源码的定向回复，但 Reddit 明确提示 `Rate limit exceeded. Please wait 286 seconds and try again`，评论没有创建；没有绕过限流或连续重试，当前不计作触达。审计内容已转而发布到该栈 GitHub Issue #27。
+- 发布状态：已形成基于 `autonomy_stack_go2` 源码的定向回复；首次 Reddit 提示等待 286 秒，等待窗口后按计划仅重试一次仍提示等待 31 秒，评论没有创建。已停止重试并清除编辑器内容，不计作触达。审计内容已分别发布到该栈 GitHub Issue #27（IMU/TF）和 #19（地图复用/重定位）。
 - 待发草稿：docs/outreach/reddit-go2-radiation-navigation-comment.md
 - 目标：https://www.reddit.com/r/unitree/comments/1novsbx/unitree_go2_edu_for_indoor_autonomous_navigation/
 
