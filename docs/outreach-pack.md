@@ -46,6 +46,22 @@ For the first real-hardware slice I would validate: command rate and watchdog be
 
 I am interested in collaborating on the G1 hardware validation side if the project is still active. I can share the exact interface evidence from a real navigation route rather than only a simulation recommendation. Independent integrator, not affiliated with Unitree: https://github.com/lihuawei-topsun/robotics-field-integration — li.huawei@topsunpower.cc
 
+## Reddit AI 公司机器人选型回复（待发布确认）
+
+I work on real-hardware secondary development for Unitree G1 and Go2-W, and I have an autonomous-navigation demo for security patrol scenarios.
+
+For your use case, I would choose the body only after defining the first physical workflow. If the first goal is mobile vision, voice interaction, mapping and navigation, Go2 EDU or Go2-W is the lower-risk and faster platform to validate. I would choose G1 EDU only if biped mobility, manipulation or human-scale social interaction is essential to the first experiment. Also confirm the exact edition before purchasing: the standard G1 and G1 EDU do not expose the same secondary-development boundary.
+
+Before spending the budget, ask each supplier to demonstrate one acceptance loop on the exact configuration you will receive:
+
+- documented access to onboard compute and the ROS 2 / SDK interfaces;
+- usable camera, LiDAR, IMU, odometry and TF data with timestamps;
+- command-rate limits, watchdog and deterministic stop under link loss;
+- a clean deployment from documented instructions, not a preconfigured demo machine;
+- one 30-minute workflow that matches your first vision/LLM/voice experiment.
+
+If the project is still active, I would be happy to compare your first workflow against the real hardware boundaries I have seen before you choose a platform.
+
 ## 发布前检查
 
 - 使用真实 Demo 画面，不用 AI 生成图冒充现场。

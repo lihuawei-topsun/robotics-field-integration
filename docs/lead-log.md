@@ -77,6 +77,16 @@
 
 ## 社区触达
 
+### Reddit：AI 公司获得约 2 万美元机器人预算
+
+- 发布时间：2026-04-30；作者 `u/Living_Concert_241`。
+- 对方需求：明确比较 Unitree G1 EDU、Go2 EDU 和 Booster K1；要求 ROS2、Python/C++、Orin、相机/视觉访问，并称可接受不完整软件但不希望硬件妨碍开发。
+- 现有回答：仅一条 OpenArm 泛化推荐，没有覆盖 Unitree 版本边界、实机接口或采购验收。
+- 风险：作者账号只有两条帖子、4 个月未互动，回复概率较低。
+- 策略：准备纯技术选型/验收清单，不放网站或邮箱，先通过 Reddit 产生对话，降低广告过滤风险。
+- 当前状态：等待用户确认发布。
+- 目标：https://www.reddit.com/r/AskRobotics/comments/1t0508x/were_an_ai_company_and_we_just_got_budget/
+
 ### Reddit：G1 的 Nav2 社交导航仿真/实机一致性
 
 - 发布时间：2026-08-02。
