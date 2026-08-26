@@ -34,6 +34,15 @@
 
 ## 已执行公开触达
 
+### Mark Hadley / Conscious Creatures：Go2 安防巡逻实施需求
+
+- 对方信号：在 `Kodo-Robotics/go2-autonomous-patrol` 唯一 Issue 中主动表示“准备使用、如何联系”，公开邮箱 `mark@consciouscreatures.co.uk`；GitHub 简介为“Working with robots. Unitree Go2 to start with”，2026-07 仍更新账号。
+- 仓库审计：仓库 README 描述 ROS2/Nav2/巡逻/视频/充电/地理围栏，但全部 Roadmap 阶段未完成，最后代码推送为 2025-10；不能把它当成已交付系统。
+- 已执行：2026-08-27 透明公开回复，明确不是仓库作者，提供现有 Go2-W 安防自主导航 Demo 与现场路线/检查点/告警闭环试点支持。
+- 状态：等待 Mark 回复；若 48 小时无回复，可考虑用其公开业务邮箱发送一次简短跟进，不重复轰炸。
+- 留言：https://github.com/Kodo-Robotics/go2-autonomous-patrol/issues/1#issuecomment-5427843791
+- 对方网站：https://www.consciouscreatures.co.uk/
+
 ### autonomous-os：Go2-W 实机适配协作
 
 - 对方需求：项目已声明 Go2-W 设备模型，但缺少真实轮足底盘；公开邀请有实机的人参与底盘接口、速度/停止、深度路由和安装器设计验证。
