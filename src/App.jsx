@@ -165,6 +165,9 @@ function Header({ language, setLanguage, text }) {
   function toggleLanguage() {
     const next = language === 'zh' ? 'en' : 'zh'
     localStorage.setItem('site-language', next)
+    const url = new URL(window.location.href)
+    url.searchParams.set('lang', next)
+    window.history.replaceState({}, '', url)
     setLanguage(next)
     setOpen(false)
   }
@@ -265,6 +268,8 @@ function InquiryForm({ text }) {
 }
 
 function initialLanguage() {
+  const queryLanguage = new URLSearchParams(window.location.search).get('lang')
+  if (queryLanguage === 'zh' || queryLanguage === 'en') return queryLanguage
   const saved = localStorage.getItem('site-language')
   if (saved === 'zh' || saved === 'en') return saved
   return navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en'
@@ -278,6 +283,14 @@ export default function App() {
     document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en'
     document.title = text.pageTitle
     document.querySelector('meta[name="description"]')?.setAttribute('content', text.pageDescription)
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', text.pageTitle)
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', text.pageDescription)
+    document.querySelector('meta[property="og:locale"]')?.setAttribute('content', language === 'zh' ? 'zh_CN' : 'en_US')
+    const canonicalUrl = language === 'en'
+      ? 'https://lihuawei-topsun.github.io/robotics-field-integration/?lang=en'
+      : 'https://lihuawei-topsun.github.io/robotics-field-integration/?lang=zh'
+    document.querySelector('#canonical-link')?.setAttribute('href', canonicalUrl)
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl)
   }, [language, text])
 
   return (
