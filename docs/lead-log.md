@@ -100,6 +100,17 @@
 - 当前状态：等待对方补充日志或确认需要跨机对比。
 - 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/174#issuecomment-5429726094
 
+### Unitree Python SDK：Go2 StandUp 后 Move 静默忽略与 readiness 缺失
+
+- 对方需求：真实 Go2、SDK 1.0.1、Python 3.8、有线网络；`StandUp()` 后连续 `Move(0,0,1.5)` 均返回 0，但机器人 4 秒到 10 秒以上不动作，等待窗口非确定；`SportModeState` 的 mode/progress/gait_type 不变，error_code 从 1001 变 1002 后也无法表示 readiness。
+- 源码判断：`SportClient.Move()` 使用 `_CallNoReply()`，返回 0 不能证明服务端接受或物理执行，只能证明客户端没有立即报告传输错误。Python IDL 将 `error_code` 生成为未解释的 `uint32`，仓库没有 readiness/error 枚举；不能推断 1002 的语义。
+- 示例边界：官方 Go2 high-level 示例由人工 `input()` 逐次选择动作并在循环末 sleep，不是自动 StandUp→Move 握手；示例中没有显式等待不等于保证 Move 可立即执行。
+- 已执行：2026-08-27 发布诊断，要求按冷启动/遥控已站立/SDK StandUp 三种路径记录固件、SDK commit、API/控制权、状态 stamp、姿态/足力/速度、Move generation、首次物理响应和 StopMove/零速度；明确禁止 readiness 未知时持续轰炸非零命令。
+- 商业匹配：导航启动、恢复与任务重启都需要可观测 command-acceptance/readiness 合同；可协助做配置明确的过渡/停止对照，但 Go2-W 不能替代标准 Go2 结论。
+- 当前状态：等待机主或宇树维护者提供固件/API readiness 定义和完整时序证据。
+- 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/175#issuecomment-5431314158
+- 底稿：docs/outreach/unitree-sdk-go2-standup-readiness-comment.md
+
 ### Ros2SLAM：Go2-W + L2 Point-LIO 点云/TF 漂移
 
 - 对方需求：真实 Go2-W 搭载宇树 L2，Point-LIO 初始点云正常，随后 TF 姿态不同步并严重漂移；仅改了 `/utlidar/cloud`、`/utlidar/imu` 订阅和官方外参，Fast-LIO 还遇到消息结构不一致。
