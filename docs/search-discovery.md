@@ -1,0 +1,20 @@
+# 搜索发现与提交记录
+
+更新时间：2026-08-27
+
+## 已部署
+
+- `robots.txt` 公开允许抓取并引用 `sitemap.xml`。
+- `sitemap.xml` 包含默认、中文 `?lang=zh` 和英文 `?lang=en` URL。
+- 页面包含 canonical、hreflang、动态语言标题/描述/OG URL。
+- 页面包含 `ProfessionalService` 与 `FAQPage` JSON-LD，内容仅使用已确认能力和独立服务免责声明。
+- IndexNow 所有权密钥文件：`/0b32949b850c428d8d4d5b5b16646db3.txt`。
+- 可重复提交脚本：`scripts/submit-indexnow.sh`。
+
+## IndexNow 记录
+
+- 2026-08-27 首次批量提交返回 HTTP 202：请求已接收，密钥等待验证。
+- 确认公开密钥文件内容与提交密钥一致后再次提交，返回 HTTP 200：IndexNow 已成功接收 URL 集合。
+- 提交 URL：默认首页、中文 URL、英文 URL、sitemap。
+
+注意：HTTP 200 只证明搜索引擎收到 URL，不保证抓取、收录或排名。
