@@ -273,6 +273,16 @@
 - 当前状态：等待维护者选择合作单元和冻结的 NaVILA/接收器修订；未改代码、未连接硬件、未执行运动。
 - 留言：https://github.com/Oya-Tomo/NaVILA/issues/2#issuecomment-5430783727
 
+### go2_ros2_sdk：Go2 Air 无越狱 WebRTC 能力边界
+
+- 对方需求：真实 Go2 Air 用户使用最新固件，询问运行 `go2_ros2_sdk` 是否必须取得 root 或 jailbreak；GitHub Discussion 自 2026-02-23 创建后一直没有回答。
+- 源码核验：当前 `main`（`b440609`）的 WebRTC 路径在外置计算机运行，来自 `go2-webrtc` / `unitree_webrtc_connect` 社区传输，不是官方 SDK2 客户端；固件 `>=1.1.15` 的 `data2 == 3` 握手需要机器人所属 Unitree 账号对应的单机 AES-128 key。
+- 重要边界：WebRTC 可用不等于 Air 变成 EDU，也不证明官方 SDK2、低层关节控制、机载 SSH/root 或全部 EDU 传感器。当前 Python driver 的 CycloneDDS LowState/pose/LiDAR callback 仍为 `pass`，命令服务围绕 `WebRTCAdapter` 构造，主 launch 还使用 `cyclonedx` 与 README/config 的 `cyclonedds` 不一致，因此不能声称两条传输已功能等价。
+- 已执行：2026-08-27 在 Discussion #232 回答 WebRTC 路径无需机器人 root/jailbreak，并给出 SKU/固件/commit 冻结、无动作连接、topic/stamp/frame/rate、断连重连和保守运动/停止五级验证；提醒不公开 AES key/账号凭据，附 Go2 版本确认页和配置级审查合作入口。
+- 当前状态：评论已公开显示，等待 Air 用户提供脱敏无动作 manifest 或实测 topic；未接触其账号、密钥或机器人，也未执行刷机/越狱。
+- 留言：https://github.com/abizovnuralem/go2_ros2_sdk/discussions/232#discussioncomment-18168211
+- 底稿：docs/outreach/go2-ros2-sdk-air-no-jailbreak-comment.md
+
 ## 社区触达
 
 ### Reddit：吉隆坡企业寻找 Unitree G1 开发者
