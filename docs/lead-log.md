@@ -10,6 +10,8 @@
 - 永久链接：https://github.com/lihuawei-topsun/robotics-field-integration/releases/tag/v1.0.0
 - 事实边界：Release 明确独立集成商身份、配置/现场验证边界和 AI 图片非客户案例。
 - 转化入口优化：2026-08-27 将 GitHub 个人资料主链接改为能力网站，个人主页首屏增加网站、工业质检选型指南和结构化询盘入口；主仓库补充 industrial-inspection、field-robotics、quadruped-robot、humanoid-robotics 等精准检索标签。
+- 技术内容入口：2026-08-27 上线 G1 / Go2-W 工程笔记集合，首批包含网络控制动作新鲜度/fail-closed 安全边界与 Go2 自动回充 `TIMEOUT_DETECT` 分层诊断。页面直接链接公开源码修订与 Issue，明确标注代码事实、工程推断和待实机验证；未把第三方问题描述为客户案例。
+- 工程笔记：https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html
 
 ## 主动目标账户
 
