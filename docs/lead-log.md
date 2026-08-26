@@ -283,6 +283,24 @@
 - 留言：https://github.com/abizovnuralem/go2_ros2_sdk/discussions/232#discussioncomment-18168211
 - 底稿：docs/outreach/go2-ros2-sdk-air-no-jailbreak-comment.md
 
+### Amber Handal / Go2-Inspector：建筑巡检时间证据与停止合同
+
+- 项目信号：`Go2-Inspector` 有实际 C++/Python 实现，不是空 README；包含 Nav2→Sport bridge、frontier exploration、RTAB-Map、RealSense/SAM 检测、可重载数据库、2D/3D 标注地图和 PDF 比较报告。仓库当前无许可证、Issue 或 PR，最近代码提交为 2026-03-25，因此先按个人工程项目而非商业采购线索处理。
+- 时间证据缺口：point cloud 与 odom/TF 分别在 callback 中改成主机 `now()`；camera sync 又把最新缓存的 RGB/image-info 与新到 depth 统一改成同一 `now()`。这会掩盖网络/队列延迟并制造“同时采集”外观，使 RTAB-Map、SAM 投影和比较报告无法证明观察发生在同一机器人姿态。
+- 运动安全缺口：bridge 默认启动即发送 StandUp，只等待两秒而不要求 fresh/allowed SportModeState；0.5 秒本地 timeout 仅在进程存活时有效。explorer 的 STOP/timeout 只异步 cancel，未等待 cancel 接受、零速度或物理停止，timeout 后立即回到 EXPLORING，可能在旧 cancel 未确认时选择新目标。
+- 已执行：2026-08-27 创建 Issue #1，建议保留 source/receive/corrected time 与 uncertainty，拒绝 stale pair，做静止/慢转/往返/注入延迟确定性 replay；运动侧改为 manual-only、显式授权、fresh state、单一 owner、独立 watchdog、stop-pending 和 cancel/零运动确认，并给出 SIGINT/SIGKILL/断网/旧命令/重启 HIL 矩阵。
+- 事实边界：这是基于 `281ccca` 的源码审查，未在对方 Go2 上运行；Go2-W 必须单独验证 wheel-mode 时间、里程计和停止合同。
+- 当前状态：等待作者确认是否接受 no-motion replay test 或配置明确的 STOP/watchdog patch；不在无许可证仓库直接提交代码。
+- Issue：https://github.com/amberhandal/Go2-Inspector/issues/1
+- 底稿：docs/outreach/go2-inspector-time-stop-issue.md
+
+### Undaunted：Go2 Pro 安防队列可靠性合作邮件
+
+- 对方信号：美国机器人安防公司公开运营 Unitree Go2 Pro 安防队列，工程岗位明确列出提高舰队在线率、Unitree 连接问题、服务器依赖、极端天气、安防载荷和长期自主巡逻；官网仍在持续发布实际巡逻与扩张内容。
+- 匹配切入：不冒充美国现场求职者，提出中国侧 SKU/固件/SDK/网络配置冻结、连接与 command/STOP 故障复现、传感器/计算载荷接口、脱敏 recording contract 和版本回归验证。
+- 当前状态：已形成发给公开工程联系人 `chris@getundaunted.com` 的 HTML 草稿内容，但飞书邮箱缺少 mail scope；已按 `lark-mail` 要求向用户展示授权链接和二维码，尚未创建飞书草稿、尚未发送，也没有绕过授权。
+- 草稿：docs/outreach/undaunted-go2-fleet-reliability-email.html
+
 ## 社区触达
 
 ### Reddit：吉隆坡企业寻找 Unitree G1 开发者
