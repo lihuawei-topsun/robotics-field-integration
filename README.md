@@ -4,7 +4,7 @@
 
 > 独立机器人集成与二次开发服务，不代表宇树官方。具体能力以双方确认的硬件版本、配置和现场测试为准。
 
-![现场机器人二次开发网站首屏](docs/design/implementation-hero.png)
+![现场机器人二次开发科技版首屏](docs/design/tactical-implementation-hero.png)
 
 ## 现在能做什么
 

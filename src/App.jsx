@@ -20,6 +20,7 @@ const content = {
       secondary: '查看现有能力',
       alt: '人形机器人与轮足四足机器人在明亮实验室中的开发示意图',
       caption: '开发平台视觉示意，并非现场实拍或具体交付配置。',
+      meta: [['PLATFORM', 'G1 + GO2-W'], ['MODE', 'FIELD INTEGRATION'], ['DEMO', 'AVAILABLE']],
     },
     capabilities: {
       heading: '现在能演示什么',
@@ -36,6 +37,8 @@ const content = {
       ],
       alt: '四足机器人在工业场地路线中执行巡检的视觉示意',
       caption: '工业巡检场景视觉示意，不代表已落地客户案例。',
+      routeLabel: '路线',
+      checkpointLabel: '检查点',
     },
     pilot: {
       heading: '一次试点怎么推进',
@@ -89,6 +92,7 @@ const content = {
       secondary: 'See current capabilities',
       alt: 'Illustrative humanoid and wheeled quadruped development robots in a bright lab',
       caption: 'Development-platform illustration, not a customer site or a delivery configuration.',
+      meta: [['PLATFORM', 'G1 + GO2-W'], ['MODE', 'FIELD INTEGRATION'], ['DEMO', 'AVAILABLE']],
     },
     capabilities: {
       heading: 'What can be demonstrated now',
@@ -105,6 +109,8 @@ const content = {
       ],
       alt: 'Illustrative quadruped robot following an inspection route in an industrial site',
       caption: 'Industrial inspection illustration, not a deployed customer case.',
+      routeLabel: 'ROUTE',
+      checkpointLabel: 'CHECKPOINT',
     },
     pilot: {
       heading: 'How a pilot moves forward',
@@ -166,6 +172,7 @@ function Header({ language, setLanguage, text }) {
   return (
     <header className="site-header">
       <a className="brand" href="#top" aria-label={text.top}>
+        <span className="brand__reticle" aria-hidden="true"><i /></span>
         <span>LI HUAWEI</span>
         <span className="brand__muted">ROBOTICS INTEGRATION</span>
       </a>
@@ -285,11 +292,19 @@ export default function App() {
               <a className="button button--primary" href="#contact">{text.hero.primary} <ArrowIcon /></a>
               <a className="button button--link" href="#capabilities">{text.hero.secondary} <ArrowIcon /></a>
             </div>
+            <div className="hero-route" aria-hidden="true"><span /><i /><b /></div>
           </div>
           <figure className="hero__media">
-            <img src="assets/robot-lab.png" alt={text.hero.alt} fetchPriority="high" />
+            <img src="assets/robot-lab-tactical-portrait.png" alt={text.hero.alt} fetchPriority="high" />
             <figcaption>{text.hero.caption}</figcaption>
           </figure>
+          <aside className="hero-telemetry" aria-label="Platform status">
+            {text.hero.meta.map(([term, detail], index) => (
+              <div key={term} className={index === 2 ? 'hero-telemetry__item hero-telemetry__item--available' : 'hero-telemetry__item'}>
+                <span>{term}</span><strong>{detail}</strong>{index === 2 && <i aria-hidden="true" />}
+              </div>
+            ))}
+          </aside>
         </section>
 
         <section className="capabilities section" id="capabilities" aria-labelledby="capability-title">
@@ -315,7 +330,15 @@ export default function App() {
             ))}
           </div>
           <figure className="field-media">
-            <img src="assets/industrial-patrol.png" alt={text.scenarios.alt} loading="lazy" />
+            <img src="assets/industrial-patrol-tactical.png" alt={text.scenarios.alt} loading="lazy" />
+            <svg className="field-route" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
+              <polyline points="80,284 210,242 418,250 580,218 782,224 958,270 1140,274" />
+              <rect x="204" y="234" width="16" height="16" />
+              <rect x="572" y="210" width="16" height="16" />
+              <rect x="950" y="262" width="16" height="16" />
+            </svg>
+            <span className="field-route__label field-route__label--start">{text.scenarios.routeLabel}</span>
+            <span className="field-route__label field-route__label--end">{text.scenarios.checkpointLabel}</span>
             <figcaption>{text.scenarios.caption}</figcaption>
           </figure>
         </section>
@@ -326,7 +349,7 @@ export default function App() {
             <h2 id="pilot-title">{text.pilot.heading}</h2>
           </div>
           <ol className="pilot-steps">
-            {text.pilot.steps.map((label, index) => <li key={label}><span>0{index + 1}</span><strong>{label}</strong></li>)}
+            {text.pilot.steps.map((label, index) => <li key={label}><span>0{index + 1}</span><i className={`pilot-step__graphic pilot-step__graphic--${index + 1}`} aria-hidden="true" /><strong>{label}</strong></li>)}
           </ol>
           <a className="text-link" href="#contact">{text.pilot.cta} <ArrowIcon /></a>
         </section>
@@ -335,7 +358,7 @@ export default function App() {
           <RouteLine number="03" />
           <div className="section-heading section-heading--wide"><h2 id="evidence-title">{text.evidence.heading}</h2></div>
           <dl className="evidence-list">
-            {text.evidence.items.map(([term, detail]) => <div key={term}><dt>{term}</dt><dd>{detail}</dd><ArrowIcon /></div>)}
+            {text.evidence.items.map(([term, detail], index) => <div key={term}><span className="evidence-list__index">[ 0{index + 1} ]</span><dt>{term}</dt><dd>{detail}</dd><ArrowIcon /></div>)}
           </dl>
         </section>
 
