@@ -9,7 +9,7 @@
 - 内容：中英文网站、工业质检选型指南、结构化询盘、四步试点与能力一页纸附件。
 - 永久链接：https://github.com/lihuawei-topsun/robotics-field-integration/releases/tag/v1.0.0
 - 事实边界：Release 明确独立集成商身份、配置/现场验证边界和 AI 图片非客户案例。
-- 转化入口优化：2026-08-27 将 GitHub 个人资料主链接改为能力网站，个人主页首屏增加网站、工业质检选型指南和结构化询盘入口；主仓库补充 industrial-inspection、field-robotics、quadruped-robot、humanoid-robotics 等精准检索标签。
+- 转化入口优化：2026-08-27 将 GitHub 个人资料主链接改为能力网站，个人主页首屏增加网站、工业质检选型指南和结构化询盘入口；主仓库补充 industrial-inspection、field-robotics、quadruped-robot、humanoid-robotics、ros2、fleet-reliability、robot-watchdog 等精准检索标签。
 - 技术内容入口：2026-08-27 上线 G1 / Go2-W 工程笔记集合，首批包含网络控制动作新鲜度/fail-closed 安全边界与 Go2 自动回充 `TIMEOUT_DETECT` 分层诊断。页面直接链接公开源码修订与 Issue，明确标注代码事实、工程推断和待实机验证；未把第三方问题描述为客户案例。
 - 工程笔记：https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html
 - 公开合作讨论：2026-08-27 启用自有仓库 Discussions，发布中英文长期合作入口，明确四类合作：开源项目实机验证、安防/工业巡检试点、机械臂/传感器集成、机器人厂商/集成商联合交付；包含最小上下文清单、保密提醒和能力边界。
