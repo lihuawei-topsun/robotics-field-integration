@@ -5,6 +5,7 @@ const INQUIRY_URL = 'https://github.com/lihuawei-topsun/robotics-field-integrati
 const PDF_URL = 'assets/unitree-g1-go2w-integration-one-pager.pdf'
 const INSPECTION_GUIDE_URL = 'industrial-inspection-robot-selection.html'
 const ENGINEERING_NOTES_URL = 'engineering-notes.html'
+const GO2W_SERVICE_URL = 'unitree-go2w-secondary-development.html'
 const COLLABORATION_URL = 'https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1'
 
 const content = {
@@ -81,6 +82,7 @@ const content = {
       inspectionGuide: '工业质检选型指南',
       engineeringNotes: 'G1 / Go2-W 工程笔记',
       collaboration: '公开合作讨论',
+      go2wService: 'Go2-W 二次开发验收清单',
       disclaimer: ['我们不代表宇树官方。', '方案与能力以双方确认的现场测试为准。'],
     },
   },
@@ -157,6 +159,7 @@ const content = {
       inspectionGuide: 'Industrial inspection selection guide',
       engineeringNotes: 'G1 / Go2-W engineering notes',
       collaboration: 'Open collaboration discussion',
+      go2wService: 'Go2-W secondary development scope',
       disclaimer: ['We do not represent Unitree Robotics.', 'Scope and capability depend on mutually confirmed field testing.'],
     },
   },
@@ -274,6 +277,7 @@ function InquiryForm({ text }) {
         <a className="pdf-download" href={PDF_URL} download>{text.pdf} <ArrowIcon /></a>
         <a className="inspection-guide" href={INSPECTION_GUIDE_URL}>{text.inspectionGuide} <ArrowIcon /></a>
         <a className="engineering-notes" href={ENGINEERING_NOTES_URL}>{text.engineeringNotes} <ArrowIcon /></a>
+        <a className="go2w-service" href={GO2W_SERVICE_URL}>{text.go2wService} <ArrowIcon /></a>
         <a className="collaboration-link" href={COLLABORATION_URL} target="_blank" rel="noreferrer">{text.collaboration} <ArrowIcon /></a>
         <div className="contact-aside__note">
           {text.disclaimer.map((line) => <p key={line}>{line}</p>)}

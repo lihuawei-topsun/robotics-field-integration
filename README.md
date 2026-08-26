@@ -35,6 +35,8 @@
 
 公开合作入口：[G1 / Go2-W 实机验证、现场集成与联合交付讨论](https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1)。
 
+高意向服务页：[宇树 Go2-W 二次开发——自主导航、安防巡检与机械臂集成](https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2w-secondary-development.html)。
+
 网站部署地址：<https://lihuawei-topsun.github.io/robotics-field-integration/>
 
 可下载转发：[G1 / Go2-W 机器人集成能力一页纸](https://lihuawei-topsun.github.io/robotics-field-integration/assets/unitree-g1-go2w-integration-one-pager.pdf)

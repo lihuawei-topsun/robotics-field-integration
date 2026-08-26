@@ -14,6 +14,9 @@
 - 工程笔记：https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html
 - 公开合作讨论：2026-08-27 启用自有仓库 Discussions，发布中英文长期合作入口，明确四类合作：开源项目实机验证、安防/工业巡检试点、机械臂/传感器集成、机器人厂商/集成商联合交付；包含最小上下文清单、保密提醒和能力边界。
 - 讨论：https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1
+- Go2-W 高意向服务页：2026-08-27 上线“宇树 Go2-W 二次开发”独立页面，覆盖配置门槛、自主导航、安防/工业巡检、机械臂/传感器、路线闭环、停止恢复和试点验收矩阵；不包含未经验证的性能数字或客户案例。
+- 服务页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2w-secondary-development.html
+- 收款码边界：原始目标提到附件收款码，但当前工作区未发现真实收款码文件，仅有邮箱授权二维码；因此网站没有发布、替代或伪造任何收款码。
 
 ## 主动目标账户
 
