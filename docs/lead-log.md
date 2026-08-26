@@ -111,6 +111,17 @@
 - 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/175#issuecomment-5431314158
 - 底稿：docs/outreach/unitree-sdk-go2-standup-readiness-comment.md
 
+### Unitree Python SDK：G1 行走时双臂/腰部控制失稳
+
+- 对方需求：至少三名 G1 29-DoF 真机用户在 gamepad/遥控行走同时通过 `rt/arm_sdk` 控制双臂时复现腰部前折、重踏、侧移、躯干振荡甚至突然前冲；目标包含固定搬运/预抓取姿态与 pick-and-place。所谓“waist lock frame”只改善部分站立平衡，没有解决行走。
+- 官方源码冲突：SDK arm7 示例把腰 12–14 混入命令列表，却在同一文件注释 WaistRoll/WaistPitch 对 waist-locked 23/29-DoF 无效；当前 `xr_teleoperate` motion-mode 的 `G1_29_JointArmIndex` 只含 15–28，排除腰部，并仅声明 Regular mode 支持、未大规模测试。
+- 工程判断：三自由度腰硬件存在不等于 locomotion controller 允许应用接管腰部；固定高举双臂会改变质心，公开资料没有证明现有步态控制器会补偿。手调腰俯仰或 kp/kd 不能替代固件/模式/关节所有权合同。
+- 已执行：2026-08-27 发布源码级回复，要求按 stock walk→站立小幅双臂→相同姿态行走→单臂/双臂递增→官方确认后的腰实验逐级验收；记录 q/dq、IMU、足力、温度、mode_machine、weight 和命令时序，并设置躯干/足接触/模式/新鲜度 interlock。
+- 商业匹配：同时覆盖 G1 机械臂集成、底盘/步态协同与搬运任务验收；若 stock walk 通过而任何有意义的臂位移都失败，缺口可能是协调式 loco-manipulation/WBC，而不是简单角度或增益。
+- 当前状态：等待复现者或宇树维护者确认准确 G1 版本、固件、Regular/Running 模式、腰/臂所有权与支持的质心范围。
+- 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/146#issuecomment-5431347786
+- 底稿：docs/outreach/unitree-g1-arm-while-walking-comment.md
+
 ### Ros2SLAM：Go2-W + L2 Point-LIO 点云/TF 漂移
 
 - 对方需求：真实 Go2-W 搭载宇树 L2，Point-LIO 初始点云正常，随后 TF 姿态不同步并严重漂移；仅改了 `/utlidar/cloud`、`/utlidar/imu` 订阅和官方外参，Fast-LIO 还遇到消息结构不一致。
