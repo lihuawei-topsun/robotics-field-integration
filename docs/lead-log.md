@@ -100,6 +100,17 @@
 - 当前状态：等待对方补充日志或确认需要跨机对比。
 - 留言：https://github.com/unitreerobotics/unitree_sdk2_python/issues/174#issuecomment-5429726094
 
+### Ros2SLAM：Go2-W + L2 Point-LIO 点云/TF 漂移
+
+- 对方需求：真实 Go2-W 搭载宇树 L2，Point-LIO 初始点云正常，随后 TF 姿态不同步并严重漂移；仅改了 `/utlidar/cloud`、`/utlidar/imu` 订阅和官方外参，Fast-LIO 还遇到消息结构不一致。
+- 源码判断：该仓库有独立 `unilidar_l2.yaml`/launch；L2 预处理按 `ring:uint16 + time:float32` 解码并把 `time` 当逐点相对秒。仅 remap 话题不能证明 Go2-W 内置 `/utlidar/cloud` 的字段、类型、单位与外部 L2 SDK 的 `/unilidar/cloud` 合同一致。外参还必须核对 IMU→LiDAR 方向，不能只核对绝对数值。
+- 诊断单元：固定 L2 配置，录制静止 10 秒与低速直行 5–10 秒的 cloud/IMU/TF；核对 header 单调性、频率、逐点字段、IMU 静止模长、单一 TF 发布者，并用同一 cloud 的 KISS-ICP 将点云问题与 IMU/时间/外参问题分离。
+- 代码缺陷线索：`standard_pcl_cbk()` 用完整时间比较，却把 `last_timestamp_lidar` 写成整数秒；默认 `con_frame: false` 时未把它直接认定为本次根因，但开启合帧会污染帧间时间，需单独修复验证。
+- 已执行：2026-08-27 发布源码和官方 L2 数据合同对照，给出最小 rosbag/日志清单，并提出可在 Go2-W 导航集成侧做配置明确的对照，不宣称已复现对方故障。
+- 当前状态：等待对方提供固件、驱动 commit、PointCloud2 fields、TF 发布者和最小静止/直行证据。
+- 留言：https://github.com/ShineMinxing/Ros2SLAM/issues/4#issuecomment-5430901771
+- 回复底稿：docs/outreach/ros2slam-go2w-pointlio-diagnostic.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
@@ -254,6 +265,12 @@
 4. G1 二次开发要明确版本；宇树公开资料指出 G1 EDU 支持二次开发，普通 G1 不支持。
 
 ## 排除 / 不触达
+
+### UnLeash-Lite：Go2-W WebRTC jailbreak
+
+- 对方需求：Go2-W 1.0.30 的 `init-ssh` jailbreak 执行失败；维护者表示自己没有 Go2-W，拿到设备才可能支持。
+- 决策：不触达。该目标是绕过设备访问限制/获取 root，不属于安防导航、机械臂、传感器或获授权的实机集成验收；不为获客目的参与越权或安全绕过。
+- 来源：https://github.com/a-bissell/UnLeash-Lite/issues/7
 
 ### HNL-ULTIMATE-2026：所谓 90 天 G1 硬件验证合作
 
