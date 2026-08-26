@@ -170,6 +170,17 @@
 - 留言：https://github.com/wendylabsinc/unitree-mojo/issues/1#issuecomment-5431385572
 - 底稿：docs/outreach/unitree-mojo-g1-hardware-track-comment.md
 
+### SmartWay：Go2 + D435i 真实部署的 waypoint 偏差
+
+- 对方需求：研究用户已把 IROS 2025 SmartWay waypoint predictor 部署到真实 Unitree Go2，使用 RealSense D435i，但多数预测航点不在正确路径，怀疑 depth scale/filter/normalization/alignment；Issue 自 2026-07 无人回复。
+- 代码边界：公开仓库只有 Habitat/训练评估路径，没有论文所称 TurtleBot4+OAK-D 或 Go2 真机 adapter，因此无法从仓库复现“官方真实部署预处理”，需要维护者发布缺失桥接代码。
+- 精确输入合同：Habitat-Lab v0.1.7 默认 depth 为 metric 0–10 m 裁剪并归一化 `[0,1]`；SmartWay 深度输入 256×256、HFOV 90°，depth encoder 不再做运行归一化。策略使用 `NUM_ANGLES=12` 并构造 12 个 RGB/depth 方向，不是单个前向 D435i 帧。
+- 实机风险：RealSense raw uint16 需要按设备 depth_scale 转米，但某些 wrapper 已返回米，重复缩放会错误；还需 RGB-D 对齐、D435i 空洞处理、实际 HFOV/安装高度/俯仰、12 视角生成顺序/时间偏差，以及 camera→base 的角度手性/偏航变换。
+- 已执行：2026-08-27 发布源码级 input-parity 流程，要求保存实际 12-view tensor、shape/dtype/range/histogram/invalid 比例，与 Habitat 样本对比，先在 camera frame 可视化 angle/distance，再验证 base-frame 转换和确定性 replay，最后才接碰撞/可达性与有界控制。
+- 当前状态：等待对方/维护者提供真机 adapter、D435i profiles/内外参、预处理 tensor、depth histogram、checkpoint 和角度/距离转换；未运行 SmartWay 或驱动其 Go2。
+- 留言：https://github.com/sxyxs/SmartWay-Code/issues/7#issuecomment-5431423660
+- 底稿：docs/outreach/smartway-go2-d435i-depth-contract-comment.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
