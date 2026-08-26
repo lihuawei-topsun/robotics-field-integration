@@ -18,6 +18,8 @@
 - 服务页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2w-secondary-development.html
 - G1 行走机械臂技术页：2026-08-27 新增“G1 行走中机械臂控制”工程笔记，将 locomotion/waist/arm SDK/weight/停止恢复拆成关节所有权矩阵，并定义配置冻结、原厂行走、站立控臂、行走控臂、载荷任务五级验收门；依据固定公开源码与三组真机问题记录，明确 HIL 尚未执行，不提供通用腰角或 kp/kd。
 - G1 技术页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html
+- Go2 版本确认技术页：2026-08-27 新增 Air/Pro/X/EDU/Go2-W 二次开发前确认清单，原样引用官方 Secondary development 的 ○/◕/● 相对标记但不擅自解释为具体权限；覆盖准确 SKU/固件、SDK/DDS/WebRTC/SSH、传感器来源、地图复用、控制权、TTL/STOP、售后与五级实机验收。
+- Go2 版本页：https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2-edition-development-checklist.html
 - 收款码边界：原始目标提到附件收款码，但当前工作区未发现真实收款码文件，仅有邮箱授权二维码；因此网站没有发布、替代或伪造任何收款码。
 
 ## 主动目标账户
@@ -310,8 +312,9 @@
 
 - 对方需求：真实 Go2 EDU 项目面向 GNSS 缺失、杂乱实验室的室内导航/避障，后续挂载轻量辐射传感器并生成空间剂量地图；原帖和后续用户持续遇到点云倾斜、漂移、预建图后无法重复定位。
 - 匹配依据：现有自主导航 Demo、路线/检查点闭环与传感器载荷集成能力可直接覆盖；正确最小顺序应为原始坐标/时间合同→固定地图重定位→1–3 检查点→停止恢复→带 map-generation ID 的辐射数据融合。
-- 发布状态：已形成基于 `autonomy_stack_go2` 源码的定向回复；首次 Reddit 提示等待 286 秒，等待窗口后按计划仅重试一次仍提示等待 31 秒，评论没有创建。已停止重试并清除编辑器内容，不计作触达。审计内容已分别发布到该栈 GitHub Issue #27（IMU/TF）和 #19（地图复用/重定位）。
-- 待发草稿：docs/outreach/reddit-go2-radiation-navigation-comment.md
+- 发布状态：2026-08-27 经用户明确确认，通过已登录 Reddit 账号 `u/Delicious-Major-750` 成功发布基于 `autonomy_stack_go2` 源码的定向回复；评论已在页面公开显示。此前两次限流失败均未创建评论，本次发布前已核对无重复内容。审计内容也已分别发布到该栈 GitHub Issue #27（IMU/TF）和 #19（地图复用/重定位）。
+- 评论：https://www.reddit.com/r/unitree/comments/1novsbx/comment/p63k6f7/
+- 回复底稿：docs/outreach/reddit-go2-radiation-navigation-comment.md
 - 目标：https://www.reddit.com/r/unitree/comments/1novsbx/unitree_go2_edu_for_indoor_autonomous_navigation/
 
 ### Reddit：G1 ACT / Dex3 真机动作映射与 81 ms 抖动

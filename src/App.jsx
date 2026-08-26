@@ -6,6 +6,7 @@ const PDF_URL = 'assets/unitree-g1-go2w-integration-one-pager.pdf'
 const INSPECTION_GUIDE_URL = 'industrial-inspection-robot-selection.html'
 const ENGINEERING_NOTES_URL = 'engineering-notes.html'
 const G1_ARM_NOTE_URL = 'unitree-g1-arm-walking-integration.html'
+const GO2_EDITION_NOTE_URL = 'unitree-go2-edition-development-checklist.html'
 const GO2W_SERVICE_URL = 'unitree-go2w-secondary-development.html'
 const COLLABORATION_URL = 'https://github.com/lihuawei-topsun/robotics-field-integration/discussions/1'
 
@@ -83,6 +84,7 @@ const content = {
       inspectionGuide: '工业质检选型指南',
       engineeringNotes: 'G1 / Go2-W 工程笔记',
       g1ArmNote: 'G1 行走机械臂关节所有权与验收',
+      go2EditionNote: 'Go2 Air / Pro / EDU / Go2-W 版本确认',
       collaboration: '公开合作讨论',
       go2wService: 'Go2-W 二次开发验收清单',
       disclaimer: ['我们不代表宇树官方。', '方案与能力以双方确认的现场测试为准。'],
@@ -161,6 +163,7 @@ const content = {
       inspectionGuide: 'Industrial inspection selection guide',
       engineeringNotes: 'G1 / Go2-W engineering notes',
       g1ArmNote: 'G1 arm-while-walking ownership and acceptance',
+      go2EditionNote: 'Go2 Air / Pro / EDU / Go2-W edition checklist',
       collaboration: 'Open collaboration discussion',
       go2wService: 'Go2-W secondary development scope',
       disclaimer: ['We do not represent Unitree Robotics.', 'Scope and capability depend on mutually confirmed field testing.'],
@@ -281,6 +284,7 @@ function InquiryForm({ text }) {
         <a className="inspection-guide" href={INSPECTION_GUIDE_URL}>{text.inspectionGuide} <ArrowIcon /></a>
         <a className="engineering-notes" href={ENGINEERING_NOTES_URL}>{text.engineeringNotes} <ArrowIcon /></a>
         <a className="g1-arm-note" href={G1_ARM_NOTE_URL}>{text.g1ArmNote} <ArrowIcon /></a>
+        <a className="go2-edition-note" href={GO2_EDITION_NOTE_URL}>{text.go2EditionNote} <ArrowIcon /></a>
         <a className="go2w-service" href={GO2W_SERVICE_URL}>{text.go2wService} <ArrowIcon /></a>
         <a className="collaboration-link" href={COLLABORATION_URL} target="_blank" rel="noreferrer">{text.collaboration} <ArrowIcon /></a>
         <div className="contact-aside__note">

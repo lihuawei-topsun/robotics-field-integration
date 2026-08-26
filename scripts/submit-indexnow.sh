@@ -19,6 +19,7 @@ curl --fail-with-body --silent --show-error \
       "https://lihuawei-topsun.github.io/robotics-field-integration/go2-autocharge-timeout-detect.html",
       "https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2w-secondary-development.html",
       "https://lihuawei-topsun.github.io/robotics-field-integration/unitree-g1-arm-walking-integration.html",
+      "https://lihuawei-topsun.github.io/robotics-field-integration/unitree-go2-edition-development-checklist.html",
       "https://lihuawei-topsun.github.io/robotics-field-integration/sitemap.xml"
     ]
   }'
