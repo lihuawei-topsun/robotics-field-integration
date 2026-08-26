@@ -80,9 +80,9 @@
 - 待确认：bounty 是否仍开放且 Go2-W 可领取、要求的相机/计算配置、最小路线/视频、是否需要合并代码，以及实机速度/停止证据是否作为单独平台验证任务。
 - 静态预检：已确认 `ROBOT_TYPE=go2w` 可导入配置，但 Dev Container 未默认注入该变量，导航脚本和 Unitree 控制桥分属不同启动路径；默认 RealSense 路径还有固件、GPU、host network、privileged 与设备挂载要求。
 - 安全门槛：上游 `cmd_vel_control` 有路径过期减速/停止，但 `unitree_control.py` 桥层没有最后速度命令 watchdog。非零 `Move()` 后若上游或 DDS 静默，当前桥代码不能单独证明会调用 `StopMove()`；在维护者确认固件命令有效期或接受桥层 watchdog 之前不启动实机动作。
-- 代码贡献：2026-08-27 已提交桥层 watchdog PR：非零 `Move()` 成功发送后启动 monotonic freshness timer，零命令成功 `StopMove()` 后清除，超时只触发一次停止；停止失败按超时预算重试，并用运动调用锁避免新速度命令与 watchdog 停止交错。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
-- 验证：watchdog、跨平台停止分发和迟到命令 generation 的 12 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
-- 审查迭代：自动代码审查先指出两个 P1：必须在调用 `Move()` 前启动 watchdog，以及 timer 必须使用 steady clock，已在 `e7493fe` 修复；随后指出非有限超时，已在 `e414eee` 修复；第三次复审发现共享调用锁会让 G1 同步 `SetVelocity()` 阻塞 watchdog，已在 `e5e6e39` 改为独立短超时 safety client；第四次复审指出两个客户端可能乱序，旧 `Move()` 会在停止之后才到达。已在 `3a4d1cb` 为每次非零命令分配递增 generation，停止决策记录覆盖代数，迟到完成触发补偿性安全停止，停止失败重试同一代。所有 thread 已回复并解决，已触发第五次复审。
+- 代码贡献：2026-08-27 已提交桥层 watchdog PR：每次非零 `Move()` 调用前启动 steady-clock freshness timer；独立短超时 safety client 不受主 RPC 阻塞；递增 generation 与补偿性停止处理跨客户端迟到命令；显式零命令保持 stop-pending，只有成功且没有更新代数时才解除。0.5 秒是可配置初值，明确不是 Go2-W 实测结论。
+- 验证：watchdog、跨平台停止分发、迟到 generation 和未确认停止的 13 个 Python 3.10 测试通过，修改文件 Ruff 与语法编译通过；没有连接或驱动机器人。PR 当前开放，等待维护者审查默认预算和实机验收。
+- 审查迭代：自动代码审查先后指出 Move 前启动/steady clock、非有限超时、共享调用锁阻塞、跨客户端乱序四类问题，已分别在 `e7493fe`、`e414eee`、`e5e6e39`、`3a4d1cb` 修复。第五次复审指出显式零命令在主 `StopMove()` 成功前就解除 watchdog；已在 `73527b1` 拆分 `request_stop`/`confirm_stop`，停止请求保持 watchdog 活跃，旧停止确认不能解除新 generation。所有 thread 已回复并解决，已触发第六次复审。
 - 当前状态：无动作预检和实机验收计划已形成；GitHub 不允许外部 PR 作者直接添加 reviewer，已仅一次定向 @ TinyNav 最高贡献者兼其固定 Unitree SDK fork 维护者 `junlinp` 请求人工审查。等待维护者回复验收与付款流程，未开始安装或实机运行。
 - 预检计划：docs/tinynav-go2w-bounty-preflight.md
 - Bounty：https://docs.google.com/spreadsheets/d/1fyFSkiyfSGVeO8uW97gS7-gIt9qTbGIpYaMcHcjPF4Q/edit?usp=sharing
