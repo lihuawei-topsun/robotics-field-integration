@@ -184,6 +184,18 @@
 - 留言：https://github.com/sxyxs/SmartWay-Code/issues/7#issuecomment-5431423660
 - 底稿：docs/outreach/smartway-go2-d435i-depth-contract-comment.md
 
+### sbgisen/go2_driver：SportModeState 脚里程计与 LIO 融合
+
+- 对方信号：ROS 2 Jazzy Go2 driver 当天仍在开发，计划把 `/sportmodestate` 转为 `nav_msgs/Odometry`，用于未来与 LIO 的 robot_localization EKF 融合；明确需要实机确认 twist 符号/坐标，Issue #10 在 #1/#5 后实施。
+- 已知语义：维护者与宇树官方示例均把 SportModeState position/velocity 描述为 odometry frame，但维护者进一步确认 position 为 world/odom 系、velocity 为 body 系；这符合 ROS Odometry 的 pose-parent/twist-child 结构，但不能只复制字段。
+- 关键设计：使用原始 `SportModeState.stamp`，检测 stale/逆行；发布独立 `odom_leg` 作为传感器输入而不广播第二套 `odom→base_link` TF；检测重启/mode/StandDown/Recovery/位置 jump 的原点重置；pose/twist covariance 分离且从残差标定，初期优先 twist-only。
+- 融合风险：leg odom 已用脚、足力和内置 IMU，LIO 也使用 IMU，全部 position/velocity/orientation 同时融合可能双重使用相关信息。LIO covariance 当前为全 0，也不能直接当作经过校准的高置信度。
+- 已执行：2026-08-27 用日语发布完整 converter 参数建议和 HIL/replay 矩阵；提出 #1 merge 后做 code review/rosbag contract test，以及独立 Go2-W profile 验证。
+- Go2-W 边界：轮式模式的接地、滑移、横速度与 yaw 估计不能继承标准 Go2 的脚 FK/covariance PASS，必须另设 profile。
+- 当前状态：等待维护者确认 parent/child、reset/协方差策略和是否需要 Go2-W 独立轨道；未修改代码或运行实机。
+- 留言：https://github.com/sbgisen/go2_driver/issues/10#issuecomment-5431595330
+- 底稿：docs/outreach/sbgisen-go2-leg-odometry-comment-ja.md
+
 ### FastCrest Tether：Unitree Go2 / Z1 机械臂动作空间
 
 - 对方信号：Tether 是面向 VLA 机器人策略的开源部署与验证工具，公开将“增加 Unitree Go2 / Z1 preset、定义 Z1 机械臂动作空间”标为 `good first issue`。项目贡献指南还公开邀请生产/研究实验室成为 design partner。
