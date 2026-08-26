@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lihuawei-topsun.github.io/robotics-field-integration/sitemap.xml
