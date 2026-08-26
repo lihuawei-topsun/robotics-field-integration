@@ -13,6 +13,7 @@ curl --fail-with-body --silent --show-error \
       "https://lihuawei-topsun.github.io/robotics-field-integration/",
       "https://lihuawei-topsun.github.io/robotics-field-integration/?lang=zh",
       "https://lihuawei-topsun.github.io/robotics-field-integration/?lang=en",
+      "https://lihuawei-topsun.github.io/robotics-field-integration/industrial-inspection-robot-selection.html",
       "https://lihuawei-topsun.github.io/robotics-field-integration/sitemap.xml"
     ]
   }'
