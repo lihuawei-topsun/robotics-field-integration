@@ -1,0 +1,30 @@
+<p>Hello FastCrest team,</p>
+
+<p>I am an independent robotics integrator in China working on real-hardware secondary development for Unitree G1 and Go2-W. I have an existing autonomous-navigation demo for security patrol scenarios and can integrate robotic arms, cameras, LiDAR and field sensors.</p>
+
+<p>Your Tether contributing guide explicitly invites teams deploying VLAs in production or research labs to become design partners. I am reaching out because two current Tether gaps overlap with work I can support:</p>
+
+<ul>
+  <li>source-backed Unitree G1 / Go2-W embodiment, ROS 2 and hardware-in-the-loop contracts;</li>
+  <li>mobile-base plus robotic-arm integration, including the open Go2 / Z1 preset question;</li>
+  <li>action freshness, stop/hold and failure-state acceptance for networked policy deployment;</li>
+  <li>China-side hardware validation and reproducible configuration evidence.</li>
+</ul>
+
+<p>I have already reviewed the current embodiment schema and left a clarification on Tether issue #69 rather than inventing a Z1 action vector. I also have an open TinyNav contribution that adds a generation-aware Unitree cmd_vel watchdog; its Python 3.10 tests pass, while maintainer review and hardware validation remain pending.</p>
+
+<p>I have not deployed Tether on my hardware yet, and I do not claim access to the exact Z1 variant until the arm and gripper configuration are confirmed. A useful first step would be one narrow design-partner task: agree on the exact Unitree embodiment/action contract, required safety evidence and one hardware-in-the-loop acceptance cell.</p>
+
+<p>Would Unitree G1 / Go2-W hardware integration or the Go2 + arm embodiment currently be useful to your roadmap? If so, I can send the exact available hardware configuration and propose a bounded validation plan before either side commits to a larger integration.</p>
+
+<p>Capability overview: <a href="https://lihuawei-topsun.github.io/robotics-field-integration/">https://lihuawei-topsun.github.io/robotics-field-integration/</a><br>
+Engineering notes: <a href="https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html">https://lihuawei-topsun.github.io/robotics-field-integration/engineering-notes.html</a><br>
+TinyNav PR: <a href="https://github.com/UniflexAI/tinynav/pull/235">https://github.com/UniflexAI/tinynav/pull/235</a><br>
+Tether issue: <a href="https://github.com/FastCrest/tether/issues/69#issuecomment-5430165899">https://github.com/FastCrest/tether/issues/69#issuecomment-5430165899</a><br>
+Contact: <a href="mailto:li.huawei@topsunpower.cc">li.huawei@topsunpower.cc</a></p>
+
+<p>Best regards,<br>
+Li Huawei<br>
+Independent robotics integration</p>
+
+<p><small>Independent integrator; not affiliated with Unitree Robotics, FastCrest or TinyNav. Scope and capability depend on the exact hardware configuration and field validation.</small></p>
