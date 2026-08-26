@@ -20,6 +20,7 @@
 - 2026-08-27 新增 G1 行走机械臂关节所有权与验收技术页，将其加入 sitemap 与 IndexNow URL 集合；提交返回 HTTP 200。
 - 2026-08-27 新增 Go2 Air/Pro/X/EDU/Go2-W 二次开发版本确认页，将其加入 sitemap 与 IndexNow URL 集合；页面只保留官方相对标记，并将具体权限留作订单与实机验收；部署后提交返回 HTTP 200。
 - 2026-08-27 新增英文 Unitree fleet reliability validation 服务页，覆盖连接 generation、命令新鲜度、confirmed STOP、传感器原始时间、故障注入和版本回归；未使用虚构在线率或舰队数据；部署后提交返回 HTTP 200。
+- 2026-08-27 fleet reliability 页面新增硬件验证 Issue Form 与可下载脱敏 YAML manifest；线上表单字段、下载 URL 和隐私确认已验证，页面重新提交返回 HTTP 200。
 - 提交 URL：默认首页、中文 URL、英文 URL、sitemap。
 
 注意：HTTP 200 只证明搜索引擎收到 URL，不保证抓取、收录或排名。
