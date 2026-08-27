@@ -319,8 +319,8 @@
 - 源码边界：项目公开范围是标准 Go2 1.1.7–1.1.15，默认地址、WebRTC/programming actuator、hotkey、Python/sitecustomize 和 SSH target 都来自标准 Go2 假设。Go2-W `1.0.30` 不能缩写成“旧 1.0.3”，也没有证据证明它与标准 Go2 使用同一固件版本族、OS、服务或官方开发访问政策。
 - 已执行：2026-08-27 在 Issue #7 建议停止重复 payload/旧方法，先做 exact product/firmware、官方访问文档、脱敏 `con_notify` shape、SDP media、WebRTC channel/service/topic、完整 debug trace 和回滚授权的 Stage 0 manifest；提供 Go2-W 独立 no-motion/no-payload 配置对照。硬件验证表单上线后，已将可下载 YAML manifest 补到原评论，并要求保持 `allowed_scope: read_only`、write/motion authorization=false。
 - 安全边界：未运行 jailbreak、未上传/绑定程序、未修改固件/账号/网络，也不收集 AES key、token、序列号或客户站点数据。标准 Go2 PASS 不写成 Go2-W PASS。
-- 当前状态：等待维护者/Go2-W 用户选择允许的只读字段和独立 compatibility profile；任何写入/提权动作仍需用户另行明确授权和恢复方案。
-- 留言：https://github.com/a-bissell/UnLeash-Lite/issues/7#issuecomment-5432170474
+- 当前状态：2026-08-27 09:29 原 Stage 0 评论被删除，09:30 维护者将 Issue 以 `NOT_PLANNED` 关闭，未接受 Go2-W profile、未索要配置或联系方式，也没有文字回复。该结果按明确不推进处理，不计作联系人；不重发、不重开、不私信、不申诉，也不运行任何 jailbreak/写入动作。
+- 已关闭 Issue：https://github.com/a-bissell/UnLeash-Lite/issues/7
 - 底稿：docs/outreach/unleash-lite-go2w-stage0-comment.md
 
 ### BrainCo：G1 双 Revo2 Touch 10–30 秒 OOM 隔离
